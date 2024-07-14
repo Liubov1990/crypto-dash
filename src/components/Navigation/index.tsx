@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import * as S from "./styles";
+import * as S from "./styled";
 
 function Navigation(): React.ReactNode {
   return (
