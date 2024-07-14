@@ -79,7 +79,7 @@ const initialLayout = {
 
 function useDockData() {
   const [layout, setLayout] = useState<LayoutData>(initialLayout as LayoutData);
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, _setIsActive] = useState(true);
 
   const groups = useMemo(
     () => ({
