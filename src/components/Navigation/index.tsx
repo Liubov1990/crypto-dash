@@ -1,26 +1,26 @@
 import { Link } from "react-router-dom";
-import { Logo, Nav, NavBar, StyledNavLink } from "./styled";
+import * as S from "./styled";
 
 function Navigation(): React.ReactNode {
   return (
-    <NavBar>
-      <Logo>
+    <S.NavBar>
+      <S.Logo>
         <Link to="/">
           <svg>
             <use xlinkHref="svg/sprite.svg#logo" />
           </svg>
         </Link>
-      </Logo>
-      <Nav>
-        <StyledNavLink to="/">
+      </S.Logo>
+      <S.Nav>
+        <S.StyledNavLink to="/">
           <span>
             <svg>
               <use xlinkHref="svg/sprite.svg#home" />
             </svg>
           </span>
-        </StyledNavLink>
-      </Nav>
-    </NavBar>
+        </S.StyledNavLink>
+      </S.Nav>
+    </S.NavBar>
   );
 }
 

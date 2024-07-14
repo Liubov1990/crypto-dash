@@ -12,14 +12,9 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: ${({ theme }) => theme.fonts.interBold};
+    color: ${({ theme }) => theme.color.textMain};
     background-color: ${({ theme }) => theme.color.mainBackground};
     }  
-
-  button {
-    border: none;
-    font-family: inherit;
-    cursor: pointer;
-  }
 
   ul {
     list-style: none;

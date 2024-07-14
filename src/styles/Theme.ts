@@ -3,10 +3,9 @@ import { DefaultTheme } from "styled-components";
 const defaultTheme = {
   sharedColors: {
     border: "#CCE4FF",
-    textMain: "#ffffff",
     textSecondary: "#868B93",
     textTertiary: "#9292C1",
-    sortBackground: "#1A111D",
+    sortBackground: "rgba(26, 26, 29, 0.7)",
     stausUp: "#00C287",
     statusDown: "#E72D04",
     searchBackground: "#2F293E",
@@ -39,10 +38,12 @@ const defaultTheme = {
 const darktheme = {
   mainBackground: "#261E35",
   cardBackground: "#3C354A",
+  textMain: "#ffffff",
 };
 
 const lightTheme = {
   mainBackground: "#ffffff",
+  textMain: "#1A111D",
 };
 
 const theme: DefaultTheme = {

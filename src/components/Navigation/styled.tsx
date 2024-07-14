@@ -4,16 +4,17 @@ import { FlexCenter, FlexColumnCenter } from "../../styles/Global";
 
 export const NavBar = styled.div`
   ${FlexColumnCenter};
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   gap: 30px;
   width: 100px;
-  height: 100%;
-  max-height: 100vh;
+  height: 100vh;
   border-right: 1px solid
     ${({ theme }) => theme.sharedColors.iconActiveBackground};
   padding: 30px 15px;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 export const Nav = styled.nav`
