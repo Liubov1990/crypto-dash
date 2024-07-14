@@ -8,6 +8,13 @@ export const StyledHeader = styled.header`
 
   span {
     font-size: 0.875rem;
+    margin-right: 5px;
+  }
+
+  svg {
+    width: 20px;
+    height: 18px;
+    vertical-align: middle;
   }
 `;
 

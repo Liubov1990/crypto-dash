@@ -14,7 +14,6 @@ export const StyledButton = styled.button`
   );
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
   border: none;
-  cursor: pointer;
 
   @property --color1 {
     syntax: "<color>";

@@ -1,6 +1,15 @@
 import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import { FlexCenter, FlexColumnCenter } from "../../styles/Global";
+import styled, { css } from "styled-components";
+import { FlexCenter, FlexColumnCenter } from "../../styles/Common";
+
+const SVG = css`
+  width: 21px;
+  height: 23px;
+  fill: ${({ theme }) => theme.sharedColors.icon};
+  &:hover {
+    fill: ${({ theme }) => theme.sharedColors.iconActive};
+  }
+`;
 
 export const NavBar = styled.div`
   ${FlexColumnCenter};
@@ -25,7 +34,6 @@ export const Nav = styled.nav`
 
 export const Logo = styled.div`
   svg {
-    display: inline-block;
     width: 42px;
     height: 46px;
   }
@@ -45,10 +53,7 @@ export const StyledNavLink = styled(NavLink)`
   }
 
   svg {
-    display: inline-block;
-    width: 21px;
-    height: 23px;
-    fill: ${({ theme }) => theme.sharedColors.icon};
+    ${SVG};
   }
 
   span {
@@ -56,5 +61,15 @@ export const StyledNavLink = styled(NavLink)`
     width: 61px;
     height: 58px;
     text-align: center;
+  }
+`;
+
+export const Logout = styled.button`
+  margin-top: auto;
+  background: transparent;
+  border: none;
+
+  svg {
+    ${SVG};
   }
 `;

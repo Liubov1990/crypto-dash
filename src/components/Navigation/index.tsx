@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import * as S from "./styled";
+import signOutUser from "../../services/firebase/signOutUser";
 
 function Navigation(): React.ReactNode {
   return (
@@ -20,6 +21,11 @@ function Navigation(): React.ReactNode {
           </span>
         </S.StyledNavLink>
       </S.Nav>
+      <S.Logout onClick={signOutUser}>
+        <svg>
+          <use xlinkHref="svg/sprite.svg#log-out" />
+        </svg>
+      </S.Logout>
     </S.NavBar>
   );
 }
