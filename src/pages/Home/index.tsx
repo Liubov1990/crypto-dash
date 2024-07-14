@@ -7,9 +7,9 @@ import useDockData from "../../hooks/use-dock-data";
 
 const ROOT_STYLES: CSSProperties = {
   position: "absolute",
-  left: 30,
+  left: 0,
   top: 30,
-  right: 30,
+  right: 0,
   bottom: 30,
 };
 

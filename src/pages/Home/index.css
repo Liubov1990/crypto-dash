@@ -1,8 +1,8 @@
 @import "rc-dock/dist/rc-dock.css";
 
 .home {
-  position: relative;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .home .dock-divider {

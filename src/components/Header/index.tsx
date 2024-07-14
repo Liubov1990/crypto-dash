@@ -1,5 +1,5 @@
 function Header(): React.ReactNode {
-  return <></>;
+  return <header>Header</header>;
 }
 
 export default Header;
