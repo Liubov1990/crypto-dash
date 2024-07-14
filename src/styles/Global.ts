@@ -16,12 +16,6 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.color.mainBackground};
     }  
 
-  button {
-    border: none;
-    font-family: inherit;
-    cursor: pointer;
-  }
-
   ul {
     list-style: none;
   }
