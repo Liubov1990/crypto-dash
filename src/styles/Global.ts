@@ -11,8 +11,9 @@ const GlobalStyles = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    font-family: "Inter-Bold";
-  }
+    font-family: ${({ theme }) => theme.fonts.interBold};
+    background-color: ${({ theme }) => theme.color.mainBackground};
+    }  
 
   button {
     border: none;
@@ -27,12 +28,6 @@ const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 `;
 
