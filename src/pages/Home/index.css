@@ -1,0 +1,25 @@
+@import "rc-dock/dist/rc-dock.css";
+
+.home {
+  position: relative;
+  height: 100vh;
+}
+
+.home .dock-divider {
+  flex: 0 0 20px;
+  transform: initial;
+}
+
+.home.home--static .dock-divider,
+.home.home--static .dock-style-shared {
+  pointer-events: none;
+}
+
+.dock-panel.dock-style-shared {
+  border-radius: 15px;
+}
+
+.dock-panel.dock-style-shared .dock-bar {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
