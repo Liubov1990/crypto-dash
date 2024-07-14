@@ -13,6 +13,7 @@ const defaultTheme = {
     searchText: "#E2D8FD",
     icon: "#8D8598",
     iconActive: "#D8BCFF",
+    iconActiveBackground: "#372C44",
   },
 
   fonts: {
@@ -28,6 +29,10 @@ const defaultTheme = {
     medium: "15px",
     large: "20px",
     circle: "50%",
+  },
+
+  transitionTime: {
+    quick: "0.2s ease-out",
   },
 };
 
