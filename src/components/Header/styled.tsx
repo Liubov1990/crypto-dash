@@ -6,15 +6,12 @@ export const StyledHeader = styled.header`
   padding: 30px 0;
   width: 100%;
 
-  span {
-    font-size: 0.875rem;
-    margin-right: 5px;
+  button {
+    width: 90px;
   }
 
-  svg {
-    width: 20px;
-    height: 18px;
-    vertical-align: middle;
+  span {
+    font-size: 0.875rem;
   }
 `;
 

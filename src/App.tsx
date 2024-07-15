@@ -6,6 +6,7 @@ import GlobalStyles from "./styles/Global";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound ";
 import Layout from "./components/Layout";
+import Auth from "./pages/Auth";
 
 const router = createBrowserRouter(
   [
@@ -14,6 +15,10 @@ const router = createBrowserRouter(
       element: <Layout />,
       children: [{ path: "/", element: <Home /> }],
       errorElement: <NotFound />,
+    },
+    {
+      path: "/auth",
+      element: <Auth />,
     },
   ],
   { basename: import.meta.env.BASE_URL }
