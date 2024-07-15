@@ -1,21 +1,21 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
-  VITE_API_KEY,
-  VITE_APP_ID,
-  VITE_AUTH_DOMAIN,
-  VITE_MESSAGING_SENDER_ID,
-  VITE_PROJECT_ID,
-  VITE_STORAGE_BUCKET,
+  API_KEY,
+  APP_ID,
+  AUTH_DOMAIN,
+  MESSAGING_SENDER_ID,
+  PROJECT_ID,
+  STORAGE_BUCKET,
 } from "./constants";
 
 const firebaseConfig = {
-  apiKey: VITE_API_KEY,
-  authDomain: VITE_AUTH_DOMAIN,
-  projectId: VITE_PROJECT_ID,
-  storageBucket: VITE_STORAGE_BUCKET,
-  messagingSenderId: VITE_MESSAGING_SENDER_ID,
-  appId: VITE_APP_ID,
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
 };
 
 export const app = initializeApp(firebaseConfig);
