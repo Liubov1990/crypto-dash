@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 import ThemeContextProvider from "./context/ThemeContext";
 import GlobalStyles from "./styles/Global";
 import Home from "./pages/Home";
@@ -19,10 +21,12 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <ThemeContextProvider>
-      <GlobalStyles />
-      <RouterProvider router={router} />
-    </ThemeContextProvider>
+    <Provider store={store}>
+      <ThemeContextProvider>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+      </ThemeContextProvider>
+    </Provider>
   );
 }
 

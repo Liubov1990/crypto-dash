@@ -1,11 +1,13 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "./firebaseConfig";
+import { IUser } from "../../redux/slices/authSlice";
 
-interface ILoginWithGoogle {
-  uid: string;
-  displayName: string | null;
-  photoURL: string | null;
-}
+// interface ILoginWithGoogle {
+//   uid: string;
+//   displayName: string | null;
+//   photoURL: string | null;
+//   email: string | null;
+// }
 
 interface IError {
   code: string;
@@ -18,7 +20,7 @@ const isLoginError = (candidate: unknown): candidate is IError => {
   return false;
 };
 
-const loginWithGoogle = async (): Promise<ILoginWithGoogle | null> => {
+const loginWithGoogle = async (): Promise<IUser | null> => {
   try {
     const provider = new GoogleAuthProvider();
     const auth = getAuth(app);
@@ -27,6 +29,7 @@ const loginWithGoogle = async (): Promise<ILoginWithGoogle | null> => {
 
     return {
       uid: user.uid,
+      email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
     };
