@@ -12,3 +12,12 @@ export const FlexCenter = css`
   align-items: center;
   justify-content: center;
 `;
+
+export const navBarSVG = css`
+  width: 21px;
+  height: 23px;
+  fill: ${({ theme }) => theme.sharedColors.icon};
+  &:hover {
+    fill: ${({ theme }) => theme.sharedColors.iconActive};
+  }
+`;
