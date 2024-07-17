@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { LayoutData, TabBase } from "rc-dock";
 import News from "../components/News";
 import TradeHistory from "../components/TradeHistory";
+import Trends from "../components/Trends";
 
 const tabCommonProps = {
   minWidth: 240,
@@ -38,7 +39,7 @@ const tabsContents = {
     ...tabCommonProps,
     id: "trends",
     title: "Trends",
-    content: <div>Trends</div>,
+    content: <Trends />,
   },
 };
 

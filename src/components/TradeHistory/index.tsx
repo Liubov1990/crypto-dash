@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useParentSize } from "@cutting/use-get-parent-size";
 import axios from "axios";
 import {
@@ -14,6 +20,12 @@ import { convertChartHistoryData, promisifiedDelay } from "../../utils";
 const API_URL = "https://api.coingecko.com/api/v3/coins/";
 const API_KEY = "";
 
+const TIME_RANGES = [
+  { value: "1", label: "1D" },
+  { value: "7", label: "1W" },
+  { value: "30", label: "1M" },
+];
+
 interface IHistoryItem {
   x: number;
   open: number;
@@ -28,23 +40,20 @@ function TradeHistory(): React.ReactElement {
   const [historyData, setHistoryData] = useState<IHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selectedValues, setSelectedValues] = useState({
-    coin: "bitcoin",
-    range: 7,
-  });
+  const [selectedCoin, setSelectedCoin] = useState("bitcoin");
+  const [selectedRange, setSelectedRange] = useState("7");
 
   const getHistory = async () => {
     setError(false);
     setLoading(true);
 
     try {
-      const { coin, range } = selectedValues;
       const { data } = await axios({
         method: "get",
-        url: `${API_URL}/${coin}/ohlc`,
+        url: `${API_URL}/${selectedCoin}/ohlc`,
         params: {
           vs_currency: "usd",
-          days: range,
+          days: selectedRange,
           x_cg_demo_api_key: API_KEY,
         },
       });
@@ -69,19 +78,21 @@ function TradeHistory(): React.ReactElement {
     setLoading(false);
   };
 
-  const handleSelect = ({
-    target: { id, value },
+  const handleCoinSelection = ({
+    target: { value },
   }: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValues((prevValues) => ({
-      ...prevValues,
-      [id]: value,
-    }));
+    setSelectedCoin(value);
+  };
+
+  const handleRangeSelection = (e: MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.target as HTMLButtonElement;
+    setSelectedRange(value);
   };
 
   useEffect(() => {
     getMockHistory();
     // getHistory();
-  }, [selectedValues]);
+  }, [selectedCoin, selectedRange]);
 
   return (
     <div ref={containerRef} style={{ height: "100%", padding: 10 }}>
@@ -93,26 +104,29 @@ function TradeHistory(): React.ReactElement {
               justifyContent: "space-between",
             }}
           >
-            <select
-              id="coin"
-              value={selectedValues.coin}
-              onChange={handleSelect}
-            >
-              <option value="bitcoin">BTC</option>
-              <option value="ethereum">ETH</option>
+            <select value={selectedCoin} onChange={handleCoinSelection}>
+              <option value="bitcoin">BTC/USD</option>
+              <option value="ethereum">ETH/USD</option>
             </select>
-            <select
-              id="range"
-              value={selectedValues.range}
-              onChange={handleSelect}
-            >
-              <option value={1}>1D</option>
-              <option value={7}>1W</option>
-              <option value={30}>1M</option>
-            </select>
+            <div>
+              {TIME_RANGES.map(({ value, label }) => (
+                <button
+                  key={value}
+                  value={value}
+                  style={{
+                    margin: "0 5px",
+                    ...(selectedRange === value && { background: "violet" }),
+                  }}
+                  onClick={handleRangeSelection}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
           {!error && (
             <VictoryChart
+              key={`${selectedCoin}-${selectedRange}`}
               theme={VictoryTheme.material}
               domainPadding={{ x: 100 }}
               scale={{ x: "time" }}
