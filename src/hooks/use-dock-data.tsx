@@ -3,6 +3,7 @@ import { LayoutData, TabBase } from "rc-dock";
 import News from "../components/News";
 import TradeHistory from "../components/TradeHistory";
 import Trends from "../components/Trends";
+import MarketOverview from "../components/MarketOverview";
 
 const tabCommonProps = {
   minWidth: 240,
@@ -33,7 +34,7 @@ const tabsContents = {
     ...tabCommonProps,
     id: "overview",
     title: "Market overview",
-    content: <div>Market overview</div>,
+    content: <MarketOverview />,
   },
   trends: {
     ...tabCommonProps,
