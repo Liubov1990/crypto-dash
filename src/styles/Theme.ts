@@ -2,7 +2,7 @@ import { DefaultTheme } from "styled-components";
 
 const defaultTheme = {
   sharedColors: {
-    border: "#CCE4FF",
+    border: "rgba(255, 255, 255, 0.5)",
     textSecondary: "#868B93",
     textTertiary: "#9292C1",
     sortBackground: "rgba(26, 26, 29, 0.7)",
@@ -13,10 +13,13 @@ const defaultTheme = {
     icon: "#8D8598",
     iconActive: "#D8BCFF",
     iconActiveBackground: "#372C44",
+    accentColor: "#EC5EB7",
+    userProfile: "#3F3655",
+    btnIcon: "#ffffff",
   },
 
   fonts: {
-    interRefular: "Inter-Regular",
+    interRegular: "Inter-Regular",
     interMedium: "Inter-Medium",
     interSemiBold: "Inter-SemiBold",
     interBold: "Inter-Bold",
@@ -30,6 +33,11 @@ const defaultTheme = {
     circle: "50%",
   },
 
+  fontSize: {
+    small: ".625rem",
+    medium: "0.875rem",
+  },
+
   transitionTime: {
     quick: "0.2s ease-out",
   },
@@ -37,7 +45,7 @@ const defaultTheme = {
 
 const darktheme = {
   mainBackground: "#261E35",
-  cardBackground: "#3C354A",
+  boxBackground: "#3C354A",
   textMain: "#ffffff",
 };
 

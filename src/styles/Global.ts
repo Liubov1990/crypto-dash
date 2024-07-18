@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import fontsCss from "./fonts.module.css";
 
 const GlobalStyles = createGlobalStyle`
@@ -12,9 +12,10 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: ${({ theme }) => theme.fonts.interBold};
+    font-size: ${({ theme }) => theme.fontSize.medium};
     color: ${({ theme }) => theme.color.textMain};
     background-color: ${({ theme }) => theme.color.mainBackground};
-    }  
+  }  
 
   ul {
     list-style: none;
@@ -24,19 +25,14 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
-`;
 
-export const FlexColumnCenter = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+  svg {
+    display: inline-block;
+  }
 
-export const FlexCenter = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  button {
+    cursor: pointer
+  }
 `;
 
 export default GlobalStyles;
