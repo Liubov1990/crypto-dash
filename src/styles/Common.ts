@@ -28,21 +28,6 @@ export const Transition = css`
   transition: color 0.3s ease-in-out;
 `;
 
-export const Card = styled.div.attrs<{
-  $border?: string;
-  $width?: string;
-  $padding?: string;
-}>((props) => ({
-  $border:
-    props.$border === "true" ? "1px solid rgba(255, 255, 255, 0.5)" : "none",
-}))`
-  background: ${({ theme }) => theme.color.boxBackground};
-  border-radius: ${({ theme }) => theme.borderRadius.large};
-  width: ${(props) => props.$width};
-  border: ${(props) => props.$border};
-  padding: ${(props) => props.$padding};
-`;
-
 export const Input = styled("input")`
   width: 100%;
   height: 47px;
@@ -82,4 +67,19 @@ export const navBarSVG = css`
   &:hover {
     fill: ${({ theme }) => theme.sharedColors.iconActive};
   }
+`;
+
+export const Card = styled.div.attrs<{
+  $border?: string;
+  $width?: string;
+  $padding?: string;
+}>((props) => ({
+  $border:
+    props.$border === "true" ? "1px solid rgba(255, 255, 255, 0.5)" : "none",
+}))`
+  background: ${({ theme }) => theme.color.boxBackground};
+  border-radius: ${({ theme }) => theme.borderRadius.large};
+  width: ${(props) => props.$width};
+  border: ${(props) => props.$border};
+  padding: ${(props) => props.$padding};
 `;

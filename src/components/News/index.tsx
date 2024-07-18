@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { promisifiedDelay } from "../../utils";
+import Button from "../Button";
+import * as S from "./styled";
 
 type NewsItem = {
   uuid: string;
@@ -131,80 +133,50 @@ function News(): React.ReactNode {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        overflow: "auto",
-        height: "100%",
-      }}
-    >
+    <S.NewsContainer>
       {news.map(
         (
           { uuid, image_url, title, url, categories, published_at, snippet },
           index
         ) => (
-          <div key={`${uuid}_${index}`}>
-            <div style={{ display: "flex", padding: 5 }}>
+          <S.Article key={`${uuid}_${index}`}>
+            <S.ImgContainer>
               <img
                 src={image_url}
-                width="180px"
-                height="100px"
+                loading="lazy"
+                width="180"
+                height="100"
                 alt="image"
-                style={{ maxWidth: "100%", minWidth: 180, marginRight: 5 }}
               />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  flexGrow: 1,
-                }}
-              >
-                <p style={{ marginTop: 0, fontSize: 12 }}>
-                  <a href={url} target="_blank">
-                    {title}
-                  </a>
-                </p>
-                <p style={{ marginTop: 0, fontSize: 11, color: "darkgray" }}>
-                  {snippet}
-                </p>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <p style={{ marginTop: 0, fontSize: 11 }}>{`${moment(
-                    published_at
-                  ).format("MMMM Do YYYY, h:mm:ss a")}`}</p>
-                  <div style={{ display: "flex" }}>
-                    {categories.map((category) => (
-                      <p
-                        key={category}
-                        style={{
-                          marginTop: 0,
-                          fontSize: 11,
-                          padding: 5,
-                          color: "white",
-                          margin: "0 2px",
-                          borderRadius: "15px",
-                          background: "gray",
-                        }}
-                      >
-                        {category}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </S.ImgContainer>
+            <S.TextBlock>
+              <S.Title>
+                <a href={url} target="_blank">
+                  {title}
+                </a>
+              </S.Title>
+              <S.Description>{snippet}</S.Description>
+              <S.Info>
+                <S.Time>
+                  {`${moment(published_at).format("MMMM Do YYYY, h:mm a")}`}
+                </S.Time>
+                <S.Categories>
+                  {categories.map((category) => (
+                    <S.Category key={category}>{category}</S.Category>
+                  ))}
+                </S.Categories>
+              </S.Info>
+            </S.TextBlock>
+          </S.Article>
         )
       )}
       {Number(allPages) > page && !loading && (
-        <button onClick={() => setPage((prevPage) => prevPage + 1)}>
+        <Button onClick={() => setPage((prevPage) => prevPage + 1)}>
           Load more
-        </button>
+        </Button>
       )}
       {loading && <div>Loading...</div>}
-    </div>
+    </S.NewsContainer>
   );
 }
 
