@@ -1,5 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
 import { LayoutData, TabBase } from "rc-dock";
+import News from "../components/News";
+import TradeHistory from "../components/TradeHistory";
+import Trends from "../components/Trends";
 
 const tabCommonProps = {
   minWidth: 240,
@@ -12,13 +15,13 @@ const tabsContents = {
     ...tabCommonProps,
     id: "news",
     title: "News",
-    content: <div>News</div>,
+    content: <News />,
   },
-  comparance: {
+  history: {
     ...tabCommonProps,
-    id: "comparance",
-    title: "Comparance graph",
-    content: <div>Comparance graph content</div>,
+    id: "history",
+    title: "Trade history",
+    content: <TradeHistory />,
   },
   cryptocurrencies: {
     ...tabCommonProps,
@@ -36,7 +39,7 @@ const tabsContents = {
     ...tabCommonProps,
     id: "trends",
     title: "Trends",
-    content: <div>Trends</div>,
+    content: <Trends />,
   },
 };
 
@@ -52,7 +55,7 @@ const initialLayout = {
             tabs: [tabsContents.news],
           },
           {
-            tabs: [tabsContents.comparance],
+            tabs: [tabsContents.history],
           },
         ],
       },

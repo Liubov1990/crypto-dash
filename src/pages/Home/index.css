@@ -23,3 +23,8 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
+
+.dock-panel.dock-style-shared .dock-tabpane {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
