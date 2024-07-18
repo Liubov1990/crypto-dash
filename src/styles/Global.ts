@@ -15,7 +15,18 @@ const GlobalStyles = createGlobalStyle`
     font-size: ${({ theme }) => theme.fontSize.medium};
     color: ${({ theme }) => theme.color.textMain};
     background-color: ${({ theme }) => theme.color.mainBackground};
-  }  
+    scrollbar-gutter: stable;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    margin: 0;
+  }
 
   ul {
     list-style: none;
@@ -32,6 +43,37 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+  }
+
+  /* scroll bar*/
+
+  * {
+    scrollbar-width: auto;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.color.mainBackground};
+    border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
   }
 `;
 

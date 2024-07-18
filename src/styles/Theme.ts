@@ -14,8 +14,10 @@ const defaultTheme = {
     iconActive: "#D8BCFF",
     iconActiveBackground: "#372C44",
     accentColor: "#EC5EB7",
+    accentLight: "#B783EB",
     userProfile: "#3F3655",
     btnIcon: "#ffffff",
+    articleBackground: "#4A435C",
   },
 
   fonts: {
