@@ -1,12 +1,6 @@
-import React, {
-  ChangeEvent,
-  MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { useParentSize } from "@cutting/use-get-parent-size";
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
+import useResizeObserver from "use-resize-observer";
 import {
   VictoryAxis,
   VictoryCandlestick,
@@ -35,8 +29,7 @@ interface IHistoryItem {
 }
 
 function TradeHistory(): React.ReactElement {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { width, height } = useParentSize(containerRef);
+  const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
   const [historyData, setHistoryData] = useState<IHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -95,7 +88,7 @@ function TradeHistory(): React.ReactElement {
   }, [selectedCoin, selectedRange]);
 
   return (
-    <div ref={containerRef} style={{ height: "100%", padding: 10 }}>
+    <div ref={ref} style={{ height: "100%", padding: 10 }}>
       {!!historyData.length && (
         <>
           <div
@@ -130,8 +123,8 @@ function TradeHistory(): React.ReactElement {
               theme={VictoryTheme.material}
               domainPadding={{ x: 100 }}
               scale={{ x: "time" }}
-              width={Number(width) - 20}
-              height={Number(height) - 10}
+              width={width}
+              height={height}
               containerComponent={<VictoryZoomContainer />}
             >
               <VictoryAxis />
