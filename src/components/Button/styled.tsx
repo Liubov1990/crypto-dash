@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
-export const StyledButton = styled.button`
-  width: 150px;
+export const Btn = styled.button.attrs<{ $width?: string }>((props) => ({
+  $width: props.$width === "full" ? "100%" : "120px",
+}))`
+  width: ${(props) => props.$width};
   height: 40px;
   font-family: ${({ theme }) => theme.fonts.interSemiBold};
   text-align: center;
@@ -28,6 +30,7 @@ export const StyledButton = styled.button`
   }
 
   background: linear-gradient(var(--color1), var(--color2));
+  padding: 0 20px;
   transition: --color1 0.5s, --color2 0.5s;
 
   &:hover {

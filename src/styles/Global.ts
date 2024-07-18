@@ -12,9 +12,10 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: ${({ theme }) => theme.fonts.interBold};
+    font-size: ${({ theme }) => theme.fontSize.medium};
     color: ${({ theme }) => theme.color.textMain};
     background-color: ${({ theme }) => theme.color.mainBackground};
-    }  
+  }  
 
   ul {
     list-style: none;

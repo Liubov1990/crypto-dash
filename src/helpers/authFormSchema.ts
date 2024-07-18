@@ -2,20 +2,33 @@ import * as yup from "yup";
 
 const emailRegexp =
   /^(([^<>()\[\]\\.,;:\s@"]+(.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+const passwordRegexp =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{6,}$/;
 
-export const authFormSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Must be a valid email.")
-    .matches(emailRegexp, "Invalid email format")
-    .required("Email address is required."),
-  password: yup
-    .string()
-    .min(8, "Password must be at least 8 characters long.")
-    .max(12, "Password must be no more, than 14 characters long.")
-    .required("Pasword is required."),
-  repeatPassword: yup
-    .string()
-    .oneOf([yup.ref("password")], "Passwords don't match.")
-    .required("Repeat password is required."),
-});
+export const authFormSchema = yup.object().shape(
+  {
+    email: yup
+      .string()
+      .email("Invalid email format.")
+      .matches(emailRegexp, "Email address is required.")
+      .required(),
+    password: yup
+      .string()
+      // .matches(
+      //   passwordRegexp,
+      //   "Password must contain one digit from 0 to 9, one lowercase letter, one uppercase letter, one special character, no spaces and at least 6 characters long."
+      // )
+      .required("Pasword is required."),
+    repeatPassword: yup.string().when("repeatPassword", {
+      //@ts-ignore
+      is: (exists) => !!exists,
+      then: () =>
+        yup
+          .string()
+          .oneOf([yup.ref("password")], "Passwords don't match.")
+          .required("Repeat password is required."),
+      otherwise: () => yup.string(),
+    }),
+  },
+  [["repeatPassword", "repeatPassword"]]
+);
