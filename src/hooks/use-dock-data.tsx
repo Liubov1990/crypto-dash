@@ -4,11 +4,13 @@ import News from "../components/News";
 import TradeHistory from "../components/TradeHistory";
 import Trends from "../components/Trends";
 import MarketOverview from "../components/MarketOverview";
+import Cryptocurrencies from "../components/Cryptocurrencies";
 
 const tabCommonProps = {
-  minWidth: 240,
-  minHeight: 180,
+  minWidth: 400,
+  minHeight: 240,
   group: "shared",
+  cached: true,
 };
 
 const tabsContents = {
@@ -28,7 +30,7 @@ const tabsContents = {
     ...tabCommonProps,
     id: "cryptocurrencies",
     title: "Cryptocurrencies",
-    content: <div>Cryptocurrencies</div>,
+    content: <Cryptocurrencies />,
   },
   overview: {
     ...tabCommonProps,
