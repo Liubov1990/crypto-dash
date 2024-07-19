@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexColumnCenter } from "../../styles/Common";
+import { FlexColumnCenter, RelativeContainer } from "../../styles/Common";
 
 export const Container = styled.div`
   display: flex;
@@ -12,8 +12,6 @@ export const InnerContainer = styled.div`
   overflow-x: hidden;
 `;
 
-export const Main = styled.main`
-  ${FlexColumnCenter};
-  position: relative;
-  width: 100%;
+export const Main = styled.div`
+  ${RelativeContainer}
 `;

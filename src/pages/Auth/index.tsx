@@ -203,19 +203,19 @@ function Auth() {
 
   return (
     <S.AuthContainer>
-      <S.AbsButton type="button" onClick={handleReturnHome}>
+      <S.AbsBtnWithSVG type="button" onClick={handleReturnHome}>
         <svg>
           <use xlinkHref="svg/sprite.svg#home" />
         </svg>
         <span>Home</span>
-      </S.AbsButton>
+      </S.AbsBtnWithSVG>
       <S.AuthCard as="section" $padding="20px" $border="true">
         <form name="auth-form" onSubmit={handleSubmit(handleFormSubmit)}>
           <Button onClick={loginWithGoogle} type="button" $width="full">
             <span>Sign with</span>
-            <S.BtnSVG>
+            <S.BtnGoogle>
               <use xlinkHref="svg/sprite.svg#google" />
-            </S.BtnSVG>
+            </S.BtnGoogle>
           </Button>
 
           <S.Divider>

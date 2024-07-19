@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FlexColumn, FlexRowBetween, Transition } from "../../styles/Common";
 
-export const NewsContainer = styled("div")`
+export const NewsContainer = styled.div`
   ${FlexColumn}
   height: 100%;
   background: ${({ theme }) => theme.color.boxBackground};
@@ -9,7 +9,7 @@ export const NewsContainer = styled("div")`
   overflow: auto;
 `;
 
-export const Article = styled("article")`
+export const Article = styled.article`
   display: flex;
   gap: 20px;
   min-width: 550px;
@@ -28,7 +28,7 @@ export const Article = styled("article")`
   }
 `;
 
-export const ImgContainer = styled("div")`
+export const ImgContainer = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
   min-width: 180px;
   max-width: 210px;
@@ -43,12 +43,12 @@ export const ImgContainer = styled("div")`
   }
 `;
 
-export const TextBlock = styled("div")`
+export const TextBlock = styled.div`
   ${FlexColumn};
   flex-grow: 1;
 `;
 
-export const Title = styled("h3")`
+export const Title = styled.h3`
   color: ${({ theme }) => theme.sharedColors.searchText};
   ${Transition}
   margin-bottom: 20px;
@@ -58,25 +58,25 @@ export const Title = styled("h3")`
   }
 `;
 
-export const Description = styled("p")`
+export const Description = styled.p`
   font-family: ${({ theme }) => theme.fonts.interRegular};
   font-size: 12px;
   color: ${({ theme }) => theme.sharedColors.btnIcon};
   margin-bottom: 15px;
 `;
 
-export const Info = styled("div")`
+export const Info = styled.div`
   ${FlexRowBetween};
   font-size: 0.6875rem;
 `;
 
-export const Time = styled("time")`
+export const Time = styled.time`
   ${FlexRowBetween};
   color: ${({ theme }) => theme.sharedColors.textSecondary};
   margin-right: 15px;
 `;
 
-export const Categories = styled("div")`
+export const Categories = styled.div`
   ${FlexRowBetween};
   gap: 7px;
 
@@ -90,7 +90,7 @@ export const Categories = styled("div")`
   }
 `;
 
-export const Category = styled("span")`
+export const Category = styled.span`
   display: inline-block;
   color: ${({ theme }) => theme.sharedColors.btnIcon};
   border-radius: ${({ theme }) => theme.borderRadius.medium};
