@@ -3,6 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import { promisifiedDelay } from "../../utils";
 import Button from "../Button";
+import Loader from "../Loader";
 import * as S from "./styled";
 
 type NewsItem = {
@@ -175,7 +176,7 @@ function News(): React.ReactNode {
           Load more
         </Button>
       )}
-      {loading && <div>Loading...</div>}
+      {loading && <Loader />}
     </S.NewsContainer>
   );
 }
