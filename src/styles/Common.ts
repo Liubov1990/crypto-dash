@@ -74,9 +74,6 @@ export const navBarSVG = css`
 `;
 
 export const BtnWithSVG = styled(Btn)`
-  top: 30px;
-  right: 30px;
-
   svg {
     width: 28px;
     height: 24px;

@@ -10,6 +10,8 @@ export const AuthContainer = styled.main`
 
 export const AbsBtnWithSVG = styled(BtnWithSVG)`
   position: absolute;
+  top: 30px;
+  right: 30px;
 `;
 
 export const AuthCard = styled(Card)`
