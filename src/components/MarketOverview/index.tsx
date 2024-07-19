@@ -246,7 +246,11 @@ function MarketOverview(): React.ReactElement {
                 />
               }
             >
-              <VictoryAxis />
+              <VictoryAxis
+                style={{
+                  grid: { stroke: 0 },
+                }}
+              />
               <VictoryAxis dependentAxis />
               {Object.entries(marketData).map(([id, data], index) => (
                 <VictoryLine
