@@ -1,20 +1,18 @@
 import styled, { css } from "styled-components";
-
-export const FlexColumnCenter = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+import { Btn } from "../components/Button/styled";
 
 export const FlexColumn = css`
   display: flex;
   flex-direction: column;
 `;
 
-export const FlexCenter = css`
-  display: flex;
-  flex-direction: column;
+export const FlexColumnCenter = css`
+  ${FlexColumn};
   align-items: center;
+`;
+
+export const FlexCenter = css`
+  ${FlexColumnCenter}
   justify-content: center;
 `;
 
@@ -24,11 +22,17 @@ export const FlexRowBetween = css`
   align-items: center;
 `;
 
+export const RelativeContainer = css`
+  ${FlexColumnCenter};
+  position: relative;
+  width: 100%;
+`;
+
 export const Transition = css`
   transition: color 0.3s ease-in-out;
 `;
 
-export const Input = styled("input")`
+export const Input = styled.input`
   width: 100%;
   height: 47px;
   font-family: ${({ theme }) => theme.fonts.interRegular};
@@ -66,6 +70,23 @@ export const navBarSVG = css`
   fill: ${({ theme }) => theme.sharedColors.icon};
   &:hover {
     fill: ${({ theme }) => theme.sharedColors.iconActive};
+  }
+`;
+
+export const BtnWithSVG = styled(Btn)`
+  top: 30px;
+  right: 30px;
+
+  svg {
+    width: 28px;
+    height: 24px;
+    vertical-align: middle;
+    fill: ${({ theme }) => theme.sharedColors.btnIcon};
+    transition: fill 0.3s ease-in-out;
+  }
+
+  &:hover svg {
+    fill: ${({ theme }) => theme.sharedColors.accentColor};
   }
 `;
 

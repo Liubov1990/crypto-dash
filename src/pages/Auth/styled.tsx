@@ -1,30 +1,15 @@
 import styled from "styled-components";
-import { Card, FlexCenter, Transition } from "../../styles/Common";
-import { Btn } from "../../components/Button/styled";
+import { BtnWithSVG, Card, FlexCenter, Transition } from "../../styles/Common";
 
-export const AuthContainer = styled("main")`
+export const AuthContainer = styled.main`
   ${FlexCenter}
   position: relative;
   height: 100vh;
   padding: 10px;
 `;
 
-export const AbsButton = styled(Btn)`
+export const AbsBtnWithSVG = styled(BtnWithSVG)`
   position: absolute;
-  top: 30px;
-  right: 30px;
-
-  svg {
-    width: 28px;
-    height: 24px;
-    vertical-align: middle;
-    fill: ${({ theme }) => theme.sharedColors.btnIcon};
-    transition: fill 0.3s ease-in-out;
-  }
-
-  &:hover svg {
-    fill: ${({ theme }) => theme.sharedColors.accentColor};
-  }
 `;
 
 export const AuthCard = styled(Card)`
@@ -33,23 +18,23 @@ export const AuthCard = styled(Card)`
   width: 100%;
 `;
 
-export const BtnSVG = styled("svg")`
+export const BtnGoogle = styled.svg`
   width: 30px;
   height: 21px;
   vertical-align: middle;
 `;
 
-export const ValidationError = styled("p")`
+export const ValidationError = styled.p`
   font-size: ${({ theme }) => theme.fontSize.small};
   color: ${({ theme }) => theme.sharedColors.statusDown};
   margin: 0;
 `;
 
-export const InputContainer = styled("div")`
+export const InputContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-export const Divider = styled("div")`
+export const Divider = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
@@ -77,12 +62,12 @@ export const Divider = styled("div")`
   }
 `;
 
-export const SignOption = styled("div")`
+export const SignOption = styled.div`
   text-align: center;
   margin: 15px 0;
 `;
 
-export const AccentLink = styled("span")`
+export const AccentLink = styled.span`
   &:hover {
     text-decoration: underline;
     color: ${({ theme }) => theme.sharedColors.accentColor};
