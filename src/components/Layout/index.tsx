@@ -39,9 +39,13 @@ function Layout(): React.ReactNode {
           })
         );
 
-        const { currenciesList, exchangeCurrency } = await getUserConfig(user);
-        dispatch(setCurrenciesList(currenciesList));
-        dispatch(setExchangeCurrency(exchangeCurrency));
+        const config = await getUserConfig(user);
+
+        if (config) {
+          const { currenciesList, exchangeCurrency } = config;
+          dispatch(setCurrenciesList(currenciesList));
+          dispatch(setExchangeCurrency(exchangeCurrency));
+        }
       }
 
       setisUserLoading(false);

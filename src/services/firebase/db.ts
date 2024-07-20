@@ -37,9 +37,8 @@ export const getUserConfig = async ({ uid }: User) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    return docSnap.data().config;
-  } else {
-    console.log("No user config!");
-    return {};
+    return docSnap.data()?.config || null;
   }
+
+  return null;
 };
