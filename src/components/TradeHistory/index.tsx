@@ -117,6 +117,30 @@ function TradeHistory(): React.ReactElement {
               ))}
             </div>
           </div>
+          <svg style={{ position: "absolute" }}>
+            <defs>
+              <linearGradient
+                id="positiveGradient"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#4DFFDF" />
+                <stop offset="100%" stopColor="#4DA1FF" />
+              </linearGradient>
+              <linearGradient
+                id="negativeGradient"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#E323FF" />
+                <stop offset="100%" stopColor="#7517F8" />
+              </linearGradient>
+            </defs>
+          </svg>
           {!error && (
             <VictoryChart
               key={`${selectedCoin}-${selectedRange}`}
@@ -127,10 +151,24 @@ function TradeHistory(): React.ReactElement {
               height={height}
               containerComponent={<VictoryZoomContainer />}
             >
-              <VictoryAxis />
+              <VictoryAxis
+                style={{
+                  grid: { stroke: 0 },
+                }}
+              />
               <VictoryAxis dependentAxis />
               <VictoryCandlestick
-                candleColors={{ positive: "#5f5c5b", negative: "#E323FF" }}
+                style={{
+                  data: {
+                    fillOpacity: 0.7,
+                    stroke: "#2D2346",
+                    strokeWidth: 1,
+                  },
+                }}
+                candleColors={{
+                  positive: "url(#positiveGradient)",
+                  negative: "url(#negativeGradient)",
+                }}
                 data={historyData}
               />
             </VictoryChart>
