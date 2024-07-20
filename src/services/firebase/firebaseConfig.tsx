@@ -1,16 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
-  API_KEY,
+  API_FIREBASE_KEY,
   APP_ID,
   AUTH_DOMAIN,
   MESSAGING_SENDER_ID,
   PROJECT_ID,
   STORAGE_BUCKET,
-} from "./constants";
+} from "../../constants/api";
 
 const firebaseConfig = {
-  apiKey: API_KEY,
+  apiKey: API_FIREBASE_KEY,
   authDomain: AUTH_DOMAIN,
   projectId: PROJECT_ID,
   storageBucket: STORAGE_BUCKET,

@@ -6,9 +6,9 @@ import axios from "axios";
 import { convertMarketOverviewData, promisifiedDelay } from "../../utils";
 import { VictoryGroup, VictoryLine } from "victory";
 import Disabler from "../Disabler";
-
-const API_KEY = "";
-const API_URL = "https://min-api.cryptocompare.com/data/v2/histohour";
+import { IGeneraDataItem } from "../../redux/slices/cryptoDataSlice";
+import { useAppSelector } from "../../hooks/use-store";
+import { COMAPRE_HISTOHOUR_URL, COMPARE_API_KEY } from "../../constants/api";
 
 const ArrowTop = () => (
   <svg
@@ -63,9 +63,14 @@ interface IMarketOverviewItem {
   y: number;
 }
 
-function CurrencyCard({ currency, price }: any): ReactElement {
+function CurrencyCard({
+  image,
+  symbol,
+  current_price,
+}: IGeneraDataItem): ReactElement {
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
-  const prevPrice = usePrevious(price);
+  const { exchangeCurrency } = useAppSelector((state) => state.config);
+  const prevPrice = usePrevious(current_price);
   const [marketData, setMarketData] = useState<IMarketOverviewItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -75,22 +80,19 @@ function CurrencyCard({ currency, price }: any): ReactElement {
     setLoading(true);
 
     try {
-      const {
-        data: {
-          Data: { Data },
-        },
-      }: any = await axios({
+      const res = await axios({
         method: "get",
-        url: API_URL,
+        url: COMAPRE_HISTOHOUR_URL,
         params: {
-          api_key: API_KEY,
-          fsym: currency,
-          tsym: "USD",
+          api_key: COMPARE_API_KEY,
+          fsym: symbol,
+          tsym: exchangeCurrency,
           aggregate: 1,
           limit: 12,
         },
       });
-      setMarketData(convertMarketOverviewData(Data));
+      const { Data } = await res.data;
+      setMarketData(convertMarketOverviewData(Data.Data));
       setLoading(false);
     } catch (e) {
       console.error(e);
@@ -160,7 +162,7 @@ function CurrencyCard({ currency, price }: any): ReactElement {
   useEffect(() => {
     // getDailyOverview();
     getMockOverview();
-  }, []);
+  }, [symbol]);
 
   return (
     <div
@@ -175,19 +177,28 @@ function CurrencyCard({ currency, price }: any): ReactElement {
         margin: 10,
       }}
     >
-      <div>Place for image {currency}</div>
+      <div style={{ maxWidth: 40 }}>
+        <img src={image} alt={symbol} />
+      </div>
       <div
         style={{ display: "flex", justifyContent: "space-between", padding: 5 }}
       >
-        <span>{currency} arrow USD</span>
+        <span>{symbol} arrow USD</span>
         {prevPrice && (
-          <>
-            {price > prevPrice && <ArrowTop />}
-            {price < prevPrice && <ArrowDown />}
-          </>
+          <div>
+            {current_price !== prevPrice && (
+              <span>
+                {Math.abs(
+                  ((current_price - prevPrice) / prevPrice) * 100
+                ).toFixed(5)}
+              </span>
+            )}
+            {current_price > prevPrice && <ArrowTop />}
+            {current_price < prevPrice && <ArrowDown />}
+          </div>
         )}
       </div>
-      <div>{Number(price).toFixed(2)}</div>
+      <div>{Number(current_price).toFixed(4)}</div>
       <div>
         {!error && !loading && (
           <VictoryGroup
