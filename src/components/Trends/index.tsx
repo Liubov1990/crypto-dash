@@ -1,6 +1,9 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { promisifiedDelay } from "../../utils";
 import axios from "axios";
+import cn from "classnames";
+import Loader from "../Loader";
+import * as S from "./styled";
 
 const API_URL = "https://api.coingecko.com/api/v3/coins/markets";
 const API_KEY = "";
@@ -33,56 +36,11 @@ interface ITrendItem {
   last_updated: string;
 }
 
-const renderStatus = (percentage: number) =>
-  Math.sign(percentage) === -1 ? (
-    <svg
-      width="12"
-      height="7"
-      viewBox="0 0 12 7"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M6.02507 6.66663L0.882254 -4.06106e-05L11.168 -4.14848e-05L6.02507 6.66663Z"
-        fill="#FF2D2E"
-      />
-    </svg>
-  ) : (
-    <svg
-      width="12"
-      height="17"
-      viewBox="0 0 12 17"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clipPath="url(#clip0_60_345)">
-        <g clipPath="url(#clip1_60_345)">
-          <path
-            d="M6.02571 6L11.1685 12.6667H0.882812L6.02571 6Z"
-            fill="#00B929"
-          />
-        </g>
-      </g>
-      <defs>
-        <clipPath id="clip0_60_345">
-          <rect
-            width="12"
-            height="17"
-            fill="white"
-            transform="translate(0.0253906)"
-          />
-        </clipPath>
-        <clipPath id="clip1_60_345">
-          <rect
-            width="12"
-            height="20"
-            fill="white"
-            transform="translate(0.0253906 -1.5)"
-          />
-        </clipPath>
-      </defs>
-    </svg>
-  );
+const renderStatus = (percentage: number) => (
+  <S.AngleSVG className={cn({ up: Math.sign(percentage) === -1 })}>
+    <use xlinkHref="svg/sprite.svg#angle" />
+  </S.AngleSVG>
+);
 
 function Trends(): React.ReactElement {
   const [trendsData, setTrandsData] = useState<ITrendItem[]>([]);
@@ -512,111 +470,35 @@ function Trends(): React.ReactElement {
   }, [getTrends]);
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "2fr 1fr 1fr",
-        backgroundColor: "#2196F3",
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <div
-        style={{
-          background: "violet",
-          border: "1px solid rgba(0, 0, 0, 0.8)",
-          padding: "20px",
-          fontSize: "10px",
-          textAlign: "start",
-          whiteSpace: "nowrap",
-          maxHeight: 55,
-          position: "sticky",
-          top: 0,
-        }}
-      >
-        Name
-      </div>
-      <div
-        style={{
-          background: "violet",
-          border: "1px solid rgba(0, 0, 0, 0.8)",
-          padding: "20px",
-          fontSize: "10px",
-          textAlign: "start",
-          whiteSpace: "nowrap",
-          maxHeight: 55,
-          position: "sticky",
-          top: 0,
-        }}
-      >
-        LastPrice
-      </div>
-      <div
-        style={{
-          background: "violet",
-          border: "1px solid rgba(0, 0, 0, 0.8)",
-          padding: "20px",
-          fontSize: "10px",
-          textAlign: "start",
-          whiteSpace: "nowrap",
-          maxHeight: 55,
-          position: "sticky",
-          top: 0,
-        }}
-      >
-        24h Change
-      </div>
+    <S.TrandsContainer>
+      <S.GridHeading>Name</S.GridHeading>
+      <S.GridHeading>LastPrice</S.GridHeading>
+      <S.GridHeading>24h Change</S.GridHeading>
       {loading && !error && !trendsData.length && (
         <div style={{ gridColumn: "1/-1", textAlign: "center" }}>
-          Loading...
+          <Loader />
         </div>
       )}
       {!loading && error && !trendsData.length && (
         <div style={{ gridColumn: "1/-1", textAlign: "center" }}>
-          Data is currently unavailable
+          Data is currently unavailable!
         </div>
       )}
       {trendsData.map(
         ({ id, name, symbol, current_price, price_change_percentage_24h }) => (
-          <Fragment key={id}>
-            <div
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                border: "1px solid rgba(0, 0, 0, 0.8)",
-                padding: "20px",
-                fontSize: "12px",
-                textAlign: "start",
-              }}
-            >
-              {symbol} {name}
-            </div>
-            <div
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                border: "1px solid rgba(0, 0, 0, 0.8)",
-                padding: "20px",
-                fontSize: "12px",
-                textAlign: "start",
-              }}
-            >
-              {current_price}
-            </div>
-            <div
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                border: "1px solid rgba(0, 0, 0, 0.8)",
-                padding: "20px",
-                fontSize: "12px",
-                textAlign: "start",
-              }}
-            >
-              {Math.abs(price_change_percentage_24h)}{" "}
+          <React.Fragment key={id}>
+            <S.Currency>
+              {symbol} <span>{name}</span>
+            </S.Currency>
+            <S.Price>{current_price}</S.Price>
+            <S.Change>
+              {Math.abs(price_change_percentage_24h)}
               <span>{renderStatus(price_change_percentage_24h)}</span>
-            </div>
-          </Fragment>
+            </S.Change>
+          </React.Fragment>
         )
       )}
-    </div>
+    </S.TrandsContainer>
   );
 }
 export default Trends;

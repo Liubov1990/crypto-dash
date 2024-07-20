@@ -1,0 +1,64 @@
+import styled from "styled-components";
+import { FlexRowBetween, FlexRowCenter } from "../../styles/Common";
+
+export const AngleSVG = styled.svg`
+  fill: ${({ theme }) => theme.sharedColors.statusDown};
+  width: 12px;
+  height: 7px;
+
+  &.up {
+    fill: ${({ theme }) => theme.sharedColors.stausUp};
+    transform: rotate(180deg);
+  }
+`;
+
+export const TrandsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr;
+  height: 100%;
+  font-family: ${({ theme }) => theme.fonts.interRegular};
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.sharedColors.btnIcon};
+  overflow: auto;
+
+  & > div {
+    ${FlexRowCenter};
+    line-height: 0.714;
+    padding: 15px 24px;
+  }
+`;
+
+export const GridHeading = styled.h3`
+  position: sticky;
+  top: 0;
+  font-size: 0.625rem;
+  color: ${({ theme }) => theme.sharedColors.trendHeading};
+  background: ${({ theme }) => theme.color.boxBackground};
+  white-space: nowrap;
+  padding: 20px 24px;
+  z-index: 1;
+`;
+
+export const Currency = styled.div`
+  text-transform: uppercase;
+
+  span {
+    color: ${({ theme }) => theme.sharedColors.trendCurrencyName};
+    text-transform: capitalize;
+    margin-left: 10px;
+  }
+`;
+
+export const Price = styled.div`
+  color: ${({ theme }) => theme.sharedColors.price};
+`;
+
+export const Change = styled.div`
+  ${FlexRowBetween};
+  max-width: 130px;
+  width: 100%;
+
+  span {
+    margin-left: 15px;
+  }
+`;

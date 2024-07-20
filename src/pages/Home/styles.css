@@ -22,14 +22,14 @@
 }
 
 .dock-panel.dock-style-shared .dock-bar {
-  background: transparent;
+  background: #3c354a;
   border-bottom: none;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
 
 .dock-panel.dock-style-shared .dock-tabpane {
-  background: transparent;
+  background: #3c354a;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
@@ -94,6 +94,11 @@ body > .dragging-layer > .dragging {
   padding: 7px;
   text-align: center;
   color: #261e35;
+}
+
+.dock-layout {
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .dock-layout > .dock-drop-indicator {
