@@ -16,10 +16,14 @@ export const FlexCenter = css`
   justify-content: center;
 `;
 
-export const FlexRowBetween = css`
+export const FlexRowCenter = css`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+`;
+
+export const FlexRowBetween = css`
+  ${FlexRowCenter};
+  justify-content: space-between;
 `;
 
 export const RelativeContainer = css`

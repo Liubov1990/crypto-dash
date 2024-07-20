@@ -4,7 +4,7 @@ const defaultTheme = {
   sharedColors: {
     border: "rgba(255, 255, 255, 0.5)",
     textSecondary: "#868B93",
-    textTertiary: "#9292C1",
+    price: "#9292C1",
     sortBackground: "rgba(26, 26, 29, 0.7)",
     stausUp: "#00C287",
     statusDown: "#E72D04",
@@ -18,6 +18,8 @@ const defaultTheme = {
     userProfile: "#3F3655",
     btnIcon: "#ffffff",
     articleBackground: "#4A435C",
+    trendHeading: "#BFB7B7",
+    trendCurrencyName: "#9A9A9A",
   },
 
   fonts: {
