@@ -18,6 +18,7 @@ import { login } from "../../redux/slices/authSlice";
 import Button from "../../components/Button";
 import { Input } from "../../styles/Common";
 import * as S from "./styled";
+import { addUserToCollection } from "../../services/firebase/db";
 
 interface IInputsMap {
   typeName: string;
@@ -115,7 +116,9 @@ function Auth() {
           password
         );
 
-        if (user && user.email)
+        if (user && user.email) {
+          addUserToCollection(user);
+
           dispatch(
             login({
               email: user.email,
@@ -124,6 +127,7 @@ function Auth() {
               displayName: user.displayName,
             })
           );
+        }
 
         return user;
       } catch (error: unknown) {
@@ -180,7 +184,9 @@ function Auth() {
     try {
       const { user } = await signInWithPopup(auth, provider);
 
-      if (user && user.email)
+      if (user && user.email) {
+        addUserToCollection(user);
+
         dispatch(
           login({
             email: user.email,
@@ -189,6 +195,8 @@ function Auth() {
             displayName: user.displayName,
           })
         );
+      }
+
       return user;
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
