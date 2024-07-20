@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
 import Button from "../../components/Button";
 import { updateUserPreferences } from "../../services/firebase/db";
@@ -11,8 +11,11 @@ import {
   CRYPTO_CURRENCIES_LIST,
   EXCHANGE_CURRENCIES_LIST,
 } from "../../constants/currencies";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Settings() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const { currenciesList, exchangeCurrency } = useAppSelector(
@@ -22,6 +25,14 @@ function Settings() {
   const [checkedCurrenciesList, setCheckedCurrenciesList] =
     useState(currenciesList);
   const [isConfigSaving, setIsConfigSaving] = useState(false);
+
+  const isRedirect = location.pathname === "/settings" && !user;
+
+  useEffect(() => {
+    if (isRedirect) {
+      navigate("/");
+    }
+  }, []);
 
   const handleCurrencySelection = ({
     target: { value },
