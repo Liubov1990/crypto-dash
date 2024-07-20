@@ -10,6 +10,13 @@ function NavList(): React.ReactNode {
           </svg>
         </span>
       </S.StyledNavLink>
+      <S.StyledNavLink to="/settings">
+        <span>
+          <svg>
+            <use xlinkHref="svg/sprite.svg#settings" />
+          </svg>
+        </span>
+      </S.StyledNavLink>
     </S.Nav>
   );
 }
