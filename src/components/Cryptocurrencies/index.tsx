@@ -1,60 +1,55 @@
 import { ReactElement, useEffect, useState } from "react";
 import CurrencyCard from "./CurrencyCard";
-
-const CURRENCIES_IDS = [
-  "btc",
-  "eth",
-  // "xrp",
-  // "bch",
-  // "link",
-  // "ltc",
-  // "ada",
-  // "bnb",
-  // "xlm",
-  // "xmr",
-  // "sol",
-];
-
-const API_KEY = "";
+import { useAppSelector } from "../../hooks/use-store";
+import { COMPARE_STREAMING_URL } from "../../constants/api";
 
 function Cryptocurrencies(): ReactElement {
-  const [cryptoData, setCryptoData] = useState<any>({ BTC: 66151.4049257533 });
+  // const { currenciesList, exchangeCurrency } = useAppSelector(
+  //   (state) => state.config
+  // );
+  const initialData = useAppSelector((state) => state.cryptoData.data);
+  const [cryptoData, setCryptoData] = useState<any>(initialData);
 
   useEffect(() => {
-    const streamer = new WebSocket(
-      "https://streamer.cryptocompare.com/v2?api_key=" + API_KEY
-    );
-
-    streamer.onopen = function onStreamOpen() {
-      const subRequest = {
-        action: "SubAdd",
-        subs: CURRENCIES_IDS.map((id) => `5~CCCAGG~${id.toUpperCase()}~USD`),
-      };
-      streamer.send(JSON.stringify(subRequest));
-    };
-
-    streamer.onmessage = function onStreamMessage(event: any) {
-      const { FROMSYMBOL, PRICE } = JSON.parse(event.data);
-
-      if (FROMSYMBOL && PRICE) {
-        setCryptoData((prevData: any) => ({
-          ...prevData,
-          ...{ [FROMSYMBOL]: PRICE },
-        }));
-      }
-    };
-
-    return () => {
-      streamer.close();
-    };
+    // const streamer = new WebSocket(COMPARE_STREAMING_URL);
+    // streamer.onopen = function onStreamOpen() {
+    //   const subRequest = {
+    //     action: "SubAdd",
+    //     subs: currenciesList.map(
+    //       ({ symbol }) =>
+    //         `5~CCCAGG~${symbol?.toUpperCase()}~${exchangeCurrency}`
+    //     ),
+    //   };
+    //   streamer.send(JSON.stringify(subRequest));
+    // };
+    // streamer.onmessage = function onStreamMessage(event: any) {
+    //   const { FROMSYMBOL, PRICE } = JSON.parse(event.data);
+    //   if (FROMSYMBOL && PRICE) {
+    //     setCryptoData((prevData: any) => {
+    //       const symbol = FROMSYMBOL.toLowerCase();
+    //       return {
+    //         ...prevData,
+    //         ...{ [symbol]: { ...prevData[symbol], current_price: PRICE } },
+    //       };
+    //     });
+    //   }
+    // };
+    // return () => {
+    //   streamer.close();
+    // };
   }, []);
 
   return (
     <div
-      style={{ display: "flex", height: "calc(100% - 20px)", maxHeight: 400 }}
+      style={{
+        display: "flex",
+        height: "calc(100% - 20px)",
+        maxHeight: 400,
+        overflowX: "auto",
+      }}
     >
-      {Object.entries(cryptoData).map(([currency, price]: any) => (
-        <CurrencyCard key={currency} currency={currency} price={price} />
+      {Object.entries(cryptoData).map(([currency, currencyData]: any) => (
+        <CurrencyCard key={currency} {...currencyData} />
       ))}
     </div>
   );

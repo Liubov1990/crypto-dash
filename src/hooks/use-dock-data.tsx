@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { LayoutData, TabBase } from "rc-dock";
 import News from "../components/News";
 import TradeHistory from "../components/TradeHistory";
 import Trends from "../components/Trends";
 import MarketOverview from "../components/MarketOverview";
 import Cryptocurrencies from "../components/Cryptocurrencies";
+import { useAppSelector } from "./use-store";
 
 const tabCommonProps = {
   minWidth: 400,
@@ -84,8 +85,9 @@ const initialLayout = {
 };
 
 function useDockData() {
+  const { user } = useAppSelector((state) => state.auth);
   const [layout, setLayout] = useState<LayoutData>(initialLayout as LayoutData);
-  const [isActive, _setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   const groups = useMemo(
     () => ({
@@ -94,7 +96,7 @@ function useDockData() {
         maximizable: isActive,
       },
     }),
-    [isActive]
+    [isActive, user]
   );
 
   const loadTab = useCallback(
@@ -105,6 +107,15 @@ function useDockData() {
   const onLayoutChange = useCallback((newLayout: LayoutData) => {
     setLayout(newLayout);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+      setLayout(initialLayout as LayoutData);
+    }
+  }, [user]);
 
   return {
     layout,
