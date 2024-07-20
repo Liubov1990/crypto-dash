@@ -7,13 +7,17 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound ";
 import Layout from "./components/Layout";
 import Auth from "./pages/Auth";
+import Settings from "./pages/Settings";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <Layout />,
-      children: [{ path: "/", element: <Home /> }],
+      children: [
+        { path: "/", element: <Home /> },
+        { path: "/settings", element: <Settings /> },
+      ],
       errorElement: <NotFound />,
     },
     {

@@ -5,6 +5,7 @@ export const StyledHeader = styled.header`
   ${FlexRowBetween}
   padding: 30px 0;
   width: 100%;
+  max-height: 100px;
 `;
 
 export const HeaderBar = styled.div`
