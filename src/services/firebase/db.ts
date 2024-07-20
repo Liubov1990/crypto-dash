@@ -1,10 +1,12 @@
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   limit,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
@@ -23,7 +25,21 @@ export const addUserToCollection = async ({ email, uid }: User) => {
 
   if (!isUserExists) {
     await setDoc(doc(db, "users", uid), { email });
+  }
+};
+
+export const updateUserPreferences = async ({ uid }: User, config: any) => {
+  await updateDoc(doc(db, "users", uid), { config: { ...config } });
+};
+
+export const getUserConfig = async ({ uid }: User) => {
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().config;
   } else {
-    return console.log("User exists in collection already!");
+    console.log("No user config!");
+    return {};
   }
 };

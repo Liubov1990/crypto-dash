@@ -4,9 +4,14 @@ import Navigation from "../Navigation";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
+import { useAppDispatch } from "../../hooks/use-store";
 import { login } from "../../redux/slices/authSlice";
 import Loader from "../Loader";
+import { getUserConfig } from "../../services/firebase/db";
+import {
+  setCurrenciesList,
+  setExchangeCurrency,
+} from "../../redux/slices/configSlice";
 // import { GECKO_MARKETS_URL } from "../../constants/api";
 // import { fetchGeneralData } from "../../redux/slices/cryptoDataSlice";
 
@@ -23,8 +28,8 @@ function Layout(): React.ReactNode {
 
   useEffect(() => {
     setisUserLoading(true);
-    onAuthStateChanged(auth, (user) => {
-      if (user && user.email)
+    onAuthStateChanged(auth, async (user) => {
+      if (user && user.email) {
         dispatch(
           login({
             email: user.email,
@@ -33,6 +38,12 @@ function Layout(): React.ReactNode {
             displayName: user.displayName,
           })
         );
+
+        const { currenciesList, exchangeCurrency } = await getUserConfig(user);
+        dispatch(setCurrenciesList(currenciesList));
+        dispatch(setExchangeCurrency(exchangeCurrency));
+      }
+
       setisUserLoading(false);
     });
 
@@ -40,7 +51,7 @@ function Layout(): React.ReactNode {
     //   fetchGeneralData({
     // url: GECKO_MARKETS_URL,
     //     currenciesList: currenciesList.map(({ id }) => id).join(","),
-    //     exchangeCurrency: exchangeCurrency,
+    //     exchangeCurrency: exchangeCurrency.id,
     //   })
     // );
   }, []);

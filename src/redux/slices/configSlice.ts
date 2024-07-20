@@ -1,59 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import {
+  EXCHANGE_CURRENCIES_LIST,
+  CRYPTO_CURRENCIES_LIST,
+} from "../../constants/currencies";
 
 export interface IAuthState {
   currenciesList: Record<string, string>[];
-  exchangeCurrency: string;
+  exchangeCurrency: Record<string, string>;
 }
 
 const initialState: IAuthState = {
-  currenciesList: [
-    {
-      id: "bitcoin",
-      symbol: "BTC",
-    },
-    {
-      id: "ethereum",
-      symbol: "ETC",
-    },
-    {
-      id: "ripple",
-      symbol: "XRP",
-    },
-    {
-      id: "bitcoin-cash",
-      symbol: "BCH",
-    },
-    {
-      id: "chainlink",
-      symbol: "LINK",
-    },
-    {
-      id: "litecoin",
-      symbol: "LTC",
-    },
-    {
-      id: "cardano",
-      symbol: "ADA",
-    },
-    {
-      id: "binancecoin",
-      symbol: "BNB",
-    },
-    {
-      id: "stellar",
-      symbol: "XLM",
-    },
-    {
-      id: "monero",
-      symbol: "XMR",
-    },
-    {
-      id: "solana",
-      symol: "SOL",
-    },
-  ],
-  exchangeCurrency: "USD",
+  currenciesList: CRYPTO_CURRENCIES_LIST.slice(0, 6),
+  exchangeCurrency: EXCHANGE_CURRENCIES_LIST.USD,
 };
 
 export const configSlice = createSlice({
@@ -66,12 +25,17 @@ export const configSlice = createSlice({
     ) => {
       state.currenciesList = action.payload;
     },
-    setExchangeCurrency: (state, action: PayloadAction<string>) => {
+    setExchangeCurrency: (
+      state,
+      action: PayloadAction<IAuthState["exchangeCurrency"]>
+    ) => {
       state.exchangeCurrency = action.payload;
     },
+    resetConfig: () => initialState,
   },
 });
 
-export const { setCurrenciesList, setExchangeCurrency } = configSlice.actions;
+export const { setCurrenciesList, setExchangeCurrency, resetConfig } =
+  configSlice.actions;
 
 export default configSlice.reducer;

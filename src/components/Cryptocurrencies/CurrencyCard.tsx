@@ -69,7 +69,7 @@ function CurrencyCard({
   current_price,
 }: IGeneraDataItem): ReactElement {
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
-  const { exchangeCurrency } = useAppSelector((state) => state.config);
+  const { id } = useAppSelector((state) => state.config.exchangeCurrency);
   const prevPrice = usePrevious(current_price);
   const [marketData, setMarketData] = useState<IMarketOverviewItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +86,7 @@ function CurrencyCard({
         params: {
           api_key: COMPARE_API_KEY,
           fsym: symbol,
-          tsym: exchangeCurrency,
+          tsym: id,
           aggregate: 1,
           limit: 12,
         },
