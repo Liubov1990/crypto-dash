@@ -17,7 +17,7 @@ function Cryptocurrencies(): ReactElement {
     //     action: "SubAdd",
     //     subs: currenciesList.map(
     //       ({ symbol }) =>
-    //         `5~CCCAGG~${symbol?.toUpperCase()}~${exchangeCurrency}`
+    //         `5~CCCAGG~${symbol?.toUpperCase()}~${exchangeCurrency.id}`
     //     ),
     //   };
     //   streamer.send(JSON.stringify(subRequest));
