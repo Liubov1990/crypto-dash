@@ -2,58 +2,50 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { promisifiedDelay } from "../../utils";
-import Button from "../Button";
 import Loader from "../Loader";
 import * as S from "./styled";
+import { COMPARE_API_KEY, COMPARE_NEWS_URL } from "../../constants/api";
 
 type NewsItem = {
-  uuid: string;
-  description: string;
+  id: string;
+  guid: string;
+  published_on: number;
+  imageurl: string;
   title: string;
-  keywords: string;
-  snippet: string;
   url: string;
-  image_url: string;
-  language: string;
-  published_at: string;
+  body: string;
+  tags: string;
+  lang: string;
+  upvotes: string;
+  downvotes: string;
+  categories: string;
+  source_info: {
+    name: string;
+    img: string;
+    lang: string;
+  };
   source: string;
-  categories: string[];
-  relevance_score: number;
 };
-
-const NEWS_API_KEY = "";
-const NEWS_URL = `https://api.thenewsapi.com/v1/news/all?api_token=${NEWS_API_KEY}`;
 
 function News(): React.ReactNode {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [allPages, setAllPages] = useState<number | null>(null);
 
   const getNews = async () => {
     setError(false);
     setLoading(true);
 
     try {
-      const {
-        data: {
-          meta: { found },
-          data,
-        },
-      } = await axios({
+      const res = await axios({
         method: "get",
-        url: NEWS_URL,
+        url: COMPARE_NEWS_URL,
         params: {
-          language: "en",
-          search: "cryptomarket",
-          categories: "business,tech,politics",
-          published_after: moment().subtract(1, "years").format("YYYY-MM"),
-          page,
+          api_key: COMPARE_API_KEY,
         },
       });
-      setNews((prevNews) => [...prevNews, ...data]);
-      setAllPages(Math.ceil(found / 3));
+      const { Data } = await res.data;
+      setNews(Data);
       setLoading(false);
     } catch (e) {
       console.error(e);
@@ -67,67 +59,78 @@ function News(): React.ReactNode {
     await promisifiedDelay(1000);
     setNews([
       {
-        uuid: "ada64912-58e0-4f98-a918-a601c0b004fb",
+        id: "31269784",
+        guid: "https://en.coinotag.com/bitcoin-price-surges-to-67000-driven-by-institutional-interest-and-miners-accumulation/",
+        published_on: 1721485443,
+        imageurl: "https://resources.cryptocompare.com/news/77/31269784.jpeg",
         title:
-          "Bitcoin price increased 37.06% in March, beating 97.6% of the S&P 500",
-        description: "",
-        keywords: "",
-        snippet:
-          "Victoria, Seychelles - March 22, 2023 (Investorideas.com Newswire) With the recent crash of Silicon Valley Bank, people are becoming increasingly worried about ...",
-        url: "https://www.investorideas.com/news/2023/cryptocurrency/03221Bitcoin-Price.asp",
-        image_url:
-          "https://www.investorideas.com/images/top-sectors/news-investorideas.gif",
-        language: "en",
-        published_at: "2023-03-22T15:00:00.000000Z",
-        source: "investorideas.com",
-        categories: ["business"],
-        relevance_score: 17.56314,
+          "Bitcoin Price Surges to $67,000 Driven by Institutional Interest and Miners’ Accumulation",
+        url: "https://en.coinotag.com/bitcoin-price-surges-to-67000-driven-by-institutional-interest-and-miners-accumulation/",
+        body: "Bitcoin’s price has recently experienced a notable upswing, breaking through the $67,000 threshold after an extended period of fluctuation. Several influencing factors, such as governmental actions and investor behavior, are contributing to this upward trend. A compelling detail to consider is the recent accumulation of Bitcoin by miners, signaling potential long-term bullish sentiment. Discover the",
+        tags: "News|BTC",
+        lang: "EN",
+        upvotes: "0",
+        downvotes: "0",
+        categories: "BTC|TRADING|BUSINESS",
+        source_info: {
+          name: "CoinOtag",
+          img: "https://resources.cryptocompare.com/news/77/default.png",
+          lang: "EN",
+        },
+        source: "coinotag",
       },
       {
-        uuid: "c1a17e1f-8a16-4924-a3a0-0f3be55418a8",
-        title:
-          "Coinbase a Leading Beneficiary of Crypto Market Growth: JPMorgan By Investing.com",
-        description:
-          "Coinbase a Leading Beneficiary of Crypto Market Growth: JPMorgan",
-        keywords: "",
-        snippet:
-          "© Reuters\n\nBy Sam Boughedda\n\nInvesting.com — On Friday, JPMorgan (NYSE: ) analyst Kenneth Worthington gave bullish commentary on the cryptocurrency industry ...",
-        url: "https://www.investing.com/news/stock-market-news/coinbase-a-leading-beneficiary-of-crypto-market-growth-jpmorgan-2733615",
-        image_url:
-          "https://i-invdn-com.investing.com/news/moved_LYNXMPEH3G009-OCABS_L.jpg",
-        language: "en",
-        published_at: "2022-01-07T19:30:02.000000Z",
-        source: "investing.com",
-        categories: ["business"],
-        relevance_score: 16.19388,
+        id: "31269664",
+        guid: "https://coingape.com/?p=208640",
+        published_on: 1721485272,
+        imageurl: "https://images.cryptocompare.com/news/default/coingape.png",
+        title: "Crypto Titans Bet On Donald Trump’s Win For SEC Shake-Up",
+        url: "https://coingape.com/crypto-titans-bet-on-donald-trumps-win-for-sec-shake-up/",
+        body: "As the 2024 US presidential election approaches, crypto leaders are anticipating significant changes in regulatory oversight if Donald Trump returns to the White House. The crypto industry is dissatisfied with current administration’s stringent approach led by the Securities and Exchange Commission (SEC) under Chair Gary Gensler. This has prompted hopes among crypto advocates that a The post Crypto Titans Bet On Donald Trump’s Win For SEC Shake-Up appeared first on CoinGape .",
+        tags: "24/7 Cryptocurrency News|Regulation News|Donald Trump Bitcoin|Donald Trump Crypto|Ripple vs SEC News|Securities and Exchange Commission",
+        lang: "EN",
+        upvotes: "0",
+        downvotes: "0",
+        categories: "REGULATION|EXCHANGE",
+        source_info: {
+          name: "CoinGape",
+          img: "https://images.cryptocompare.com/news/default/coingape.png",
+          lang: "EN",
+        },
+        source: "coingape",
       },
       {
-        uuid: "7c8d4720-64ae-4b41-85c8-dce041dcb92e",
+        id: "31269524",
+        guid: "https://en.coinotag.com/dogecoin-price-surge-whale-accumulation-and-bullish-metrics-point-to-0-2-target/",
+        published_on: 1721484943,
+        imageurl: "https://resources.cryptocompare.com/news/77/31269524.jpeg",
         title:
-          "They forecast record growth of Elon Musk’s favorite cryptocurrency",
-        description:
-          "Cryptocurrency analyst and trader Justin Bennett believes that the price of Dogecoin (DOGE) could grow more than 1,000%. “DOGE does what it does best. The…",
-        keywords: "",
-        snippet:
-          "Cryptocurrency analyst and trader Justin Bennett believes that the price of Dogecoin (DOGE) could grow more than 1,000%. “DOGE does what it does best. The las...",
-        url: "https://marketresearchtelecast.com/they-forecast-record-growth-of-elon-musks-favorite-cryptocurrency/176940/",
-        image_url:
-          "https://crypto.snapi.dev/images/v1/i/w/blackrock-1-1224x689-523125.jpg",
-        language: "en",
-        published_at: "2021-10-12T16:07:22.000000Z",
-        source: "news.google.com",
-        categories: ["tech", "general", "business"],
-        relevance_score: 15.613641,
+          "Dogecoin Price Surge: Whale Accumulation and Bullish Metrics Point to $0.2 Target",
+        url: "https://en.coinotag.com/dogecoin-price-surge-whale-accumulation-and-bullish-metrics-point-to-0-2-target/",
+        body: "The recent rise in Dogecoin prices has sparked interest within the cryptocurrency community. There is growing speculation that Dogecoin’s value may continue to increase due to various market dynamics. Significant whale accumulation and promising on-chain metrics are bolstering a bullish outlook for Dogecoin. Dogecoin’s recent surge in price, boosted by whale transactions and on-chain data,",
+        tags: "News|DOGE",
+        lang: "EN",
+        upvotes: "0",
+        downvotes: "0",
+        categories: "DOGE|TRADING|MARKET",
+        source_info: {
+          name: "CoinOtag",
+          img: "https://resources.cryptocompare.com/news/77/default.png",
+          lang: "EN",
+        },
+        source: "coinotag",
       },
     ]);
     setLoading(false);
-    setAllPages(1);
   };
+
+  const getFormattedDate = (timestamp: number) =>
+    moment.unix(timestamp).format("MMMM Do YYYY, h:mm a");
 
   useEffect(() => {
     // getNews();
     getMockedNews();
-  }, [page]);
+  }, []);
 
   if (error) {
     return <div>News are not available at the moment</div>;
@@ -136,18 +139,15 @@ function News(): React.ReactNode {
   return (
     <S.NewsContainer>
       {news.map(
-        (
-          { uuid, image_url, title, url, categories, published_at, snippet },
-          index
-        ) => (
-          <S.Article key={`${uuid}_${index}`}>
+        ({ id, imageurl, title, url, categories, published_on, body }) => (
+          <S.Article key={id}>
             <S.ImgContainer>
               <img
-                src={image_url}
+                src={imageurl}
                 loading="lazy"
                 width="180"
                 height="100"
-                alt="image"
+                alt={title}
               />
             </S.ImgContainer>
             <S.TextBlock>
@@ -156,13 +156,11 @@ function News(): React.ReactNode {
                   {title}
                 </a>
               </S.Title>
-              <S.Description>{snippet}</S.Description>
+              <S.Description>{body}</S.Description>
               <S.Info>
-                <S.Time>
-                  {`${moment(published_at).format("MMMM Do YYYY, h:mm a")}`}
-                </S.Time>
+                <S.Time>{getFormattedDate(published_on)}</S.Time>
                 <S.Categories>
-                  {categories.map((category) => (
+                  {categories.split("|").map((category) => (
                     <S.Category key={category}>{category}</S.Category>
                   ))}
                 </S.Categories>
@@ -170,11 +168,6 @@ function News(): React.ReactNode {
             </S.TextBlock>
           </S.Article>
         )
-      )}
-      {Number(allPages) > page && !loading && (
-        <Button onClick={() => setPage((prevPage) => prevPage + 1)}>
-          Load more
-        </Button>
       )}
       {loading && <Loader />}
     </S.NewsContainer>

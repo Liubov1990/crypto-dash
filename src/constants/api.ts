@@ -13,6 +13,8 @@ export const GECKO_MARKETS_URL =
 
 // crypto compare
 export const COMPARE_API_KEY = import.meta.env.VITE_COMPARE_API_KEY;
+export const COMPARE_NEWS_URL =
+  "https://min-api.cryptocompare.com/data/v2/news/?lang=EN";
 export const COMAPRE_HISTOHOUR_URL =
   "https://min-api.cryptocompare.com/data/v2/histohour";
 export const COMPARE_STREAMING_URL = `https://streamer.cryptocompare.com/v2?api_key=${COMPARE_API_KEY}`;
