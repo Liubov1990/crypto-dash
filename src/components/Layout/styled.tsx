@@ -13,5 +13,6 @@ export const InnerContainer = styled.div`
 `;
 
 export const Main = styled.div`
-  ${RelativeContainer}
+  ${RelativeContainer};
+  height: calc(100vh - 100px);
 `;
