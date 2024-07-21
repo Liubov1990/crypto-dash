@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useState } from "react";
 import { DefaultTheme, ThemeProvider } from "styled-components";
 import theme from "../styles/Theme";
 
-enum ThemeEnum {
+export enum ThemeEnum {
   DARK = "dark",
   LIGHT = "light",
 }
