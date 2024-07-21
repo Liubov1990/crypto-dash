@@ -9,7 +9,7 @@ export const InnerContainer = styled.div`
   ${FlexColumnCenter};
   padding: 0 30px;
   width: 100%;
-  overflow-x: hidden;
+  overflow: auto;
 `;
 
 export const Main = styled.div`

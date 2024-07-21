@@ -1,128 +1,71 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import { LayoutData, TabBase } from "rc-dock";
-import News from "../components/News";
-import TradeHistory from "../components/TradeHistory";
-import Trends from "../components/Trends";
-import MarketOverview from "../components/MarketOverview";
-import Cryptocurrencies from "../components/Cryptocurrencies";
+import { useWindowWidth } from "@react-hook/window-size";
 import { useAppSelector } from "./use-store";
-
-const tabCommonProps = {
-  minWidth: 400,
-  minHeight: 240,
-  group: "shared",
-  cached: true,
-};
-
-const tabsContents = {
-  news: {
-    ...tabCommonProps,
-    id: "news",
-    title: "News",
-    content: <News />,
-  },
-  history: {
-    ...tabCommonProps,
-    id: "history",
-    title: "Trade history",
-    content: <TradeHistory />,
-  },
-  cryptocurrencies: {
-    ...tabCommonProps,
-    id: "cryptocurrencies",
-    title: "Cryptocurrencies",
-    content: <Cryptocurrencies />,
-  },
-  overview: {
-    ...tabCommonProps,
-    id: "overview",
-    title: "Market overview",
-    content: <MarketOverview />,
-  },
-  trends: {
-    ...tabCommonProps,
-    id: "trends",
-    title: "Trends",
-    content: <Trends />,
-  },
-};
-
-const initialLayout = {
-  dockbox: {
-    mode: "vertical",
-    children: [
-      {
-        mode: "horizontal",
-        size: 260,
-        children: [
-          {
-            tabs: [tabsContents.news],
-          },
-          {
-            tabs: [tabsContents.history],
-          },
-        ],
-      },
-      {
-        size: 180,
-        tabs: [tabsContents.cryptocurrencies],
-      },
-      {
-        size: 260,
-        mode: "horizontal",
-        children: [
-          {
-            tabs: [tabsContents.overview],
-          },
-          {
-            mode: "horizontal",
-            tabs: [tabsContents.trends],
-          },
-        ],
-      },
-    ],
-  },
-};
+import { DOCKBOX_DESKTOP, DOCKBOX_MOBILE } from "../constants/dockbox";
+import { getDockboxContent } from "../helpers/getDockboxContent";
+import { setSerializedDockbox } from "../redux/slices/configSlice";
 
 function useDockData() {
-  const { user } = useAppSelector((state) => state.auth);
-  const [layout, setLayout] = useState<LayoutData>(initialLayout as LayoutData);
-  const [isActive, setIsActive] = useState(false);
+  const windowWidth = useWindowWidth();
+  const isMobileView = windowWidth <= 1024;
+  const initialDockbox = (
+    isMobileView ? DOCKBOX_MOBILE : DOCKBOX_DESKTOP
+  ) as LayoutData;
 
+  const dispatch = useDispatch();
+  const serializedDockbox = useAppSelector(
+    (state) => state.config.serializedDockbox
+  );
+  const dockboxStore = JSON.parse(String(serializedDockbox));
+  const [dockbox, setDockbox] = useState<LayoutData>(
+    dockboxStore || initialDockbox
+  );
+
+  const tabsContent = getDockboxContent(!isMobileView);
   const groups = useMemo(
     () => ({
       shared: {
         floatable: false,
-        maximizable: isActive,
+        maximizable: true,
+        disableDock: isMobileView,
       },
     }),
-    [isActive, user]
+    [isMobileView]
   );
 
   const loadTab = useCallback(
-    ({ id }: TabBase) => tabsContents[id as keyof typeof tabsContents],
-    [tabsContents]
+    ({ id }: TabBase) => tabsContent[id as keyof typeof tabsContent],
+    [tabsContent]
   );
 
-  const onLayoutChange = useCallback((newLayout: LayoutData) => {
-    setLayout(newLayout);
+  const onDockboxChange = useCallback((newLayout: LayoutData) => {
+    setDockbox(newLayout);
+    dispatch(setSerializedDockbox(JSON.stringify(newLayout)));
   }, []);
 
   useEffect(() => {
-    if (user) {
-      setIsActive(true);
+    if (isMobileView) {
+      setDockbox(DOCKBOX_MOBILE as LayoutData);
     } else {
-      setIsActive(false);
-      setLayout(initialLayout as LayoutData);
+      const predefinedDockbox = dockboxStore || DOCKBOX_DESKTOP;
+      setDockbox(predefinedDockbox);
+      dispatch(setSerializedDockbox(JSON.stringify(predefinedDockbox)));
     }
-  }, [user]);
+  }, [isMobileView]);
+
+  useEffect(() => {
+    if (!serializedDockbox) {
+      setDockbox(initialDockbox);
+    }
+  }, [serializedDockbox]);
 
   return {
-    layout,
+    dockbox,
     groups,
-    isActive,
     loadTab,
-    onLayoutChange,
+    onDockboxChange,
   };
 }
 

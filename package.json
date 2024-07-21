@@ -18,6 +18,7 @@
   "homepage": "https://liubov1990.github.io/crypto-dash",
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@react-hook/window-size": "^3.1.1",
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit",
     "@types/yup": "^0.32.0",
     "ci": "^2.3.0",

@@ -1,7 +1,6 @@
 import "./styles.css";
 
 import { CSSProperties } from "react";
-import cn from "classnames";
 import DockLayout from "rc-dock";
 import useDockData from "../../hooks/use-dock-data";
 
@@ -14,14 +13,15 @@ const ROOT_STYLES: CSSProperties = {
 };
 
 function Home(): React.ReactNode {
-  const { layout, groups, isActive, loadTab, onLayoutChange } = useDockData();
+  const { dockbox, groups, loadTab, onDockboxChange } = useDockData();
 
   return (
-    <div className={cn("home", { "home--static": !isActive })}>
+    <div className="home">
       <DockLayout
-        layout={layout}
+        key={`${groups.shared.maximizable}`}
+        layout={dockbox}
         loadTab={loadTab}
-        onLayoutChange={onLayoutChange}
+        onLayoutChange={onDockboxChange}
         groups={groups}
         style={ROOT_STYLES}
       />
