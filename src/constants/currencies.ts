@@ -1,3 +1,5 @@
+import { ThemeEnum } from "../context/ThemeContext";
+
 export const EXCHANGE_CURRENCIES_LIST = {
   USD: {
     id: "USD",
@@ -67,3 +69,5 @@ export const CRYPTO_CURRENCIES_LIST = [
     symbol: "SOL",
   },
 ];
+
+export const THEMES = [ThemeEnum.DARK, ThemeEnum.LIGHT];

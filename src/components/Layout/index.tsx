@@ -11,6 +11,9 @@ import { getUserConfig } from "../../services/firebase/db";
 import {
   setCurrenciesList,
   setExchangeCurrency,
+  setPersistentDocbox,
+  setSerializedDockbox,
+  setTheme,
 } from "../../redux/slices/configSlice";
 // import { GECKO_MARKETS_URL } from "../../constants/api";
 // import { fetchGeneralData } from "../../redux/slices/cryptoDataSlice";
@@ -42,9 +45,16 @@ function Layout(): React.ReactNode {
         const config = await getUserConfig(user);
 
         if (config) {
-          const { currenciesList, exchangeCurrency } = config;
+          const { currenciesList, exchangeCurrency, theme, serializedDockbox } =
+            config;
           dispatch(setCurrenciesList(currenciesList));
           dispatch(setExchangeCurrency(exchangeCurrency));
+          dispatch(setTheme(theme));
+
+          if (serializedDockbox) {
+            dispatch(setSerializedDockbox(serializedDockbox));
+            dispatch(setPersistentDocbox(true));
+          }
         }
       }
 

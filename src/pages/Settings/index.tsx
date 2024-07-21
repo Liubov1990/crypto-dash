@@ -6,24 +6,35 @@ import { User } from "firebase/auth";
 import {
   setCurrenciesList,
   setExchangeCurrency,
+  setPersistentDocbox,
+  setTheme,
 } from "../../redux/slices/configSlice";
 import {
   CRYPTO_CURRENCIES_LIST,
   EXCHANGE_CURRENCIES_LIST,
+  THEMES,
 } from "../../constants/currencies";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ThemeEnum } from "../../context/ThemeContext";
 
 function Settings() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  const { currenciesList, exchangeCurrency } = useAppSelector(
-    (state) => state.config
-  );
+  const {
+    currenciesList,
+    exchangeCurrency,
+    theme,
+    persistentDockbox,
+    serializedDockbox,
+  } = useAppSelector((state) => state.config);
   const [selectedCurrency, setSelectedCurrency] = useState(exchangeCurrency);
   const [checkedCurrenciesList, setCheckedCurrenciesList] =
     useState(currenciesList);
+  const [selectedTheme, setSelectedTheme] = useState(theme);
+  const [isDockboxPersistent, setIsDockboxPersistent] =
+    useState(persistentDockbox);
   const [isConfigSaving, setIsConfigSaving] = useState(false);
 
   const isRedirect = location.pathname === "/settings" && !user;
@@ -57,6 +68,18 @@ function Settings() {
     }
   };
 
+  const handleThemeSelection = ({
+    target: { value },
+  }: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTheme(value as ThemeEnum);
+  };
+
+  const handlePersistentDockbox = ({
+    target: { checked },
+  }: ChangeEvent<HTMLInputElement>) => {
+    setIsDockboxPersistent(checked);
+  };
+
   const compareSelection = (id: string) => {
     return (
       checkedCurrenciesList.findIndex((currency) => id === currency.id) !== -1
@@ -68,10 +91,17 @@ function Settings() {
     const config = {
       exchangeCurrency: selectedCurrency,
       currenciesList: checkedCurrenciesList,
+      theme: selectedTheme,
+      ...(isDockboxPersistent && { serializedDockbox }),
     };
     await updateUserPreferences(user as User, config);
     dispatch(setExchangeCurrency(selectedCurrency));
     dispatch(setCurrenciesList(checkedCurrenciesList));
+    dispatch(setTheme(selectedTheme));
+
+    if (isDockboxPersistent) {
+      dispatch(setPersistentDocbox(true));
+    }
 
     setIsConfigSaving(false);
   };
@@ -110,6 +140,37 @@ function Settings() {
           </div>
         ))}
       </fieldset>
+
+      <fieldset>
+        <legend>Choose app theme:</legend>
+
+        <select value={selectedTheme} onChange={handleThemeSelection}>
+          {THEMES.map((theme) => (
+            <option key={theme} value={theme}>
+              {theme}
+            </option>
+          ))}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Choose layout settings:</legend>
+
+        <div>
+          <input
+            type="checkbox"
+            name="persistentDockbox"
+            onChange={handlePersistentDockbox}
+            checked={isDockboxPersistent}
+          />
+          <label htmlFor="persistentDockbox">
+            {isDockboxPersistent
+              ? "layout settings will be kept after save"
+              : "layout settings will be removed after save"}
+          </label>
+        </div>
+      </fieldset>
+
       <Button
         style={{ margin: 5 }}
         onClick={handleSaveChanges}

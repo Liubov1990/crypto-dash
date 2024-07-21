@@ -10,9 +10,8 @@
   transform: initial;
 }
 
-.home.home--static .dock-divider,
-.home.home--static .dock-style-shared {
-  pointer-events: none;
+.home .dock-layout {
+  overflow: auto;
 }
 
 .dock-panel.dock-style-shared {
