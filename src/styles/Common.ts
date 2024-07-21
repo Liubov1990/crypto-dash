@@ -26,6 +26,11 @@ export const FlexRowBetween = css`
   justify-content: space-between;
 `;
 
+export const FlexRowEnd = css`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const RelativeContainer = css`
   ${FlexColumnCenter};
   position: relative;
@@ -89,6 +94,21 @@ export const BtnWithSVG = styled(Btn)`
   &:hover svg {
     fill: ${({ theme }) => theme.sharedColors.accentColor};
   }
+`;
+
+export const ChartContainer = css`
+  height: 100%;
+  padding-left: 10px;
+`;
+
+export const ChartOptionsBar = css`
+  align-items: flex-start;
+  padding: 0 10px 0 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 `;
 
 export const Card = styled.div.attrs<{
