@@ -8,8 +8,11 @@ import {
   VictoryTheme,
   VictoryZoomContainer,
 } from "victory";
+import cn from "classnames";
 import Disabler from "../Disabler";
 import { convertChartHistoryData, promisifiedDelay } from "../../utils";
+import { getVictoryStyles } from "../../helpers/getVictoryStyles";
+import * as S from "./styled";
 
 const API_URL = "https://api.coingecko.com/api/v3/coins/";
 const API_KEY = "";
@@ -29,6 +32,7 @@ interface IHistoryItem {
 }
 
 function TradeHistory(): React.ReactElement {
+  const styles = getVictoryStyles();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
   const [historyData, setHistoryData] = useState<IHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,35 +92,29 @@ function TradeHistory(): React.ReactElement {
   }, [selectedCoin, selectedRange]);
 
   return (
-    <div ref={ref} style={{ height: "100%", padding: 10 }}>
+    <S.TradeHistoryContainer ref={ref}>
       {!!historyData.length && (
         <>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
+          <S.TradeHistoryOptionsBar>
             <select value={selectedCoin} onChange={handleCoinSelection}>
               <option value="bitcoin">BTC/USD</option>
               <option value="ethereum">ETH/USD</option>
             </select>
-            <div>
+            <S.ChartBtnGroup>
               {TIME_RANGES.map(({ value, label }) => (
-                <button
+                <S.ChartButton
                   key={value}
                   value={value}
-                  style={{
-                    margin: "0 5px",
-                    ...(selectedRange === value && { background: "violet" }),
-                  }}
+                  className={cn({
+                    active: selectedRange === value,
+                  })}
                   onClick={handleRangeSelection}
                 >
                   {label}
-                </button>
+                </S.ChartButton>
               ))}
-            </div>
-          </div>
+            </S.ChartBtnGroup>
+          </S.TradeHistoryOptionsBar>
           <svg style={{ position: "absolute" }}>
             <defs>
               <linearGradient
@@ -145,26 +143,18 @@ function TradeHistory(): React.ReactElement {
             <VictoryChart
               key={`${selectedCoin}-${selectedRange}`}
               theme={VictoryTheme.material}
-              domainPadding={{ x: 100 }}
+              domainPadding={{ x: 110 }}
               scale={{ x: "time" }}
               width={width}
               height={height}
-              containerComponent={<VictoryZoomContainer />}
+              containerComponent={
+                <VictoryZoomContainer style={styles.chartMT} />
+              }
             >
-              <VictoryAxis
-                style={{
-                  grid: { stroke: 0 },
-                }}
-              />
-              <VictoryAxis dependentAxis />
+              <VictoryAxis style={styles.axisMain} />
+              <VictoryAxis dependentAxis style={styles.axisDependent} />
               <VictoryCandlestick
-                style={{
-                  data: {
-                    fillOpacity: 0.7,
-                    stroke: "#2D2346",
-                    strokeWidth: 1,
-                  },
-                }}
+                style={styles.candleStick}
                 candleColors={{
                   positive: "url(#positiveGradient)",
                   negative: "url(#negativeGradient)",
@@ -173,12 +163,12 @@ function TradeHistory(): React.ReactElement {
               />
             </VictoryChart>
           )}
-          {error && <div>Data is currently unavailable</div>}
+          {error && <div>Data is currently unavailable!</div>}
           {loading && <Disabler />}
         </>
       )}
       {!historyData.length && <div>Loading...</div>}
-    </div>
+    </S.TradeHistoryContainer>
   );
 }
 

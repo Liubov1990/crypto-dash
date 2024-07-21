@@ -13,6 +13,8 @@ import Disabler from "../Disabler";
 import { convertMarketOverviewData, promisifiedDelay } from "../../utils";
 import moment, { Moment } from "moment";
 import useResizeObserver from "use-resize-observer";
+import * as S from "./styled";
+import { getVictoryStyles } from "../../helpers/getVictoryStyles";
 
 const VictoryCursorVoronoiContainer = createContainer(
   "voronoi",
@@ -34,6 +36,7 @@ const CURRENCIES_IDS = [
   "xmr",
   "sol",
 ];
+
 const PALLETE = [
   "#7517F8",
   "#E323FF",
@@ -55,6 +58,7 @@ interface IMarketOverviewItem {
 }
 
 function MarketOverview(): React.ReactElement {
+  const styles = getVictoryStyles();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
   const [marketData, setMarketData] = useState<
     Record<string, IMarketOverviewItem[]>
@@ -196,21 +200,16 @@ function MarketOverview(): React.ReactElement {
   }, [selectedRange]);
 
   return (
-    <div ref={ref} style={{ height: "100%", paddingLeft: 10 }}>
+    <S.MarketOverviewContainer ref={ref}>
       {!!marketDataLength && (
         <>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
+          <S.MarketOptionsBar>
             <select value={selectedRange} onChange={handleRangeSelection}>
               <option value={"7"}>Weekly</option>
               <option value={"30"}>Monthly</option>
               <option value={"90"}>Quarterly</option>
             </select>
-          </div>
+          </S.MarketOptionsBar>
           {!error && (
             <VictoryChart
               key={selectedRange}
@@ -221,18 +220,16 @@ function MarketOverview(): React.ReactElement {
               height={height}
               containerComponent={
                 <VictoryCursorVoronoiContainer
+                  style={styles.chartMT}
                   cursorDimension="x"
                   voronoiDimension="x"
                   labelComponent={
                     <VictoryTooltip
                       flyoutWidth={150}
-                      centerOffset={{ x: 80 }}
-                      style={{ fill: "white", fontSize: 16 }}
+                      centerOffset={{ x: 80, y: 10 }}
                       constrainToVisibleArea
                       dy={-50}
-                      flyoutStyle={{
-                        fill: "rgba(52, 52, 52, 0.8)",
-                      }}
+                      flyoutStyle={styles.flyoutTooltipStyle}
                     />
                   }
                   labels={({ datum }: Datum) => {
@@ -246,30 +243,29 @@ function MarketOverview(): React.ReactElement {
                 />
               }
             >
-              <VictoryAxis
-                style={{
-                  grid: { stroke: 0 },
-                }}
-              />
-              <VictoryAxis dependentAxis />
+              <VictoryAxis style={styles.axisMain} />
+              <VictoryAxis dependentAxis style={styles.axisDependent} />
               {Object.entries(marketData).map(([id, data], index) => (
                 <VictoryLine
                   key={id}
                   interpolation="basis"
                   style={{
                     data: { stroke: PALLETE[index] || "#c43a31" },
+                    labels: {
+                      fill: PALLETE[index] || "#c43a31",
+                    },
                   }}
                   data={data}
                 />
               ))}
             </VictoryChart>
           )}
-          {error && <div>Data is currently unavailable</div>}
+          {error && <div>Data is currently unavailable!</div>}
           {loading && <Disabler />}
         </>
       )}
       {!marketDataLength && <div>Loading...</div>}
-    </div>
+    </S.MarketOverviewContainer>
   );
 }
 

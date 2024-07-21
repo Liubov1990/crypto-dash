@@ -6,7 +6,7 @@ function Disabler() {
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        top: 0,
+        top: 40,
         bottom: 0,
         left: 0,
         right: 0,
