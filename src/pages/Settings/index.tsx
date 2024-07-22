@@ -16,6 +16,7 @@ import {
 } from "../../constants/config";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeEnum } from "../../context/ThemeContext";
+import * as S from "./styled";
 
 function Settings() {
   const navigate = useNavigate();
@@ -107,9 +108,9 @@ function Settings() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <fieldset>
-        <legend>Choose main exchange currency:</legend>
+    <S.SettingsCoontainer>
+      <S.Fieldset>
+        <S.Legend>Choose main exchange currency:</S.Legend>
 
         <select value={selectedCurrency.id} onChange={handleCurrencySelection}>
           {Object.entries(EXCHANGE_CURRENCIES_LIST).map(
@@ -120,29 +121,29 @@ function Settings() {
             )
           )}
         </select>
-      </fieldset>
+      </S.Fieldset>
 
-      <fieldset>
-        <legend>Choose crypto currencies list:</legend>
+      <S.Fieldset>
+        <S.Legend>Choose crypto currencies list:</S.Legend>
 
         {CRYPTO_CURRENCIES_LIST.map(({ id, symbol }) => (
-          <div key={id}>
-            <input
+          <S.CheckboxGroup key={id}>
+            <S.InputCheckbox
               type="checkbox"
               id={id}
               name={symbol}
               onChange={handleListSelection}
               checked={compareSelection(id)}
             />
-            <label htmlFor={id}>
+            <S.CheckBoxLabel htmlFor={id}>
               {id} ({symbol})
-            </label>
-          </div>
+            </S.CheckBoxLabel>
+          </S.CheckboxGroup>
         ))}
-      </fieldset>
+      </S.Fieldset>
 
-      <fieldset>
-        <legend>Choose app theme:</legend>
+      <S.Fieldset>
+        <S.Legend>Choose app theme:</S.Legend>
 
         <select value={selectedTheme} onChange={handleThemeSelection}>
           {THEMES.map((theme) => (
@@ -151,34 +152,35 @@ function Settings() {
             </option>
           ))}
         </select>
-      </fieldset>
+      </S.Fieldset>
 
-      <fieldset>
-        <legend>Choose layout settings:</legend>
+      <S.Fieldset>
+        <S.Legend>Choose layout settings:</S.Legend>
 
-        <div>
-          <input
+        <S.CheckboxGroup>
+          <S.InputCheckbox
             type="checkbox"
             name="persistentDockbox"
+            id="persistentDockbox"
             onChange={handlePersistentDockbox}
             checked={isDockboxPersistent}
           />
-          <label htmlFor="persistentDockbox">
+          <S.CheckBoxLabel htmlFor="persistentDockbox">
             {isDockboxPersistent
               ? "layout settings will be kept after save"
               : "layout settings will be removed after save"}
-          </label>
-        </div>
-      </fieldset>
+          </S.CheckBoxLabel>
+        </S.CheckboxGroup>
+      </S.Fieldset>
 
-      <Button
-        style={{ margin: 5 }}
+      <S.SettingsBtn
         onClick={handleSaveChanges}
         disabled={isConfigSaving}
+        $width="full"
       >
         {isConfigSaving ? "Saving" : "Save changes"}
-      </Button>
-    </div>
+      </S.SettingsBtn>
+    </S.SettingsCoontainer>
   );
 }
 
