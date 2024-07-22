@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { GECKO_API_KEY } from "../../constants/api";
+import { getTrends, IGetTrends } from "../../api";
 
 export interface ICryptoDataState {
   data: Record<string, any>;
@@ -334,15 +333,9 @@ const initialState: ICryptoDataState["data"] = {
       last_updated: "2024-07-20T13:47:24.250Z",
     },
   ],
-  isLoading: true,
+  isLoading: false,
   error: false,
 };
-
-interface IFetchGeneralData {
-  url: string;
-  exchangeCurrency: string;
-  currenciesList: string;
-}
 
 export interface IGeneraDataItem {
   id: string;
@@ -372,25 +365,10 @@ export interface IGeneraDataItem {
   last_updated: Date;
 }
 
-const getConvertedList = (data: IGeneraDataItem[]) =>
-  data.reduce((acc, { symbol, ...restItemProps }) => {
-    return { ...acc, [symbol]: { ...restItemProps, symbol } };
-  }, {});
-
 export const fetchGeneralData = createAsyncThunk(
   "cryptoData/general",
-  async ({ url, exchangeCurrency, currenciesList }: IFetchGeneralData) => {
-    const res = await axios({
-      method: "get",
-      url,
-      params: {
-        vs_currency: exchangeCurrency,
-        ids: currenciesList,
-        x_cg_demo_api_key: GECKO_API_KEY,
-      },
-    });
-    const data = await res.data;
-    return getConvertedList(data);
+  async ({ fromCurrencies, toCurrency }: IGetTrends) => {
+    return await getTrends({ fromCurrencies, toCurrency });
   }
 );
 

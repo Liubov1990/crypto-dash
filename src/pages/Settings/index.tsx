@@ -13,7 +13,7 @@ import {
   CRYPTO_CURRENCIES_LIST,
   EXCHANGE_CURRENCIES_LIST,
   THEMES,
-} from "../../constants/currencies";
+} from "../../constants/config";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeEnum } from "../../context/ThemeContext";
 

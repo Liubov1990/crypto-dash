@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import {
   createContainer,
   Datum,
@@ -10,47 +9,19 @@ import {
   VictoryTooltip,
 } from "victory";
 import Disabler from "../Disabler";
-import { convertMarketOverviewData, promisifiedDelay } from "../../utils";
+import { limitNumberValue, promisifiedDelay } from "../../utils";
 import moment, { Moment } from "moment";
 import useResizeObserver from "use-resize-observer";
 import * as S from "./styled";
 import { getVictoryStyles } from "../../helpers/getVictoryStyles";
+import { useAppSelector } from "../../hooks/use-store";
+import { OVERVIEW_TIME_RANGES, PALLETE } from "../../constants/charts";
+import { getMarketOverview } from "../../api";
 
 const VictoryCursorVoronoiContainer = createContainer(
   "voronoi",
   "cursor"
 ) as React.ComponentType<any>;
-
-const API_URL = "https://min-api.cryptocompare.com/data/v2/histoday";
-const API_KEY = "";
-const CURRENCIES_IDS = [
-  "btc",
-  "eth",
-  "xrp",
-  "bch",
-  "link",
-  "ltc",
-  "ada",
-  "bnb",
-  "xlm",
-  "xmr",
-  "sol",
-];
-
-const PALLETE = [
-  "#7517F8",
-  "#E323FF",
-  "#4DFFDF",
-  "#4DA1FF",
-  "#F5AC6E",
-  "#60B7FF",
-  "#007AFF",
-  "#e9d4ff",
-  "#d2e031",
-  "#68822a",
-  "#f9d637",
-  "#48174d",
-];
 
 interface IMarketOverviewItem {
   x: Moment | number;
@@ -60,40 +31,34 @@ interface IMarketOverviewItem {
 function MarketOverview(): React.ReactElement {
   const styles = getVictoryStyles();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
+  const { currenciesList, exchangeCurrency } = useAppSelector(
+    (state) => state.config
+  );
   const [marketData, setMarketData] = useState<
     Record<string, IMarketOverviewItem[]>
   >({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selectedRange, setSelectedRange] = useState("7");
+  const [selectedRange, setSelectedRange] = useState(
+    OVERVIEW_TIME_RANGES[0].value
+  );
 
   const marketDataLength = useMemo(
     () => Object.getOwnPropertyNames(marketData).length,
     [marketData]
   );
 
-  const getMarketOverview = async (coinId: string) => {
+  const getMarketOverviewData = async (coinId: string) => {
     setError(false);
     setLoading(true);
 
     try {
-      const {
-        data: {
-          Data: { Data },
-        },
-      }: any = await axios({
-        method: "get",
-        url: API_URL,
-        params: {
-          api_key: API_KEY,
-          fsym: coinId,
-          tsym: "USD",
-          aggregate: 1,
-          limit: selectedRange,
-        },
+      const marketOverviewData = await getMarketOverview({
+        fromCurrency: coinId,
+        toCurrency: exchangeCurrency.id,
+        timeRange: selectedRange,
       });
-      const preparedData = { [coinId]: convertMarketOverviewData(Data) };
-      setMarketData((prevData) => ({ ...prevData, ...preparedData }));
+      setMarketData((prevData) => ({ ...prevData, ...marketOverviewData }));
     } catch (e) {
       console.error(e);
       setLoading(false);
@@ -101,11 +66,11 @@ function MarketOverview(): React.ReactElement {
     }
   };
 
-  const getMarketsOverview = async () => {
+  const getMarketsOverviewData = async () => {
     setLoading(true);
-    for await (const _res of CURRENCIES_IDS.map((id) =>
-      promisifiedDelay(1000).then(() => {
-        getMarketOverview(id);
+    for await (const _res of currenciesList.map(({ symbol }) =>
+      promisifiedDelay(500).then(() => {
+        getMarketOverviewData(symbol);
       })
     )) {
     }
@@ -114,9 +79,9 @@ function MarketOverview(): React.ReactElement {
 
   const getMockOverview = async () => {
     setLoading(true);
-    await promisifiedDelay(1000);
+    await promisifiedDelay(500);
     setMarketData({
-      eth: [
+      ETH: [
         {
           x: moment("2024-07-11T00:00:00.000Z"),
           y: 3099.49,
@@ -150,7 +115,7 @@ function MarketOverview(): React.ReactElement {
           y: 3399.69,
         },
       ],
-      btc: [
+      BTC: [
         {
           x: moment("2024-07-11T00:00:00.000Z"),
           y: 57348.75,
@@ -196,7 +161,7 @@ function MarketOverview(): React.ReactElement {
 
   useEffect(() => {
     getMockOverview();
-    // getMarketsOverview();
+    // getMarketsOverviewData();
   }, [selectedRange]);
 
   return (
@@ -205,9 +170,11 @@ function MarketOverview(): React.ReactElement {
         <>
           <S.MarketOptionsBar>
             <select value={selectedRange} onChange={handleRangeSelection}>
-              <option value={"7"}>Weekly</option>
-              <option value={"30"}>Monthly</option>
-              <option value={"90"}>Quarterly</option>
+              {OVERVIEW_TIME_RANGES.map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </select>
           </S.MarketOptionsBar>
           {!error && (
@@ -238,13 +205,19 @@ function MarketOverview(): React.ReactElement {
                         return data.find(({ y }) => y === datum.y);
                       }
                     );
-                    return `${currInfo?.[0].toLocaleUpperCase()}: ${datum.y}`;
+                    return `${currInfo?.[0].toLocaleUpperCase()}: ${
+                      exchangeCurrency.symbol
+                    }${datum.y}`;
                   }}
                 />
               }
             >
               <VictoryAxis style={styles.axisMain} />
-              <VictoryAxis dependentAxis style={styles.axisDependent} />
+              <VictoryAxis
+                dependentAxis
+                style={styles.axisDependent}
+                tickFormat={limitNumberValue}
+              />
               {Object.entries(marketData).map(([id, data], index) => (
                 <VictoryLine
                   key={id}
@@ -260,11 +233,11 @@ function MarketOverview(): React.ReactElement {
               ))}
             </VictoryChart>
           )}
-          {error && <div>Data is currently unavailable!</div>}
           {loading && <Disabler />}
         </>
       )}
-      {!marketDataLength && <div>Loading...</div>}
+      {!marketDataLength && !error && <div>Loading...</div>}
+      {!loading && error && <div>Data is currently unavailable!</div>}
     </S.MarketOverviewContainer>
   );
 }

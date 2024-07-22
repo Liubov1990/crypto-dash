@@ -2,15 +2,17 @@ import { ReactElement, useEffect, useState } from "react";
 import CurrencyCard from "./CurrencyCard";
 import { useAppSelector } from "../../hooks/use-store";
 import { COMPARE_STREAMING_URL } from "../../constants/api";
+import { convertGeneralCryptoData } from "../../utils";
 
 function Cryptocurrencies(): ReactElement {
   // const { currenciesList, exchangeCurrency } = useAppSelector(
   //   (state) => state.config
   // );
-  const initialData = useAppSelector((state) => state.cryptoData.data);
-  const [cryptoData, setCryptoData] = useState<any>(initialData);
+  const { data } = useAppSelector((state) => state.cryptoData);
+  const [cryptoData, setCryptoData] = useState<any>({});
 
   useEffect(() => {
+    setCryptoData(convertGeneralCryptoData(data));
     // const streamer = new WebSocket(COMPARE_STREAMING_URL);
     // streamer.onopen = function onStreamOpen() {
     //   const subRequest = {
@@ -37,7 +39,7 @@ function Cryptocurrencies(): ReactElement {
     // return () => {
     //   streamer.close();
     // };
-  }, []);
+  }, [data]);
 
   return (
     <div
