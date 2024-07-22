@@ -8,7 +8,7 @@ import { VictoryGroup, VictoryLine } from "victory";
 import Disabler from "../Disabler";
 import { IGeneraDataItem } from "../../redux/slices/cryptoDataSlice";
 import { useAppSelector } from "../../hooks/use-store";
-import { COMAPRE_HISTOHOUR_URL, COMPARE_API_KEY } from "../../constants/api";
+import { COMPARE_API_KEY, COMPARE_HISTOHOUR_URL } from "../../constants/api";
 
 const ArrowTop = () => (
   <svg
@@ -82,7 +82,7 @@ function CurrencyCard({
     try {
       const res = await axios({
         method: "get",
-        url: COMAPRE_HISTOHOUR_URL,
+        url: COMPARE_HISTOHOUR_URL,
         params: {
           api_key: COMPARE_API_KEY,
           fsym: symbol,
