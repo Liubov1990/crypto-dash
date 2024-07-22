@@ -3,7 +3,7 @@ import { FlexCenter, FlexRowBetween } from "../../styles/Common";
 
 export const StyledHeader = styled.header`
   ${FlexRowBetween}
-  padding: 30px 0;
+  padding: 30px;
   width: 100%;
   max-height: 100px;
 `;

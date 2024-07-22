@@ -1,17 +1,40 @@
 @import "rc-dock/dist/rc-dock.css";
 
 .home {
-  min-height: 100vh;
   height: 100%;
+  width: 100%;
 }
 
-.home .dock-divider {
+.home .dock-layout {
+  margin: 0 30px;
+  overflow: auto;
+}
+
+body:has(.dock-mbox-show) .dock-layout {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.dock-layout::-webkit-scrollbar-thumb {
+  background: #ec5eb7;
+  border-radius: 10px;
+}
+
+.dock-layout > .dock-drop-indicator {
+  border: solid 1px #ec5eb7;
+  box-shadow: inset 0 0 10px #ec5eb7;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.dock-divider {
   flex: 0 0 20px;
   transform: initial;
 }
 
-.home .dock-layout {
-  overflow: auto;
+.dock-panel *::-webkit-scrollbar-thumb {
+  background: #261e35;
+  border-radius: 10px;
 }
 
 .dock-panel.dock-style-shared {
@@ -25,6 +48,7 @@
   border-bottom: none;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  margin-bottom: 10px;
 }
 
 .dock-panel.dock-style-shared .dock-tabpane {
@@ -54,10 +78,6 @@
   background: #3c354a;
   padding-top: 7px;
   padding-bottom: 7px;
-}
-
-.dock-ink-bar.dock-ink-bar-animated {
-  background: transparent;
 }
 
 .dock-panel.dock-style-shared .dock-panel-max-btn,
@@ -95,16 +115,8 @@ body > .dragging-layer > .dragging {
   color: #261e35;
 }
 
-.dock-layout {
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-.dock-layout > .dock-drop-indicator {
-  border: solid 1px #ec5eb7;
-  box-shadow: inset 0 0 10px #ec5eb7;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.7);
+.dock-ink-bar.dock-ink-bar-animated {
+  background: transparent;
 }
 
 .dock-drop-layer .dock-drop-square {
