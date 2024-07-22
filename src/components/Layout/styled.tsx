@@ -7,12 +7,12 @@ export const Container = styled.div`
 
 export const InnerContainer = styled.div`
   ${FlexColumnCenter};
-  padding: 0 30px;
   width: 100%;
   overflow: auto;
 `;
 
-export const Main = styled.div`
+export const Main = styled.main`
   ${RelativeContainer};
-  height: calc(100vh - 100px);
+  min-height: calc(100vh - 130px);
+  margin-bottom: 30px;
 `;

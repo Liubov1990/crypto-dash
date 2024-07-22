@@ -103,11 +103,11 @@ export const ChartContainer = css`
 
 export const ChartOptionsBar = css`
   align-items: flex-start;
-  padding: 0 10px 0 15px;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  padding: 0 15px 0 21px;
   z-index: 100;
 `;
 

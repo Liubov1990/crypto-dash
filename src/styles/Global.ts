@@ -72,7 +72,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.color.mainBackground};
+    background: ${({ theme }) => theme.sharedColors.mainBackground};
     border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
   }
 `;
