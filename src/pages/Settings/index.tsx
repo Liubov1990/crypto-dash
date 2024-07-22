@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
-import Button from "../../components/Button";
 import { updateUserPreferences } from "../../services/firebase/db";
 import { User } from "firebase/auth";
 import {
@@ -14,13 +14,14 @@ import {
   EXCHANGE_CURRENCIES_LIST,
   THEMES,
 } from "../../constants/config";
-import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeEnum } from "../../context/ThemeContext";
 import * as S from "./styled";
+import useIsMobileView from "../../hooks/use-is-mobile-view";
 
 function Settings() {
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobileView = useIsMobileView();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   const {
@@ -154,24 +155,26 @@ function Settings() {
         </select>
       </S.Fieldset>
 
-      <S.Fieldset>
-        <S.Legend>Choose layout settings:</S.Legend>
+      {!isMobileView && (
+        <S.Fieldset>
+          <S.Legend>Choose layout settings:</S.Legend>
 
-        <S.CheckboxGroup>
-          <S.InputCheckbox
-            type="checkbox"
-            name="persistentDockbox"
-            id="persistentDockbox"
-            onChange={handlePersistentDockbox}
-            checked={isDockboxPersistent}
-          />
-          <S.CheckBoxLabel htmlFor="persistentDockbox">
-            {isDockboxPersistent
-              ? "layout settings will be kept after save"
-              : "layout settings will be removed after save"}
-          </S.CheckBoxLabel>
-        </S.CheckboxGroup>
-      </S.Fieldset>
+          <S.CheckboxGroup>
+            <S.InputCheckbox
+              type="checkbox"
+              name="persistentDockbox"
+              id="persistentDockbox"
+              onChange={handlePersistentDockbox}
+              checked={isDockboxPersistent}
+            />
+            <S.CheckBoxLabel htmlFor="persistentDockbox">
+              {isDockboxPersistent
+                ? "layout settings will be kept after save"
+                : "layout settings will be removed after save"}
+            </S.CheckBoxLabel>
+          </S.CheckboxGroup>
+        </S.Fieldset>
+      )}
 
       <S.SettingsBtn
         onClick={handleSaveChanges}
