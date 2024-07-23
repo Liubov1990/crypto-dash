@@ -363,6 +363,7 @@ export interface IGeneraDataItem {
   atl_change_percentage: number;
   atl_date: Date;
   last_updated: Date;
+  position: string;
 }
 
 export const fetchGeneralData = createAsyncThunk(

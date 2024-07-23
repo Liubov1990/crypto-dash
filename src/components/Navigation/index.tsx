@@ -34,13 +34,21 @@ function Navigation(): React.ReactNode {
         </Link>
       </S.Logo>
       <NavList />
-      {user && (
-        <S.Logout onClick={signOutUser}>
+
+      <S.ActionBtnsGroup>
+        <S.ResetBtn>
           <svg>
-            <use xlinkHref="svg/sprite.svg#log-out" />
+            <use xlinkHref="svg/sprite.svg#reset" />
           </svg>
-        </S.Logout>
-      )}
+        </S.ResetBtn>
+        {user && (
+          <S.LogoutBtn onClick={signOutUser}>
+            <svg>
+              <use xlinkHref="svg/sprite.svg#log-out" />
+            </svg>
+          </S.LogoutBtn>
+        )}
+      </S.ActionBtnsGroup>
     </S.NavBar>
   );
 }

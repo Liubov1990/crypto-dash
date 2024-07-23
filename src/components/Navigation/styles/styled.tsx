@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FlexColumnCenter, navBarSVG } from "../../../styles/Common";
+import { Btn } from "../../Button/styled";
 
 export const NavBar = styled.div`
   ${FlexColumnCenter};
@@ -23,12 +24,24 @@ export const Logo = styled.div`
   }
 `;
 
-export const Logout = styled.button`
+export const ActionBtnsGroup = styled.div`
   margin-top: auto;
+`;
+
+export const LogoutBtn = styled(Btn)`
+  text-align: center;
   background: transparent;
   border: none;
+  width: auto;
+  margin-top: 40px;
 
   svg {
     ${navBarSVG};
+  }
+`;
+
+export const ResetBtn = styled(LogoutBtn)`
+  svg {
+    width: 27px;
   }
 `;
