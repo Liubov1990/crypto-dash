@@ -27,6 +27,11 @@ body:has(.dock-mbox-show) .dock-layout {
   background: rgba(0, 0, 0, 0.7);
 }
 
+.dock .dock-top {
+  background: #3c354a;
+  border-radius: 20px;
+}
+
 .dock-divider {
   flex: 0 0 20px;
   transform: initial;

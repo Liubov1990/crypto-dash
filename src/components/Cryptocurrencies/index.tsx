@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import CurrencyCard from "./CurrencyCard";
 import { useAppSelector } from "../../hooks/use-store";
 import { COMPARE_STREAMING_URL } from "../../constants/api";
+import * as S from "./styles/styled";
 
 function Cryptocurrencies(): ReactElement {
   // const { currenciesList, exchangeCurrency } = useAppSelector(
@@ -40,18 +41,17 @@ function Cryptocurrencies(): ReactElement {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "calc(100% - 20px)",
-        maxHeight: 400,
-        overflowX: "auto",
-      }}
-    >
-      {Object.entries(cryptoData).map(([currency, currencyData]: any) => (
-        <CurrencyCard key={currency} {...currencyData} />
-      ))}
-    </div>
+    <S.CurrencyContainer>
+      {Object.entries(cryptoData).map(
+        ([currency, currencyData]: any, index) => (
+          <CurrencyCard
+            key={currency}
+            position={index % 2 === 0 ? "even" : "odd"}
+            {...currencyData}
+          />
+        )
+      )}
+    </S.CurrencyContainer>
   );
 }
 export default Cryptocurrencies;
