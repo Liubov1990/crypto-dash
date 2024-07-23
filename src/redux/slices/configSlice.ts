@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import {
   EXCHANGE_CURRENCIES_LIST,
   CRYPTO_CURRENCIES_LIST,
-} from "../../constants/currencies";
+} from "../../constants/config";
 import { ThemeEnum } from "../../context/ThemeContext";
 
 export interface IConfigState {

@@ -1,5 +1,4 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import axios from "axios";
 import useResizeObserver from "use-resize-observer";
 import {
   VictoryAxis,
@@ -10,18 +9,16 @@ import {
 } from "victory";
 import cn from "classnames";
 import Disabler from "../Disabler";
-import { convertChartHistoryData, promisifiedDelay } from "../../utils";
+import {
+  convertChartHistoryData,
+  limitNumberValue,
+  promisifiedDelay,
+} from "../../utils";
 import { getVictoryStyles } from "../../helpers/getVictoryStyles";
 import * as S from "./styled";
-
-const API_URL = "https://api.coingecko.com/api/v3/coins/";
-const API_KEY = "";
-
-const TIME_RANGES = [
-  { value: "1", label: "1D" },
-  { value: "7", label: "1W" },
-  { value: "30", label: "1M" },
-];
+import { useAppSelector } from "../../hooks/use-store";
+import { getTradeHistory } from "../../api";
+import { TRADE_TIME_RANGES } from "../../constants/charts";
 
 interface IHistoryItem {
   x: number;
@@ -34,27 +31,28 @@ interface IHistoryItem {
 function TradeHistory(): React.ReactElement {
   const styles = getVictoryStyles();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
+  const { currenciesList, exchangeCurrency } = useAppSelector(
+    (state) => state.config
+  );
   const [historyData, setHistoryData] = useState<IHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [selectedCoin, setSelectedCoin] = useState("bitcoin");
-  const [selectedRange, setSelectedRange] = useState("7");
+  const [selectedCoin, setSelectedCoin] = useState(currenciesList[0].id);
+  const [selectedRange, setSelectedRange] = useState(
+    TRADE_TIME_RANGES[0].value
+  );
 
   const getHistory = async () => {
     setError(false);
     setLoading(true);
 
     try {
-      const { data } = await axios({
-        method: "get",
-        url: `${API_URL}/${selectedCoin}/ohlc`,
-        params: {
-          vs_currency: "usd",
-          days: selectedRange,
-          x_cg_demo_api_key: API_KEY,
-        },
+      const historyData = await getTradeHistory({
+        fromCurrency: selectedCoin,
+        toCurrency: exchangeCurrency.id,
+        timeRange: selectedRange,
       });
-      setHistoryData(convertChartHistoryData(data));
+      setHistoryData(historyData);
       setLoading(false);
     } catch (e) {
       console.error(e);
@@ -97,11 +95,14 @@ function TradeHistory(): React.ReactElement {
         <>
           <S.TradeHistoryOptionsBar>
             <select value={selectedCoin} onChange={handleCoinSelection}>
-              <option value="bitcoin">BTC/USD</option>
-              <option value="ethereum">ETH/USD</option>
+              {currenciesList.map(({ id, symbol }) => (
+                <option key={id} value={id}>
+                  {symbol}/{exchangeCurrency.id}
+                </option>
+              ))}
             </select>
             <S.ChartBtnGroup>
-              {TIME_RANGES.map(({ value, label }) => (
+              {TRADE_TIME_RANGES.map(({ value, label }) => (
                 <S.ChartButton
                   key={value}
                   value={value}
@@ -152,7 +153,11 @@ function TradeHistory(): React.ReactElement {
               }
             >
               <VictoryAxis style={styles.axisMain} />
-              <VictoryAxis dependentAxis style={styles.axisDependent} />
+              <VictoryAxis
+                dependentAxis
+                style={styles.axisDependent}
+                tickFormat={limitNumberValue}
+              />
               <VictoryCandlestick
                 style={styles.candleStick}
                 candleColors={{

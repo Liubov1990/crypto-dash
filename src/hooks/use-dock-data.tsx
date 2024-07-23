@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { LayoutData, TabBase } from "rc-dock";
-import { useWindowWidth } from "@react-hook/window-size";
-import { useAppSelector } from "./use-store";
+import { useAppDispatch, useAppSelector } from "./use-store";
 import { DOCKBOX_DESKTOP, DOCKBOX_MOBILE } from "../constants/dockbox";
 import { getDockboxContent } from "../helpers/getDockboxContent";
 import { setSerializedDockbox } from "../redux/slices/configSlice";
+import useIsMobileView from "./use-is-mobile-view";
 
 function useDockData() {
-  const windowWidth = useWindowWidth();
-  const isMobileView = windowWidth <= 1024;
+  const isMobileView = useIsMobileView();
   const initialDockbox = (
     isMobileView ? DOCKBOX_MOBILE : DOCKBOX_DESKTOP
   ) as LayoutData;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const serializedDockbox = useAppSelector(
     (state) => state.config.serializedDockbox
   );
