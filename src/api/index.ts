@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   COMPARE_API_KEY,
   COMPARE_HISTODAY_URL,
+  COMPARE_HISTOHOUR_URL,
   GECKO_API_KEY,
   GECKO_API_URL,
   GECKO_MARKETS_URL,
@@ -35,17 +36,17 @@ export const getTradeHistory = async ({
   }
 };
 
-interface IGetMarketOverview {
+interface IGetMarketDailyOverview {
   fromCurrency: string;
   toCurrency: string;
   timeRange: string;
 }
 
-export const getMarketOverview = async ({
+export const getMarketDailyOverview = async ({
   fromCurrency,
   toCurrency,
   timeRange,
-}: IGetMarketOverview) => {
+}: IGetMarketDailyOverview) => {
   try {
     const {
       data: {
@@ -63,6 +64,38 @@ export const getMarketOverview = async ({
       },
     });
     return { [fromCurrency]: convertMarketOverviewData(Data) };
+  } catch (e) {
+    throw new Error(`API Server error`);
+  }
+};
+
+interface IGetMarketHourlyOverview {
+  fromCurrency: string;
+  toCurrency: string;
+}
+
+export const getMarketHourlyOverview = async ({
+  fromCurrency,
+  toCurrency,
+}: IGetMarketHourlyOverview) => {
+  try {
+    const {
+      data: {
+        Data: { Data },
+      },
+    } = await axios({
+      method: "get",
+      url: COMPARE_HISTOHOUR_URL,
+      params: {
+        api_key: COMPARE_API_KEY,
+        fsym: fromCurrency,
+        tsym: toCurrency,
+        aggregate: 1,
+        limit: 12,
+      },
+    });
+
+    return convertMarketOverviewData(Data);
   } catch (e) {
     throw new Error(`API Server error`);
   }

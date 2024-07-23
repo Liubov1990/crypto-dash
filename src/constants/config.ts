@@ -70,4 +70,18 @@ export const CRYPTO_CURRENCIES_LIST = [
   },
 ];
 
+export const FORMATTER_PRICE_PATTERNS = {
+  btc: ",.2f",
+  eth: ",.2f",
+  bnb: ",.3f",
+  sol: ",.3f",
+  xrp: ",.4f",
+  ada: ",.4f",
+  link: ",.3f",
+  bch: ",.3f",
+  ltc: ",.4f",
+  xlm: ",.5f",
+  xmr: ",.3f",
+};
+
 export const THEMES = [ThemeEnum.DARK, ThemeEnum.LIGHT];
