@@ -11,7 +11,7 @@ const TAB_COMMON_PROPS = {
 };
 
 const TAB_DESKTOP_PROPS = {
-  minWidth: 400,
+  minWidth: 240,
 };
 
 export const getDockboxContent = (desktopMode = true) => ({

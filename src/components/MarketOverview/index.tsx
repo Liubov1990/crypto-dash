@@ -8,15 +8,19 @@ import {
   VictoryTheme,
   VictoryTooltip,
 } from "victory";
-import Disabler from "../Disabler";
-import { limitNumberValue, promisifiedDelay } from "../../utils";
+import {
+  formatChartTicks,
+  formatFullDate,
+  promisifiedDelay,
+} from "../../utils";
 import moment, { Moment } from "moment";
 import useResizeObserver from "use-resize-observer";
 import * as S from "./styled";
 import { getVictoryStyles } from "../../helpers/getVictoryStyles";
 import { useAppSelector } from "../../hooks/use-store";
 import { OVERVIEW_TIME_RANGES, PALLETE } from "../../constants/charts";
-import { getMarketOverview } from "../../api";
+import { getMarketDailyOverview } from "../../api";
+import Loader from "../Loader";
 
 const VictoryCursorVoronoiContainer = createContainer(
   "voronoi",
@@ -53,7 +57,7 @@ function MarketOverview(): React.ReactElement {
     setLoading(true);
 
     try {
-      const marketOverviewData = await getMarketOverview({
+      const marketOverviewData = await getMarketDailyOverview({
         fromCurrency: coinId,
         toCurrency: exchangeCurrency.id,
         timeRange: selectedRange,
@@ -166,77 +170,71 @@ function MarketOverview(): React.ReactElement {
 
   return (
     <S.MarketOverviewContainer ref={ref}>
-      {!!marketDataLength && (
-        <>
-          <S.MarketOptionsBar>
-            <select value={selectedRange} onChange={handleRangeSelection}>
-              {OVERVIEW_TIME_RANGES.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </S.MarketOptionsBar>
-          {!error && (
-            <VictoryChart
-              key={selectedRange}
-              theme={VictoryTheme.material}
-              domainPadding={{ x: 50, y: 10 }}
-              scale={{ x: "time" }}
-              width={width}
-              height={height}
-              containerComponent={
-                <VictoryCursorVoronoiContainer
-                  style={styles.chartMT}
-                  cursorDimension="x"
-                  voronoiDimension="x"
-                  labelComponent={
-                    <VictoryTooltip
-                      flyoutWidth={150}
-                      centerOffset={{ x: 80, y: 10 }}
-                      constrainToVisibleArea
-                      dy={-50}
-                      flyoutStyle={styles.flyoutTooltipStyle}
-                    />
-                  }
-                  labels={({ datum }: Datum) => {
-                    const currInfo = Object.entries(marketData).find(
-                      ([_, data]) => {
-                        return data.find(({ y }) => y === datum.y);
-                      }
-                    );
-                    return `${currInfo?.[0].toLocaleUpperCase()}: ${
-                      exchangeCurrency.symbol
-                    }${datum.y}`;
-                  }}
+      <S.MarketOptionsBar>
+        <select value={selectedRange} onChange={handleRangeSelection}>
+          {OVERVIEW_TIME_RANGES.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </S.MarketOptionsBar>
+      {!error && !loading && !!marketDataLength && (
+        <VictoryChart
+          key={selectedRange}
+          theme={VictoryTheme.material}
+          domainPadding={{ x: 50, y: 10 }}
+          scale={{ x: "time" }}
+          width={width}
+          height={height}
+          containerComponent={
+            <VictoryCursorVoronoiContainer
+              style={styles.chartMT}
+              cursorDimension="x"
+              voronoiDimension="x"
+              labelComponent={
+                <VictoryTooltip
+                  centerOffset={{ x: 80, y: 10 }}
+                  constrainToVisibleArea
+                  dy={-50}
+                  flyoutStyle={styles.flyoutTooltipStyle}
                 />
               }
-            >
-              <VictoryAxis style={styles.axisMain} />
-              <VictoryAxis
-                dependentAxis
-                style={styles.axisDependent}
-                tickFormat={limitNumberValue}
-              />
-              {Object.entries(marketData).map(([id, data], index) => (
-                <VictoryLine
-                  key={id}
-                  interpolation="basis"
-                  style={{
-                    data: { stroke: PALLETE[index] || "#c43a31" },
-                    labels: {
-                      fill: PALLETE[index] || "#c43a31",
-                    },
-                  }}
-                  data={data}
-                />
-              ))}
-            </VictoryChart>
-          )}
-          {loading && <Disabler />}
-        </>
+              labels={({ datum }: Datum) => {
+                const currInfo = Object.entries(marketData).find(
+                  ([_, data]) => {
+                    return data.find(({ y }) => y === datum.y);
+                  }
+                );
+                return `${currInfo?.[0].toLocaleUpperCase()}: ${
+                  exchangeCurrency.symbol
+                }${datum.y} (${formatFullDate(datum.x)})`;
+              }}
+            />
+          }
+        >
+          <VictoryAxis style={styles.axisMain} />
+          <VictoryAxis
+            dependentAxis
+            style={styles.axisDependent}
+            tickFormat={formatChartTicks}
+          />
+          {Object.entries(marketData).map(([id, data], index) => (
+            <VictoryLine
+              key={id}
+              interpolation="basis"
+              style={{
+                data: { stroke: PALLETE[index] || "#c43a31" },
+                labels: {
+                  fill: PALLETE[index] || "#c43a31",
+                },
+              }}
+              data={data}
+            />
+          ))}
+        </VictoryChart>
       )}
-      {!marketDataLength && !error && <div>Loading...</div>}
+      {loading && <Loader height={`${height}px`} />}
       {!loading && error && <div>Data is currently unavailable!</div>}
     </S.MarketOverviewContainer>
   );

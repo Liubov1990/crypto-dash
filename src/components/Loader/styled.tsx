@@ -15,11 +15,16 @@ const rotate = keyframes`
   }
 `;
 
-export const Wrap = styled.div`
+interface WrapProps {
+  height?: string;
+}
+
+export const Wrap = styled.div<WrapProps>`
   ${FlexCenter}
   background-color: transparent;
   perspective: 1000px;
-  height: 100vh;
+  height: ${({ height }) => height || "100vh"};
+  width: 100%;
 `;
 
 export const LoaderSVG = styled.svg`

@@ -1,9 +1,9 @@
 import React from "react";
 import * as S from "./styled";
 
-function Loader(): React.ReactNode {
+function Loader({ height }: { height?: string }): React.ReactNode {
   return (
-    <S.Wrap>
+    <S.Wrap height={height}>
       <S.LoaderSVG>
         <use xlinkHref="svg/sprite.svg#loader" />
       </S.LoaderSVG>

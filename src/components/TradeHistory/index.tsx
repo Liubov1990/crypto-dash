@@ -8,10 +8,9 @@ import {
   VictoryZoomContainer,
 } from "victory";
 import cn from "classnames";
-import Disabler from "../Disabler";
 import {
   convertChartHistoryData,
-  limitNumberValue,
+  formatChartTicks,
   promisifiedDelay,
 } from "../../utils";
 import { getVictoryStyles } from "../../helpers/getVictoryStyles";
@@ -19,6 +18,7 @@ import * as S from "./styled";
 import { useAppSelector } from "../../hooks/use-store";
 import { getTradeHistory } from "../../api";
 import { TRADE_TIME_RANGES } from "../../constants/charts";
+import Loader from "../Loader";
 
 interface IHistoryItem {
   x: number;
@@ -91,88 +91,81 @@ function TradeHistory(): React.ReactElement {
 
   return (
     <S.TradeHistoryContainer ref={ref}>
-      {!!historyData.length && (
-        <>
-          <S.TradeHistoryOptionsBar>
-            <select value={selectedCoin} onChange={handleCoinSelection}>
-              {currenciesList.map(({ id, symbol }) => (
-                <option key={id} value={id}>
-                  {symbol}/{exchangeCurrency.id}
-                </option>
-              ))}
-            </select>
-            <S.ChartBtnGroup>
-              {TRADE_TIME_RANGES.map(({ value, label }) => (
-                <S.ChartButton
-                  key={value}
-                  value={value}
-                  className={cn({
-                    active: selectedRange === value,
-                  })}
-                  onClick={handleRangeSelection}
-                >
-                  {label}
-                </S.ChartButton>
-              ))}
-            </S.ChartBtnGroup>
-          </S.TradeHistoryOptionsBar>
-          <svg style={{ position: "absolute" }}>
-            <defs>
-              <linearGradient
-                id="positiveGradient"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#4DFFDF" />
-                <stop offset="100%" stopColor="#4DA1FF" />
-              </linearGradient>
-              <linearGradient
-                id="negativeGradient"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#E323FF" />
-                <stop offset="100%" stopColor="#7517F8" />
-              </linearGradient>
-            </defs>
-          </svg>
-          {!error && (
-            <VictoryChart
-              key={`${selectedCoin}-${selectedRange}`}
-              theme={VictoryTheme.material}
-              domainPadding={{ x: 110 }}
-              scale={{ x: "time" }}
-              width={width}
-              height={height}
-              containerComponent={
-                <VictoryZoomContainer style={styles.chartMT} />
-              }
+      <S.TradeHistoryOptionsBar>
+        <select value={selectedCoin} onChange={handleCoinSelection}>
+          {currenciesList.map(({ id, symbol }) => (
+            <option key={id} value={id}>
+              {symbol}/{exchangeCurrency.id}
+            </option>
+          ))}
+        </select>
+        <S.ChartBtnGroup>
+          {TRADE_TIME_RANGES.map(({ value, label }) => (
+            <S.ChartButton
+              key={value}
+              value={value}
+              className={cn({
+                active: selectedRange === value,
+              })}
+              onClick={handleRangeSelection}
             >
-              <VictoryAxis style={styles.axisMain} />
-              <VictoryAxis
-                dependentAxis
-                style={styles.axisDependent}
-                tickFormat={limitNumberValue}
-              />
-              <VictoryCandlestick
-                style={styles.candleStick}
-                candleColors={{
-                  positive: "url(#positiveGradient)",
-                  negative: "url(#negativeGradient)",
-                }}
-                data={historyData}
-              />
-            </VictoryChart>
-          )}
-          {error && <div>Data is currently unavailable!</div>}
-          {loading && <Disabler />}
-        </>
+              {label}
+            </S.ChartButton>
+          ))}
+        </S.ChartBtnGroup>
+      </S.TradeHistoryOptionsBar>
+      <svg style={{ position: "absolute" }}>
+        <defs>
+          <linearGradient
+            id="positiveGradient"
+            x1="0%"
+            y1="0%"
+            x2="0%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="#4DFFDF" />
+            <stop offset="100%" stopColor="#4DA1FF" />
+          </linearGradient>
+          <linearGradient
+            id="negativeGradient"
+            x1="0%"
+            y1="0%"
+            x2="0%"
+            y2="100%"
+          >
+            <stop offset="0%" stopColor="#E323FF" />
+            <stop offset="100%" stopColor="#7517F8" />
+          </linearGradient>
+        </defs>
+      </svg>
+      {!error && !loading && !!historyData.length && (
+        <VictoryChart
+          key={`${selectedCoin}-${selectedRange}`}
+          theme={VictoryTheme.material}
+          domainPadding={{ x: 110 }}
+          scale={{ x: "time" }}
+          width={width}
+          height={height}
+          containerComponent={<VictoryZoomContainer style={styles.chartMT} />}
+        >
+          <VictoryAxis style={styles.axisMain} />
+          <VictoryAxis
+            dependentAxis
+            style={styles.axisDependent}
+            tickFormat={formatChartTicks}
+          />
+          <VictoryCandlestick
+            style={styles.candleStick}
+            candleColors={{
+              positive: "url(#positiveGradient)",
+              negative: "url(#negativeGradient)",
+            }}
+            data={historyData}
+          />
+        </VictoryChart>
       )}
-      {!historyData.length && <div>Loading...</div>}
+      {error && <div>Data is currently unavailable!</div>}
+      {loading && <Loader height={`${height}px`} />}
     </S.TradeHistoryContainer>
   );
 }
