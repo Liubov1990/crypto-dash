@@ -92,13 +92,13 @@ function TradeHistory(): React.ReactElement {
   return (
     <S.TradeHistoryContainer ref={ref}>
       <S.TradeHistoryOptionsBar>
-        <select value={selectedCoin} onChange={handleCoinSelection}>
+        <S.TradeSelect value={selectedCoin} onChange={handleCoinSelection}>
           {currenciesList.map(({ id, symbol }) => (
-            <option key={id} value={id}>
+            <S.TradeOption key={id} value={id}>
               {symbol}/{exchangeCurrency.id}
-            </option>
+            </S.TradeOption>
           ))}
-        </select>
+        </S.TradeSelect>
         <S.ChartBtnGroup>
           {TRADE_TIME_RANGES.map(({ value, label }) => (
             <S.ChartButton

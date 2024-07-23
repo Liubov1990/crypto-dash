@@ -3,6 +3,8 @@ import {
   ChartContainer,
   ChartOptionsBar,
   FlexRowBetween,
+  Select,
+  Option,
 } from "../../styles/Common";
 import { Btn } from "../Button/styled";
 
@@ -24,11 +26,20 @@ export const ChartButton = styled(Btn)`
   width: 38px;
   height: 37px;
   padding: 0;
-  border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
+  font-family: ${({ theme }) => theme.fonts.interBold};
   background: ${({ theme }) => theme.sharedColors.sortBackground};
   color: ${({ theme }) => theme.sharedColors.textSecondary};
+  border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
 
   &.active {
     color: ${({ theme }) => theme.sharedColors.btnIcon};
   }
+`;
+
+export const TradeSelect = styled.select`
+  ${Select};
+`;
+
+export const TradeOption = styled.option`
+  ${Option};
 `;
