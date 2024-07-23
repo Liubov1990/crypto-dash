@@ -169,13 +169,16 @@ function MarketOverview(): React.ReactElement {
       {!!marketDataLength && (
         <>
           <S.MarketOptionsBar>
-            <select value={selectedRange} onChange={handleRangeSelection}>
+            <S.MarketSelect
+              value={selectedRange}
+              onChange={handleRangeSelection}
+            >
               {OVERVIEW_TIME_RANGES.map(({ value, label }) => (
-                <option key={value} value={value}>
+                <S.MarketOption key={value} value={value}>
                   {label}
-                </option>
+                </S.MarketOption>
               ))}
-            </select>
+            </S.MarketSelect>
           </S.MarketOptionsBar>
           {!error && (
             <VictoryChart

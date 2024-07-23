@@ -96,6 +96,31 @@ export const BtnWithSVG = styled(Btn)`
   }
 `;
 
+export const Select = css`
+  position: relative;
+  width: auto;
+  padding: 10px 13px;
+  font-family: ${({ theme }) => theme.fonts.interBold};
+  color: ${({ theme }) => theme.sharedColors.btnIcon};
+  background: ${({ theme }) => theme.sharedColors.sortBackground};
+  border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
+  border: none;
+  border-right: 10px solid ${({ theme }) => theme.sharedColors.selectBorder};
+  outline: none;
+  &::-ms-expand {
+    display: none;
+  }
+`;
+
+export const Option = css`
+  background-color: #232327;
+  &:not(:checked) {
+    font-family: ${({ theme }) => theme.fonts.interBold}, sans-serif;
+    color: ${({ theme }) => theme.sharedColors.textSecondary};
+    font-weight: 700;
+  }
+`;
+
 export const ChartContainer = css`
   height: 100%;
   padding-left: 10px;

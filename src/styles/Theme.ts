@@ -6,6 +6,7 @@ const defaultTheme = {
     textSecondary: "#868B93",
     price: "#9292C1",
     sortBackground: "rgba(26, 26, 29, 0.7)",
+    selectBorder: "rgba(26, 26, 29, 0)",
     stausUp: "#00C287",
     statusDown: "#E72D04",
     searchBackground: "#2F293E",

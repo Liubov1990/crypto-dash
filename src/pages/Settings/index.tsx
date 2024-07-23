@@ -113,15 +113,18 @@ function Settings() {
       <S.Fieldset>
         <S.Legend>Choose main exchange currency:</S.Legend>
 
-        <select value={selectedCurrency.id} onChange={handleCurrencySelection}>
+        <S.SettingsSelect
+          value={selectedCurrency.id}
+          onChange={handleCurrencySelection}
+        >
           {Object.entries(EXCHANGE_CURRENCIES_LIST).map(
             ([_currency, { id, symbol }]) => (
-              <option key={id} value={id}>
+              <S.SettingsOption key={id} value={id}>
                 {id} ({symbol})
-              </option>
+              </S.SettingsOption>
             )
           )}
-        </select>
+        </S.SettingsSelect>
       </S.Fieldset>
 
       <S.Fieldset>
@@ -146,13 +149,13 @@ function Settings() {
       <S.Fieldset>
         <S.Legend>Choose app theme:</S.Legend>
 
-        <select value={selectedTheme} onChange={handleThemeSelection}>
+        <S.SettingsSelect value={selectedTheme} onChange={handleThemeSelection}>
           {THEMES.map((theme) => (
-            <option key={theme} value={theme}>
+            <S.SettingsOption key={theme} value={theme}>
               {theme}
-            </option>
+            </S.SettingsOption>
           ))}
-        </select>
+        </S.SettingsSelect>
       </S.Fieldset>
 
       {!isMobileView && (

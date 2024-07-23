@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Btn } from "../../components/Button/styled";
+import { Select, Option } from "../../styles/Common";
 
 export const SettingsCoontainer = styled.section`
   max-width: 450px;
@@ -11,7 +12,7 @@ export const Fieldset = styled.fieldset`
   background: ${({ theme }) => theme.color.boxBackground};
   border-radius: ${({ theme }) => theme.borderRadius.large};
   border: 1px solid ${({ theme }) => theme.sharedColors.border};
-  padding: 10px 15px 15px 10px;
+  padding: 6px 15px 10px 10px;
   margin-bottom: 7px;
 `;
 
@@ -74,4 +75,12 @@ export const InputCheckbox = styled.input`
 
 export const SettingsBtn = styled(Btn)`
   margin-top: 10px;
+`;
+
+export const SettingsSelect = styled.select`
+  ${Select};
+`;
+
+export const SettingsOption = styled.option`
+  ${Option};
 `;

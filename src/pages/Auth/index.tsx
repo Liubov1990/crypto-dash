@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FieldError, useForm } from "react-hook-form";
+import { FieldError, Resolver, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { authFormSchema } from "../../helpers/authFormSchema";
+import { getAuthFormSchema } from "../../helpers/authFormSchema";
 import { app } from "../../services/firebase/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -31,7 +31,7 @@ interface IInputsMap {
 export interface IAuthForm {
   email: string;
   password: string;
-  repeatPassword?: string | undefined;
+  repeatPassword: string;
 }
 
 const initialValue: IAuthForm = {
@@ -50,6 +50,7 @@ function Auth() {
   const [authType, setAuthType] = useState<"login" | "sign-up">("login");
 
   const isLogin = authType === "login";
+  const authSchema = getAuthFormSchema(isLogin);
 
   const {
     register,
@@ -59,7 +60,7 @@ function Auth() {
     clearErrors,
   } = useForm<IAuthForm>({
     defaultValues: initialValue,
-    resolver: yupResolver(authFormSchema),
+    resolver: yupResolver(authSchema) as Resolver<IAuthForm, any>,
   });
 
   const inputsMap = [
@@ -105,78 +106,94 @@ function Auth() {
     navigate("/");
   };
 
+  const signUpWithEmail = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      if (user && user.email) {
+        addUserToCollection(user);
+
+        dispatch(
+          login({
+            email: user.email,
+            uid: user.uid,
+            photoURL: user.photoURL || null,
+            displayName: user.displayName,
+          })
+        );
+      }
+
+      return user;
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        const errorCode = error.code;
+
+        if (errorCode === "auth/email-already-in-use") {
+          alert("Email already exists!");
+        }
+
+        console.error("Error:", errorCode);
+      }
+    }
+  };
+
+  const loginWithEmail = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+
+      if (user && user.email) {
+        dispatch(
+          login({
+            email: user.email,
+            uid: user.uid,
+            photoURL: user.photoURL || null,
+            displayName: user.displayName,
+          })
+        );
+      }
+
+      return user;
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        const errorCode = error.code;
+
+        if (errorCode === "auth/user-not-found") {
+          alert("Sign up first!");
+        }
+
+        if (errorCode === "auth/invalid-credential") {
+          alert("Check your credentials!");
+        }
+
+        console.error("Error:", errorCode);
+      }
+    }
+  };
+
   const handleFormSubmit = async (data: IAuthForm) => {
     const { email, password } = data;
 
     if (!isLogin) {
-      try {
-        const { user } = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        if (user && user.email) {
-          addUserToCollection(user);
-
-          dispatch(
-            login({
-              email: user.email,
-              uid: user.uid,
-              photoURL: user.photoURL || null,
-              displayName: user.displayName,
-            })
-          );
-        }
-
-        return user;
-      } catch (error: unknown) {
-        if (error instanceof FirebaseError) {
-          const errorCode = error.code;
-
-          if (errorCode === "auth/email-already-in-use") {
-            alert("Email already exists!");
-          }
-
-          console.error("Error:", errorCode);
-        }
-      }
-    } else {
-      try {
-        const { user } = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        if (user && user.email) {
-          dispatch(
-            login({
-              email: user.email,
-              uid: user.uid,
-              photoURL: user.photoURL || null,
-              displayName: user.displayName,
-            })
-          );
-        }
-
-        return user;
-      } catch (error: unknown) {
-        if (error instanceof FirebaseError) {
-          const errorCode = error.code;
-
-          if (errorCode === "auth/user-not-found") {
-            alert("Sign up first!");
-          }
-
-          if (errorCode === "auth/invalid-credential") {
-            alert("Check your credentials!");
-          }
-
-          console.error("Error:", errorCode);
-        }
-      }
+      return signUpWithEmail({ email, password });
     }
+
+    loginWithEmail({ email, password });
   };
 
   const loginWithGoogle = async (): Promise<User | null> => {
@@ -251,22 +268,15 @@ function Auth() {
                 )
               : inputsMap
                   .filter((item) => item.fieldName !== "repeatPassword")
-                  .map(
-                    ({ typeName, example, fieldName, err, errMsg }, index) => (
-                      <S.InputContainer key={index}>
-                        <Input
-                          type={typeName}
-                          placeholder={example}
-                          {...register(fieldName)}
-                        />
-                        {{ err } ? (
-                          <S.ValidationError>{errMsg}</S.ValidationError>
-                        ) : (
-                          <></>
-                        )}
-                      </S.InputContainer>
-                    )
-                  )}
+                  .map(({ typeName, example, fieldName }, index) => (
+                    <S.InputContainer key={index}>
+                      <Input
+                        type={typeName}
+                        placeholder={example}
+                        {...register(fieldName)}
+                      />
+                    </S.InputContainer>
+                  ))}
           </div>
 
           <Button type="submit" $width="full">

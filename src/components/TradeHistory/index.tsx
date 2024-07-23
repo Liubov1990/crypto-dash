@@ -8,7 +8,6 @@ import {
   VictoryZoomContainer,
 } from "victory";
 import cn from "classnames";
-import Disabler from "../Disabler";
 import {
   convertChartHistoryData,
   limitNumberValue,
@@ -19,6 +18,7 @@ import * as S from "./styled";
 import { useAppSelector } from "../../hooks/use-store";
 import { getTradeHistory } from "../../api";
 import { TRADE_TIME_RANGES } from "../../constants/charts";
+import Loader from "../Loader";
 
 interface IHistoryItem {
   x: number;
@@ -94,13 +94,18 @@ function TradeHistory(): React.ReactElement {
       {!!historyData.length && (
         <>
           <S.TradeHistoryOptionsBar>
-            <select value={selectedCoin} onChange={handleCoinSelection}>
-              {currenciesList.map(({ id, symbol }) => (
-                <option key={id} value={id}>
-                  {symbol}/{exchangeCurrency.id}
-                </option>
-              ))}
-            </select>
+            <div>
+              <S.TradeSelect
+                value={selectedCoin}
+                onChange={handleCoinSelection}
+              >
+                {currenciesList.map(({ id, symbol }) => (
+                  <S.TradeOption key={id} value={id}>
+                    {symbol}/{exchangeCurrency.id}
+                  </S.TradeOption>
+                ))}
+              </S.TradeSelect>
+            </div>
             <S.ChartBtnGroup>
               {TRADE_TIME_RANGES.map(({ value, label }) => (
                 <S.ChartButton
@@ -169,10 +174,10 @@ function TradeHistory(): React.ReactElement {
             </VictoryChart>
           )}
           {error && <div>Data is currently unavailable!</div>}
-          {loading && <Disabler />}
+          {loading && <Loader />}
         </>
       )}
-      {!historyData.length && <div>Loading...</div>}
+      {!historyData.length && <Loader />}
     </S.TradeHistoryContainer>
   );
 }

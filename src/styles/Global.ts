@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
 
   * {
     box-sizing: border-box;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -15,15 +16,11 @@ const GlobalStyles = createGlobalStyle`
     font-size: ${({ theme }) => theme.fontSize.medium};
     color: ${({ theme }) => theme.color.textMain};
     background-color: ${({ theme }) => theme.color.mainBackground};
-    scrollbar-gutter: stable;
   }
 
   h1,
   h2,
   h3,
-  h4,
-  h5,
-  h6,
   p {
     margin: 0;
   }
@@ -52,19 +49,17 @@ const GlobalStyles = createGlobalStyle`
     object-fit: cover; 
   }
 
-  /* scroll bar*/
-
-  * {
-    scrollbar-width: auto;
-  }
+  /* scroll bar */
 
   *::-webkit-scrollbar {
     width: 8px;
     height: 8px;
+    color: #261E35;
   }
 
   *::-webkit-scrollbar-corner {
-    background: transparent;
+      background: transparent;
+      display: none;
   }
 
   *::-webkit-scrollbar-track {
@@ -72,8 +67,15 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.sharedColors.mainBackground};
-    border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
+      background: ${({ theme }) => theme.sharedColors.mainBackground};
+      border-radius: ${({ theme }) => theme.borderRadius.extraSmall} !important;
+  }
+
+  @-moz-document url-prefix() {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #261E35 transparent;
+    }
   }
 `;
 
