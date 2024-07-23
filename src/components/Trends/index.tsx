@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import cn from "classnames";
+import useResizeObserver from "use-resize-observer";
 import Loader from "../Loader";
 import * as S from "./styled";
 import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
@@ -15,6 +16,7 @@ const renderStatus = (percentage: number) => (
 );
 
 function Trends(): React.ReactElement {
+  const { ref, height = 1 } = useResizeObserver<HTMLDivElement>();
   const dispatch = useAppDispatch();
   const { currenciesList, exchangeCurrency } = useAppSelector(
     (state) => state.config
@@ -51,7 +53,7 @@ function Trends(): React.ReactElement {
   }, [getTrends]);
 
   return (
-    <S.TrandsContainer>
+    <S.TrandsContainer ref={ref}>
       <S.GridHeading>Name</S.GridHeading>
       <S.GridHeading>
         24h Average price({exchangeCurrency.symbol})
@@ -59,7 +61,7 @@ function Trends(): React.ReactElement {
       <S.GridHeading>24h Change(%)</S.GridHeading>
       {isLoading && !error && (
         <div style={{ gridColumn: "1/-1", textAlign: "center" }}>
-          <Loader />
+          <Loader height={`${height / 1.5}px`} />
         </div>
       )}
       {!isLoading && error && (

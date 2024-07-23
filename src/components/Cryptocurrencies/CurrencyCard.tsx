@@ -1,16 +1,19 @@
-import { Moment } from "moment";
 import { ReactElement, useEffect, useState } from "react";
+import { Moment } from "moment";
 import useResizeObserver from "use-resize-observer";
-import usePrevious from "../../hooks/use-prev";
-import axios from "axios";
 import cn from "classnames";
-import { convertMarketOverviewData, promisifiedDelay } from "../../utils";
 import { VictoryGroup, VictoryLine } from "victory";
+import usePrevious from "../../hooks/use-prev";
+import {
+  convertMarketOverviewData,
+  formatPrice,
+  promisifiedDelay,
+} from "../../utils";
 import { IGeneraDataItem } from "../../redux/slices/cryptoDataSlice";
 import { useAppSelector } from "../../hooks/use-store";
-import { COMPARE_API_KEY, COMPARE_HISTOHOUR_URL } from "../../constants/api";
 import Loader from "../Loader";
 import * as S from "./styles/CurrencyCard.styled";
+import { getMarketHourlyOverview } from "../../api";
 
 interface IMarketOverviewItem {
   x: Moment | number;
@@ -23,7 +26,7 @@ function CurrencyCard({
   current_price,
   position,
 }: IGeneraDataItem): ReactElement {
-  const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
+  const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
   const { id } = useAppSelector((state) => state.config.exchangeCurrency);
   const prevPrice = usePrevious(current_price);
   const [marketData, setMarketData] = useState<IMarketOverviewItem[]>([]);
@@ -37,19 +40,11 @@ function CurrencyCard({
     setLoading(true);
 
     try {
-      const res = await axios({
-        method: "get",
-        url: COMPARE_HISTOHOUR_URL,
-        params: {
-          api_key: COMPARE_API_KEY,
-          fsym: symbol,
-          tsym: id,
-          aggregate: 1,
-          limit: 12,
-        },
+      const dailyOverviewData = await getMarketHourlyOverview({
+        fromCurrency: symbol,
+        toCurrency: id,
       });
-      const { Data } = await res.data;
-      setMarketData(convertMarketOverviewData(Data.Data));
+      setMarketData(dailyOverviewData);
       setLoading(false);
     } catch (e) {
       console.error(e);
@@ -132,21 +127,14 @@ function CurrencyCard({
           <S.ArrowRightSVG>
             <use xlinkHref="svg/sprite.svg#arrow-right" />
           </S.ArrowRightSVG>
-          USD
+          {id}
         </span>
         {prevPrice && (
           <>
-            {current_price !== prevPrice && (
-              <span>
-                {Math.abs(
-                  ((current_price - prevPrice) / prevPrice) * 100
-                ).toFixed(5)}
-              </span>
-            )}
             <S.ArrowCircledSVG
               className={cn({
-                up: current_price > prevPrice,
-                down: current_price < prevPrice,
+                up: current_price < prevPrice,
+                down: current_price > prevPrice,
               })}
             >
               <use xlinkHref="svg/sprite.svg#circled-arrow" />
@@ -154,12 +142,12 @@ function CurrencyCard({
           </>
         )}
       </S.CoinBar>
-      <S.CurrentPrice>{Number(current_price).toFixed(4)}</S.CurrentPrice>
+      <S.CurrentPrice>{formatPrice(symbol, current_price)}</S.CurrentPrice>
       <div>
         {!error && !loading && (
           <VictoryGroup
             width={width}
-            height={height < 200 ? 200 : height}
+            height={200}
             domainPadding={{ y: [50, 0] }}
             color={vGroupColor}
           >
@@ -167,7 +155,7 @@ function CurrencyCard({
           </VictoryGroup>
         )}
         {error && <div>Data is currently unavailable!</div>}
-        {loading && <Loader />}
+        {loading && <Loader height="150px" />}
       </div>
     </S.CurrencyCard>
   );
