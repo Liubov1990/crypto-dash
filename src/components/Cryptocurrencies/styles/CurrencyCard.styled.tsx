@@ -13,7 +13,7 @@ export const CurrencyCard = styled(Card)`
   width: 100%;
   height: 155px;
   font-family: ${({ theme }) => theme.fonts.interSemiBold};
-  background: #4a435c;
+  background: ${({ theme }) => theme.color.boxInnerBackground};
   border: none;
   padding: 30px 0 15px;
   margin: 30px 10px 10px;
@@ -48,7 +48,7 @@ export const CurrentPrice = styled.span`
   position: absolute;
   top: 53px;
   font-size: 1rem;
-  color: ${({ theme }) => theme.sharedColors.btnIcon};
+  color: ${({ theme }) => theme.color.textMain};
   margin-left: 20px;
 `;
 

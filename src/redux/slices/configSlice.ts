@@ -4,7 +4,7 @@ import {
   EXCHANGE_CURRENCIES_LIST,
   CRYPTO_CURRENCIES_LIST,
 } from "../../constants/config";
-import { ThemeEnum } from "../../context/ThemeContext";
+import { ThemeEnum } from "../models";
 
 export interface IConfigState {
   currenciesList: Record<string, string>[];

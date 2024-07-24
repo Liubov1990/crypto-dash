@@ -15,19 +15,12 @@ import {
   setSerializedDockbox,
   setTheme,
 } from "../../redux/slices/configSlice";
-// import { GECKO_MARKETS_URL } from "../../constants/api";
-// import { fetchGeneralData } from "../../redux/slices/cryptoDataSlice";
 
 function Layout(): React.ReactNode {
   const auth = getAuth();
   const [isUserLoading, setisUserLoading] = useState<boolean>(true);
 
   const dispatch = useAppDispatch();
-  // const { currenciesList, exchangeCurrency } = useAppSelector(
-  //   (state) => state.config
-  // );
-  // const isLoading = useAppSelector((state) => state.cryptoData.isLoading);
-  // const isAppLoading = isUserLoading || isLoading;
 
   useEffect(() => {
     setisUserLoading(true);
@@ -60,14 +53,6 @@ function Layout(): React.ReactNode {
 
       setisUserLoading(false);
     });
-
-    // dispatch(
-    //   fetchGeneralData({
-    // url: GECKO_MARKETS_URL,
-    //     currenciesList: currenciesList.map(({ id }) => id).join(","),
-    //     exchangeCurrency: exchangeCurrency.id,
-    //   })
-    // );
   }, []);
 
   return (

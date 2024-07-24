@@ -14,9 +14,9 @@ import {
   EXCHANGE_CURRENCIES_LIST,
   THEMES,
 } from "../../constants/config";
-import { ThemeEnum } from "../../context/ThemeContext";
-import * as S from "./styled";
 import useIsMobileView from "../../hooks/use-is-mobile-view";
+import { ThemeEnum } from "../../redux/models";
+import * as S from "./styled";
 
 function Settings() {
   const navigate = useNavigate();

@@ -5,11 +5,11 @@ import {
   FlexColumnCenter,
   navBarSVG,
 } from "../../../styles/Common";
+import { device } from "../../../styles/BreakPoints";
 
 export const Nav = styled.nav`
   ${FlexColumnCenter};
   gap: 30px;
-  width: 100px;
 `;
 
 export const StyledNavLink = styled(NavLink)`
@@ -19,7 +19,7 @@ export const StyledNavLink = styled(NavLink)`
   &.active,
   &:hover {
     ${FlexCenter};
-    background: ${({ theme }) => theme.sharedColors.iconActiveBackground};
+    background: ${({ theme }) => theme.color.iconActiveBackground};
     svg {
       fill: ${({ theme }) => theme.sharedColors.iconActive};
     }
@@ -34,5 +34,15 @@ export const StyledNavLink = styled(NavLink)`
     width: 61px;
     height: 58px;
     text-align: center;
+
+    @media ${device.lg} {
+      width: 51px;
+      height: 48px;
+    }
+
+    @media ${device.sm} {
+      width: 41px;
+      height: 38px;
+    }
   }
 `;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BtnWithSVG, Card, FlexCenter, Transition } from "../../styles/Common";
+import { device } from "../../styles/BreakPoints";
 
 export const AuthContainer = styled.main`
   ${FlexCenter}
@@ -12,6 +13,14 @@ export const AbsBtnWithSVG = styled(BtnWithSVG)`
   position: absolute;
   top: 30px;
   right: 30px;
+
+  @media ${device.lg} {
+    top: 20px;
+    right: 20px;
+  }
+  @media ${device.sm} {
+    right: 10px;
+  }
 `;
 
 export const AuthCard = styled(Card)`
@@ -55,7 +64,7 @@ export const Divider = styled.div`
   hr {
     width: 100%;
     border: none;
-    border-top: 1px solid ${({ theme }) => theme.sharedColors.border};
+    border-top: 1px solid ${({ theme }) => theme.color.border};
   }
 
   span {

@@ -60,14 +60,12 @@ function Trends(): React.ReactElement {
       </S.GridHeading>
       <S.GridHeading>24h Change(%)</S.GridHeading>
       {isLoading && !error && (
-        <div style={{ gridColumn: "1/-1", textAlign: "center" }}>
+        <S.GridConcat>
           <Loader height={`${height / 1.5}px`} />
-        </div>
+        </S.GridConcat>
       )}
       {!isLoading && error && (
-        <div style={{ gridColumn: "1/-1", textAlign: "center" }}>
-          Data is currently unavailable!
-        </div>
+        <S.GridConcat>Data is currently unavailable!</S.GridConcat>
       )}
       {!isLoading &&
         !error &&

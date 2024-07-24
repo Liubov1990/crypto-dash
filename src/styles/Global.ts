@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import fontsCss from "./fonts.module.css";
 
 const GlobalStyles = createGlobalStyle`
- ${fontsCss} 
+ ${fontsCss};
 
   * {
     box-sizing: border-box;
@@ -10,12 +10,13 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    padding: 0;
-    margin: 0;
     font-family: ${({ theme }) => theme.fonts.interBold};
     font-size: ${({ theme }) => theme.fontSize.medium};
     color: ${({ theme }) => theme.color.textMain};
     background-color: ${({ theme }) => theme.color.mainBackground};
+    min-width: 375px;
+    padding: 0;
+    margin: 0;
   }
 
   h1,
