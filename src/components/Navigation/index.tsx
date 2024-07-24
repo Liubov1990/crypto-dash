@@ -5,10 +5,15 @@ import { logout } from "../../redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
 import NavList from "./NavList";
 import * as S from "./styles/styled";
-import { resetConfig } from "../../redux/slices/configSlice";
+import {
+  resetConfig,
+  setSerializedDockbox,
+} from "../../redux/slices/configSlice";
+import useIsMobileView from "../../hooks/use-is-mobile-view";
 
 function Navigation(): React.ReactNode {
   const navigate = useNavigate();
+  const isMobileView = useIsMobileView();
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const auth = getAuth(app);
@@ -34,13 +39,14 @@ function Navigation(): React.ReactNode {
         </Link>
       </S.Logo>
       <NavList />
-
       <S.ActionBtnsGroup>
-        <S.ResetBtn>
-          <svg>
-            <use xlinkHref="svg/sprite.svg#reset" />
-          </svg>
-        </S.ResetBtn>
+        {!isMobileView && (
+          <S.ResetBtn onClick={() => dispatch(setSerializedDockbox(null))}>
+            <svg>
+              <use xlinkHref="svg/sprite.svg#reset" />
+            </svg>
+          </S.ResetBtn>
+        )}
         {user && (
           <S.LogoutBtn onClick={signOutUser}>
             <svg>

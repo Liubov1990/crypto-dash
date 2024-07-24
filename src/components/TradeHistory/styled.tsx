@@ -20,6 +20,7 @@ export const TradeHistoryOptionsBar = styled.div`
 export const ChartBtnGroup = styled.div`
   display: flex;
   gap: 5px;
+  margin-left: 5px;
 `;
 
 export const ChartButton = styled(Btn)`

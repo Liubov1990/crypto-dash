@@ -1,12 +1,15 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/use-store";
 import Button from "../Button";
 import * as S from "./styled";
 
 function Header(): React.ReactNode {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
+
+  const isHome = location.pathname === "/";
+  const isSettings = location.pathname === "/settings";
 
   const userInitials =
     user?.displayName
@@ -20,7 +23,9 @@ function Header(): React.ReactNode {
 
   return (
     <S.StyledHeader>
-      <span>Home</span>
+      {isHome && <span>Home</span>}
+      {isSettings && <span>Settings</span>}
+
       <S.HeaderBar>
         {!user ? (
           <Button onClick={handleAuth} type="button">

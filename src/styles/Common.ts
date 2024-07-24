@@ -64,7 +64,7 @@ export const Input = styled.input`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.sharedColors.border};
+    color: ${({ theme }) => theme.color.border};
   }
 
   &:focus {
@@ -113,7 +113,7 @@ export const Select = css`
 `;
 
 export const Option = css`
-  background-color: #232327;
+  background-color: #484545;
   &:not(:checked) {
     font-family: ${({ theme }) => theme.fonts.interBold}, sans-serif;
     color: ${({ theme }) => theme.sharedColors.textSecondary};

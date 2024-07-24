@@ -11,7 +11,7 @@ export const SettingsCoontainer = styled.section`
 export const Fieldset = styled.fieldset`
   background: ${({ theme }) => theme.color.boxBackground};
   border-radius: ${({ theme }) => theme.borderRadius.large};
-  border: 1px solid ${({ theme }) => theme.sharedColors.border};
+  border: 1px solid ${({ theme }) => theme.color.border};
   padding: 6px 15px 10px 10px;
   margin-bottom: 7px;
 `;
@@ -69,7 +69,7 @@ export const InputCheckbox = styled.input`
   }
 
   &:checked + ${CheckBoxLabel} {
-    color: ${({ theme }) => theme.sharedColors.btnIcon};
+    color: ${({ theme }) => theme.color.textMain};
   }
 `;
 

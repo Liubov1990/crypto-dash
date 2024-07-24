@@ -1,22 +1,23 @@
-import "./styles.css";
+// import "./styles.css";
 
 import { CSSProperties } from "react";
 import DockLayout from "rc-dock";
 import useDockData from "../../hooks/use-dock-data";
+import * as S from "./styled";
 
 const ROOT_STYLES: CSSProperties = {
   position: "absolute",
   left: 0,
   top: 0,
   right: 0,
-  bottom: 0,
+  bottom: 20,
 };
 
 function Home(): React.ReactNode {
   const { dockbox, groups, loadTab, onDockboxChange } = useDockData();
 
   return (
-    <div className="home">
+    <S.ContainerForDockLayout className="dockLayoutContainer">
       <DockLayout
         key={`${groups.shared.maximizable}`}
         layout={dockbox}
@@ -25,7 +26,7 @@ function Home(): React.ReactNode {
         groups={groups}
         style={ROOT_STYLES}
       />
-    </div>
+    </S.ContainerForDockLayout>
   );
 }
 

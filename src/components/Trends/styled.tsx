@@ -18,7 +18,7 @@ export const TrandsContainer = styled.div`
   height: 100%;
   font-family: ${({ theme }) => theme.fonts.interRegular};
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.sharedColors.btnIcon};
+  color: ${({ theme }) => theme.color.textMain};
   overflow: auto;
 
   & > div {
@@ -37,6 +37,11 @@ export const GridHeading = styled.h3`
   white-space: nowrap;
   padding: 20px 24px;
   z-index: 1;
+`;
+
+export const GridConcat = styled.div`
+  gridcolumn: 1/-1;
+  textalign: center;
 `;
 
 export const Currency = styled.div`

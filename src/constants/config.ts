@@ -1,4 +1,4 @@
-import { ThemeEnum } from "../context/ThemeContext";
+import { ThemeEnum } from "../redux/models";
 
 export const EXCHANGE_CURRENCIES_LIST = {
   USD: {
