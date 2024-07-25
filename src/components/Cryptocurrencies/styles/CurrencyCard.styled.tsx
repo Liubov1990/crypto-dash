@@ -50,17 +50,27 @@ export const CurrentPrice = styled.span`
   font-size: 1rem;
   color: ${({ theme }) => theme.color.textMain};
   margin-left: 20px;
+
+  &.positive {
+    color: #e72d04;
+    text-shadow: 1px 1px black;
+  }
+
+  &.negative {
+    color: #00c287;
+    text-shadow: 1px 1px black;
+  }
 `;
 
 export const ArrowCircledSVG = styled.svg`
   width: 16px;
   height: 17px;
 
-  &.up {
+  &.positive {
     --fill-color: #e72d04;
   }
 
-  &.down {
+  &.negative {
     --fill-color: #00c287;
     transform: rotate(180deg);
   }

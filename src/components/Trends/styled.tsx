@@ -15,6 +15,7 @@ export const AngleSVG = styled.svg`
 export const TrandsContainer = styled.div`
   display: grid;
   grid-template-columns: 3fr 2fr 1fr;
+  grid-auto-rows: 48px;
   height: 100%;
   font-family: ${({ theme }) => theme.fonts.interRegular};
   font-size: 0.75rem;
