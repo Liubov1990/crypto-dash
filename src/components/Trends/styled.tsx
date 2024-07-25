@@ -40,8 +40,8 @@ export const GridHeading = styled.h3`
 `;
 
 export const GridConcat = styled.div`
-  gridcolumn: 1/-1;
-  textalign: center;
+  grid-column: 1/-1;
+  text-align: center;
 `;
 
 export const Currency = styled.div`

@@ -4,12 +4,15 @@ import { useAppSelector } from "../../hooks/use-store";
 // import { COMPARE_STREAMING_URL } from "../../constants/api";
 import * as S from "./styles/styled";
 import { convertGeneralCryptoData } from "../../utils";
+import Loader from "../Loader";
 
 function Cryptocurrencies(): ReactElement {
   // const { currenciesList, exchangeCurrency } = useAppSelector(
   //   (state) => state.config
   // );
-  const { data } = useAppSelector((state) => state.cryptoData);
+  const { data, isLoading, error } = useAppSelector(
+    (state) => state.cryptoData
+  );
   const [cryptoData, setCryptoData] = useState<any>({});
 
   const getElementOrder = useCallback(
@@ -56,15 +59,20 @@ function Cryptocurrencies(): ReactElement {
 
   return (
     <S.CurrencyContainer>
-      {Object.entries(cryptoData).map(
-        ([currency, currencyData]: any, index) => (
-          <CurrencyCard
-            key={currency}
-            position={getElementOrder(index)}
-            {...currencyData}
-          />
-        )
-      )}
+      {!isLoading &&
+        !error &&
+        data.length &&
+        Object.entries(cryptoData).map(
+          ([currency, currencyData]: any, index) => (
+            <CurrencyCard
+              key={currency}
+              position={getElementOrder(index)}
+              {...currencyData}
+            />
+          )
+        )}
+      {isLoading && !data.length && <Loader />}
+      {!isLoading && !data.length && error && <div>Data is not available</div>}
     </S.CurrencyContainer>
   );
 }

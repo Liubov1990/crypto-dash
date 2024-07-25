@@ -9,15 +9,21 @@ import {
   formatPrice,
   promisifiedDelay,
 } from "../../utils";
-import { IGeneraDataItem } from "../../redux/slices/cryptoDataSlice";
+import { IGeneralDataItem } from "../../redux/slices/cryptoDataSlice";
 import { useAppSelector } from "../../hooks/use-store";
 import Loader from "../Loader";
 import * as S from "./styles/CurrencyCard.styled";
 import { getMarketHourlyOverview } from "../../api";
+import { MARKET_OVERVIEW_HOURLY_MOCK } from "../../mocks/market-overview";
+import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
 
 interface IMarketOverviewItem {
   x: Moment | number;
   y: number;
+}
+
+interface ICurrencyCardProps extends IGeneralDataItem {
+  position: string;
 }
 
 function CurrencyCard({
@@ -25,7 +31,7 @@ function CurrencyCard({
   symbol,
   current_price,
   position,
-}: IGeneraDataItem): ReactElement {
+}: ICurrencyCardProps): ReactElement {
   const { ref, width = 1 } = useResizeObserver<HTMLDivElement>();
   const { id } = useAppSelector((state) => state.config.exchangeCurrency);
   const prevPrice = usePrevious(current_price);
@@ -56,64 +62,22 @@ function CurrencyCard({
   const getMockOverview = async () => {
     setLoading(true);
     await promisifiedDelay(1000);
-    setMarketData(
-      convertMarketOverviewData([
-        {
-          time: 1721329200,
-          close: 63545.86,
-        },
-        {
-          time: 1721332800,
-          close: 63819.3,
-        },
-        {
-          time: 1721336400,
-          close: 63838.59,
-        },
-        {
-          time: 1721340000,
-          close: 64022.45,
-        },
-        {
-          time: 1721343600,
-          close: 63981.43,
-        },
-        {
-          time: 1721347200,
-          close: 63594.29,
-        },
-        {
-          time: 1721350800,
-          close: 63804.41,
-        },
-        {
-          time: 1721354400,
-          close: 63818.92,
-        },
-        {
-          time: 1721358000,
-          close: 64318.7,
-        },
-        {
-          time: 1721361600,
-          close: 64143.66,
-        },
-        {
-          time: 1721365200,
-          close: 64164.28,
-        },
-        {
-          time: 1721368800,
-          close: 64208.81,
-        },
-      ])
-    );
+    setMarketData(convertMarketOverviewData(MARKET_OVERVIEW_HOURLY_MOCK));
     setLoading(false);
   };
 
   useEffect(() => {
     // getDailyOverview();
     getMockOverview();
+
+    const interval = setInterval(() => {
+      // getDailyOverview();
+      getMockOverview();
+    }, REFRESH_CHART_INTERVAL);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [symbol]);
 
   return (
