@@ -12,7 +12,7 @@ export const FlexColumnCenter = css`
 `;
 
 export const FlexCenter = css`
-  ${FlexColumnCenter}
+  ${FlexColumnCenter};
   justify-content: center;
 `;
 
@@ -35,10 +35,6 @@ export const RelativeContainer = css`
   ${FlexColumnCenter};
   position: relative;
   width: 100%;
-`;
-
-export const Transition = css`
-  transition: color 0.3s ease-in-out;
 `;
 
 export const Input = styled.input`
@@ -76,9 +72,10 @@ export const Input = styled.input`
 export const navBarSVG = css`
   width: 21px;
   height: 23px;
-  fill: ${({ theme }) => theme.sharedColors.icon};
+  fill: ${({ theme }) => theme.color.navBarSvg};
+
   &:hover {
-    fill: ${({ theme }) => theme.sharedColors.iconActive};
+    fill: ${({ theme }) => theme.color.navBarSvgActive};
   }
 `;
 
@@ -107,6 +104,7 @@ export const Select = css`
   border: none;
   border-right: 10px solid ${({ theme }) => theme.sharedColors.selectBorder};
   outline: none;
+
   &::-ms-expand {
     display: none;
   }
@@ -114,6 +112,7 @@ export const Select = css`
 
 export const Option = css`
   background-color: #484545;
+
   &:not(:checked) {
     font-family: ${({ theme }) => theme.fonts.interBold}, sans-serif;
     color: ${({ theme }) => theme.sharedColors.textSecondary};

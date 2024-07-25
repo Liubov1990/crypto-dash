@@ -66,7 +66,11 @@ function Settings() {
       const filteredList = checkedCurrenciesList.filter(
         (currency) => currency.id !== id
       );
-      setCheckedCurrenciesList(filteredList);
+      if (filteredList.length) {
+        setCheckedCurrenciesList(filteredList);
+      } else {
+        alert("You should keep at least one currency");
+      }
     }
   };
 

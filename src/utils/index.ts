@@ -29,4 +29,4 @@ export const formatPrice = (currency: string, price: number) =>
   )(price);
 
 export const formatFullDate = (timestamp: string) =>
-  moment(timestamp).format("LLL");
+  moment(timestamp).format("MMMM Do YYYY");

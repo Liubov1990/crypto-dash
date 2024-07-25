@@ -14,14 +14,14 @@ export const Nav = styled.nav`
 
 export const StyledNavLink = styled(NavLink)`
   border-radius: ${({ theme }) => theme.borderRadius.small};
-  transition: background ${({ theme }) => theme.transitionTime.quick};
+  transition: background 0.2s ease-in;
 
   &.active,
   &:hover {
     ${FlexCenter};
     background: ${({ theme }) => theme.color.iconActiveBackground};
     svg {
-      fill: ${({ theme }) => theme.sharedColors.iconActive};
+      fill: ${({ theme }) => theme.color.navBarSvgActive};
     }
   }
 

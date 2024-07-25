@@ -1,13 +1,9 @@
-import { Outlet } from "react-router-dom";
-import Header from "../Header";
-import Navigation from "../Navigation";
-import * as S from "./styled";
 import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getUserConfig } from "../../services/firebase/db";
 import { useAppDispatch } from "../../hooks/use-store";
 import { login } from "../../redux/slices/authSlice";
-import Loader from "../Loader";
-import { getUserConfig } from "../../services/firebase/db";
 import {
   setCurrenciesList,
   setExchangeCurrency,
@@ -15,12 +11,16 @@ import {
   setSerializedDockbox,
   setTheme,
 } from "../../redux/slices/configSlice";
+import Header from "../Header";
+import Navigation from "../Navigation";
+import Loader from "../Loader";
+import * as S from "./styled";
 
 function Layout(): React.ReactNode {
   const auth = getAuth();
-  const [isUserLoading, setisUserLoading] = useState<boolean>(true);
-
   const dispatch = useAppDispatch();
+
+  const [isUserLoading, setisUserLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setisUserLoading(true);
@@ -40,10 +40,9 @@ function Layout(): React.ReactNode {
         if (config) {
           const { currenciesList, exchangeCurrency, theme, serializedDockbox } =
             config;
-          dispatch(setCurrenciesList(currenciesList));
-          dispatch(setExchangeCurrency(exchangeCurrency));
-          dispatch(setTheme(theme));
-
+          if (currenciesList) dispatch(setCurrenciesList(currenciesList));
+          if (exchangeCurrency) dispatch(setExchangeCurrency(exchangeCurrency));
+          if (theme) dispatch(setTheme(theme));
           if (serializedDockbox) {
             dispatch(setSerializedDockbox(serializedDockbox));
             dispatch(setPersistentDocbox(true));

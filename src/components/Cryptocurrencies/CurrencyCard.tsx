@@ -11,9 +11,9 @@ import {
 } from "../../utils";
 import { IGeneraDataItem } from "../../redux/slices/cryptoDataSlice";
 import { useAppSelector } from "../../hooks/use-store";
+import { getMarketHourlyOverview } from "../../api";
 import Loader from "../Loader";
 import * as S from "./styles/CurrencyCard.styled";
-import { getMarketHourlyOverview } from "../../api";
 
 interface IMarketOverviewItem {
   x: Moment | number;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BtnWithSVG, Card, FlexCenter, Transition } from "../../styles/Common";
+import { BtnWithSVG, Card, FlexCenter } from "../../styles/Common";
 import { device } from "../../styles/BreakPoints";
 
 export const AuthContainer = styled.main`
@@ -18,6 +18,7 @@ export const AbsBtnWithSVG = styled(BtnWithSVG)`
     top: 20px;
     right: 20px;
   }
+
   @media ${device.sm} {
     right: 10px;
   }
@@ -55,9 +56,10 @@ export const Divider = styled.div`
   &:last-child {
     margin-bottom: 0;
     cursor: pointer;
+    transition: color 0.3s ease-in-out;
+
     &:hover {
       color: ${({ theme }) => theme.sharedColors.searchText};
-      ${Transition};
     }
   }
 
@@ -79,10 +81,11 @@ export const SignOption = styled.div`
 `;
 
 export const AccentLink = styled.span`
+  transition: color 0.3s ease-in-out;
+
   &:hover {
     text-decoration: underline;
     color: ${({ theme }) => theme.sharedColors.accentColor};
     cursor: pointer;
-    ${Transition};
   }
 `;

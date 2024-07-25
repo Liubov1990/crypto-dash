@@ -3,10 +3,10 @@ import { FlexCenter, FlexRowBetween } from "../../styles/Common";
 import { device } from "../../styles/BreakPoints";
 
 export const StyledHeader = styled.header`
-  ${FlexRowBetween}
-  padding: 30px;
+  ${FlexRowBetween};
   width: 100%;
   max-height: 100px;
+  padding: 30px;
 
   @media ${device.lg} {
     max-height: 80px;
@@ -24,11 +24,11 @@ export const HeaderBar = styled.div`
 `;
 
 export const UserProfileImg = styled.div`
+  color: ${({ theme }) => theme.sharedColors.btnIcon};
   padding: 5px;
 
   & > div {
     ${FlexCenter};
-
     width: 47px;
     height: 47px;
     border-radius: ${({ theme }) => theme.borderRadius.circle};
