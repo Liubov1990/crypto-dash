@@ -11,11 +11,11 @@ import {
 } from "../../utils";
 import { IGeneralDataItem } from "../../redux/slices/cryptoDataSlice";
 import { useAppSelector } from "../../hooks/use-store";
-import Loader from "../Loader";
-import * as S from "./styles/CurrencyCard.styled";
 import { getMarketHourlyOverview } from "../../api";
 import { MARKET_OVERVIEW_HOURLY_MOCK } from "../../mocks/market-overview";
 import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
+import Loader from "../Loader";
+import * as S from "./styles/CurrencyCard.styled";
 
 interface IMarketOverviewItem {
   x: Moment | number;

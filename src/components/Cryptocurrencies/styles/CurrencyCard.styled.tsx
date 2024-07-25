@@ -32,7 +32,7 @@ export const CoinBar = styled.div`
   ${ChartOptionsBar}
   ${FlexRowBetween}
   top: 30px;
-  color: ${({ theme }) => theme.sharedColors.textSecondary};
+  color: ${({ theme }) => theme.sharedColors.btnIcon};
   text-transform: uppercase;
 `;
 

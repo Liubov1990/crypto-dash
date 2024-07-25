@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexColumn, FlexRowBetween, Transition } from "../../styles/Common";
+import { FlexColumn, FlexRowBetween } from "../../styles/Common";
 import { device } from "../../styles/BreakPoints";
 
 export const NewsContainer = styled.div`
@@ -56,8 +56,9 @@ export const Title = styled.h3`
   font-size: clamp(14px, 2vw, 16px);
   line-height: 1.1;
   color: ${({ theme }) => theme.sharedColors.searchText};
-  ${Transition};
+  text-shadow: 1px 1px black;
   margin-bottom: 20px;
+  transition: color 0.3s ease-in-out;
 
   &:hover {
     color: ${({ theme }) => theme.sharedColors.accentLight};
@@ -79,14 +80,13 @@ export const Info = styled.div`
 
 export const Time = styled.time`
   ${FlexRowBetween};
-  color: ${({ theme }) => theme.sharedColors.textSecondary};
+  color: ${({ theme }) => theme.color.articleTime};
   margin-right: 15px;
   margin-top: 5px;
 `;
 
 export const Categories = styled.div`
   ${FlexRowBetween};
-  /* flex-wrap: wrap; */
   gap: 7px;
   margin-top: 5px;
 
