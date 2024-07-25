@@ -13,14 +13,19 @@ import {
   formatFullDate,
   promisifiedDelay,
 } from "../../utils";
-import moment, { Moment } from "moment";
+import { Moment } from "moment";
 import useResizeObserver from "use-resize-observer";
 import * as S from "./styled";
 import { getVictoryStyles } from "../../helpers/getVictoryStyles";
 import { useAppSelector } from "../../hooks/use-store";
-import { OVERVIEW_TIME_RANGES, PALLETE } from "../../constants/charts";
+import {
+  OVERVIEW_TIME_RANGES,
+  PALLETE,
+  REFRESH_CHART_INTERVAL,
+} from "../../constants/charts";
 import { getMarketDailyOverview } from "../../api";
 import Loader from "../Loader";
+import { MARKET_OVERVIEW_DAILY_MOCK } from "../../mocks/market-overview";
 
 const VictoryCursorVoronoiContainer = createContainer(
   "voronoi",
@@ -84,76 +89,7 @@ function MarketOverview(): React.ReactElement {
   const getMockOverview = async () => {
     setLoading(true);
     await promisifiedDelay(500);
-    setMarketData({
-      ETH: [
-        {
-          x: moment("2024-07-11T00:00:00.000Z"),
-          y: 3099.49,
-        },
-        {
-          x: moment("2024-07-12T00:00:00.000Z"),
-          y: 3134.62,
-        },
-        {
-          x: moment("2024-07-13T00:00:00.000Z"),
-          y: 3176.67,
-        },
-        {
-          x: moment("2024-07-14T00:00:00.000Z"),
-          y: 3246.12,
-        },
-        {
-          x: moment("2024-07-15T00:00:00.000Z"),
-          y: 3485.5,
-        },
-        {
-          x: moment("2024-07-16T00:00:00.000Z"),
-          y: 3446.19,
-        },
-        {
-          x: moment("2024-07-17T00:00:00.000Z"),
-          y: 3387.66,
-        },
-        {
-          x: moment("2024-07-18T00:00:00.000Z"),
-          y: 3399.69,
-        },
-      ],
-      BTC: [
-        {
-          x: moment("2024-07-11T00:00:00.000Z"),
-          y: 57348.75,
-        },
-        {
-          x: moment("2024-07-12T00:00:00.000Z"),
-          y: 57913.68,
-        },
-        {
-          x: moment("2024-07-13T00:00:00.000Z"),
-          y: 59231.06,
-        },
-        {
-          x: moment("2024-07-14T00:00:00.000Z"),
-          y: 60818.77,
-        },
-        {
-          x: moment("2024-07-15T00:00:00.000Z"),
-          y: 64765.55,
-        },
-        {
-          x: moment("2024-07-16T00:00:00.000Z"),
-          y: 65087.61,
-        },
-        {
-          x: moment("2024-07-17T00:00:00.000Z"),
-          y: 64096.64,
-        },
-        {
-          x: moment("2024-07-18T00:00:00.000Z"),
-          y: 63555.09,
-        },
-      ],
-    });
+    setMarketData(MARKET_OVERVIEW_DAILY_MOCK);
     setLoading(false);
   };
 
@@ -166,6 +102,15 @@ function MarketOverview(): React.ReactElement {
   useEffect(() => {
     getMockOverview();
     // getMarketsOverviewData();
+
+    const interval = setInterval(() => {
+      getMockOverview();
+      // getMarketsOverviewData();
+    }, REFRESH_CHART_INTERVAL);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [selectedRange]);
 
   return (

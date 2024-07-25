@@ -24,3 +24,5 @@ export const PALLETE = [
   "#f9d637",
   "#48174d",
 ];
+
+export const REFRESH_CHART_INTERVAL = 1800000;
