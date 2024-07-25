@@ -163,10 +163,4 @@ export const ContainerForDockLayout = styled.section`
         transparent;
     }
   }
-
-  /* body > .dragging-layer > .dragging {
-    padding: 7px;
-    text-align: center;
-    color: #261e35;
-  } */
 `;

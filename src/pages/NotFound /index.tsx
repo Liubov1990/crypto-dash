@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { BtnWithSVG } from "../../styles/Common";
 import * as S from "./styled";
 
-function Error(): React.ReactNode {
+function Error(): ReactNode {
   const navigate = useNavigate();
 
   const handleReturnHome = () => {

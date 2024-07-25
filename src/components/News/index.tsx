@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { ReactNode, useEffect, useState } from "react";
 import moment from "moment";
 import { promisifiedDelay } from "../../utils";
+import { getNews } from "../../api";
+import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
+import { NEWS_MOCK } from "../../mocks/news";
+import ErrorMessage from "../ErrorMessage";
 import Loader from "../Loader";
 import * as S from "./styled";
-import { COMPARE_API_KEY, COMPARE_NEWS_URL } from "../../constants/api";
-import { NEWS_MOCK } from "../../mocks/news";
-import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
 
 type NewsItem = {
   id: string;
@@ -29,25 +29,18 @@ type NewsItem = {
   source: string;
 };
 
-function News(): React.ReactNode {
+function News(): ReactNode {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const getNews = async () => {
+  const getNewsData = async () => {
     setError(false);
     setLoading(true);
 
     try {
-      const res = await axios({
-        method: "get",
-        url: COMPARE_NEWS_URL,
-        params: {
-          api_key: COMPARE_API_KEY,
-        },
-      });
-      const { Data } = await res.data;
-      setNews(Data);
+      const news = await getNews();
+      setNews(news);
       setLoading(false);
     } catch (e) {
       console.error(e);
@@ -67,11 +60,11 @@ function News(): React.ReactNode {
     moment.unix(timestamp).format("MMMM Do YYYY, h:mm a");
 
   useEffect(() => {
-    // getNews();
+    // getNewsData();
     getMockedNews();
 
     const interval = setInterval(() => {
-      // getNews();
+      // getNewsData();
       getMockedNews();
     }, REFRESH_CHART_INTERVAL);
 
@@ -80,13 +73,9 @@ function News(): React.ReactNode {
     };
   }, []);
 
-  if (error) {
-    return <div>News are not available at the moment</div>;
-  }
-
   return (
     <S.NewsContainer>
-      {news.map(
+      {news?.map(
         ({ id, imageurl, title, url, categories, published_on, body }) => (
           <S.Article key={id}>
             <S.ImgContainer>
@@ -118,6 +107,7 @@ function News(): React.ReactNode {
         )
       )}
       {loading && <Loader />}
+      {error && <ErrorMessage />}
     </S.NewsContainer>
   );
 }

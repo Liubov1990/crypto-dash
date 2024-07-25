@@ -10,8 +10,7 @@ export const ErrorSection = styled.section`
   ${RelativeContainer};
   justify-content: center;
   height: 100%;
-  /* color: ${({ theme }) => theme.sharedColors.searchText}; */
-
+  color: ${({ theme }) => theme.sharedColors.searchText};
   padding: 10px;
   overflow: hidden;
 

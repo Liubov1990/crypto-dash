@@ -1,6 +1,6 @@
 // import "./styles.css";
 
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import DockLayout from "rc-dock";
 import useDockData from "../../hooks/use-dock-data";
 import * as S from "./styled";
@@ -13,7 +13,7 @@ const ROOT_STYLES: CSSProperties = {
   bottom: 20,
 };
 
-function Home(): React.ReactNode {
+function Home(): ReactNode {
   const { dockbox, groups, loadTab, onDockboxChange } = useDockData();
 
   return (

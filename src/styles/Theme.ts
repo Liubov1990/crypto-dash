@@ -11,10 +11,6 @@ const defaultTheme = {
     statusDown: "#E72D04",
     searchBackground: "#2F293E",
     searchText: "#E2D8FD",
-
-    icon: "#8D8598",
-    iconActive: "#D8BCFF",
-
     btnIcon: "#ffffff",
     accentColor: "#EC5EB7",
     accentLight: "#B783EB",
@@ -52,7 +48,6 @@ const darktheme = {
   iconActiveBackground: "#372C44",
   border: "rgba(255, 255, 255, 0.5)",
   articleTime: "#868B93",
-
   navBarSvg: "#8D8598",
   navBarSvgActive: "#D8BCFF",
 };
@@ -66,7 +61,6 @@ const lightTheme = {
   iconActiveBackground: "#a7a7a7",
   border: "#a7a7a7",
   articleTime: "#535353",
-
   navBarSvg: "#8D8598",
   navBarSvgActive: "#EC5EB7",
 };

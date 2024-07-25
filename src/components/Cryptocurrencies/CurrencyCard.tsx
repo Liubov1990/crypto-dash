@@ -15,6 +15,7 @@ import { getMarketHourlyOverview } from "../../api";
 import { MARKET_OVERVIEW_HOURLY_MOCK } from "../../mocks/market-overview";
 import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
 import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
 import * as S from "./styles/CurrencyCard.styled";
 
 interface IMarketOverviewItem {
@@ -39,7 +40,11 @@ function CurrencyCard({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const vGroupColor = position === "even" ? "#4DFFDF" : "#E323FF";
+  const BLUE_GREEN = "#4DFFDF";
+  const VIOLET = "#E323FF";
+  const vGroupColor = position === "even" ? BLUE_GREEN : VIOLET;
+
+  const isVictoryGroup = !error && !loading;
 
   const getDailyOverview = async () => {
     setError(false);
@@ -108,7 +113,7 @@ function CurrencyCard({
       </S.CoinBar>
       <S.CurrentPrice>{formatPrice(symbol, current_price)}</S.CurrentPrice>
       <div>
-        {!error && !loading && (
+        {isVictoryGroup && (
           <VictoryGroup
             width={width}
             height={200}
@@ -118,8 +123,8 @@ function CurrencyCard({
             <VictoryLine data={marketData} />
           </VictoryGroup>
         )}
-        {error && <div>Data is currently unavailable!</div>}
         {loading && <Loader height="150px" />}
+        {error && <ErrorMessage />}
       </div>
     </S.CurrencyCard>
   );

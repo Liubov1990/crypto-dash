@@ -1,9 +1,10 @@
+import { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/use-store";
 import Button from "../Button";
 import * as S from "./styled";
 
-function Header(): React.ReactNode {
+function Header(): ReactNode {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);

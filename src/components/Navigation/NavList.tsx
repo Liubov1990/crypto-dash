@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import { useAppSelector } from "../../hooks/use-store";
 import * as S from "./styles/Navlist.styled";
 
-function NavList(): React.ReactNode {
+function NavList(): ReactNode {
   const { user } = useAppSelector((state) => state.auth);
 
   return (

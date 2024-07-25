@@ -1,8 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from "react";
-import cn from "classnames";
+import { Fragment, ReactNode, useCallback, useEffect, useMemo } from "react";
 import useResizeObserver from "use-resize-observer";
-import Loader from "../Loader";
-import * as S from "./styled";
+import cn from "classnames";
 import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
 import {
   fetchGeneralData,
@@ -12,6 +10,9 @@ import {
 import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
 import { promisifiedDelay } from "../../utils";
 import { TRENDS_MOCK } from "../../mocks/trends";
+import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
+import * as S from "./styled";
 
 const renderStatus = (percentage: number) => (
   <S.AngleSVG className={cn({ up: Math.sign(percentage) === -1 })}>
@@ -19,7 +20,7 @@ const renderStatus = (percentage: number) => (
   </S.AngleSVG>
 );
 
-function Trends(): React.ReactElement {
+function Trends(): ReactNode {
   const { ref, height = 1 } = useResizeObserver<HTMLDivElement>();
   const dispatch = useAppDispatch();
   const { currenciesList, exchangeCurrency } = useAppSelector(
@@ -32,6 +33,10 @@ function Trends(): React.ReactElement {
     () => currenciesList.map(({ id }) => id).join(","),
     [currenciesList]
   );
+
+  const isContent = !isLoading && !error;
+  const isError = !isLoading && error;
+  const isShowLoader = isLoading && !error;
 
   const getTrends = useCallback(
     () =>
@@ -70,16 +75,7 @@ function Trends(): React.ReactElement {
         24h Average price({exchangeCurrency.symbol})
       </S.GridHeading>
       <S.GridHeading>24h Change(%)</S.GridHeading>
-      {isLoading && !error && (
-        <S.GridConcat>
-          <Loader height={`${height / 1.5}px`} />
-        </S.GridConcat>
-      )}
-      {!isLoading && error && (
-        <S.GridConcat>Data is currently unavailable!</S.GridConcat>
-      )}
-      {!isLoading &&
-        !error &&
+      {isContent &&
         data.map(
           ({
             id,
@@ -88,7 +84,7 @@ function Trends(): React.ReactElement {
             current_price,
             price_change_percentage_24h,
           }: IGeneralDataItem) => (
-            <React.Fragment key={id}>
+            <Fragment key={id}>
               <S.Currency>
                 {symbol} <span>{name}</span>
               </S.Currency>
@@ -97,9 +93,19 @@ function Trends(): React.ReactElement {
                 {Math.abs(price_change_percentage_24h)}
                 <span>{renderStatus(price_change_percentage_24h)}</span>
               </S.Change>
-            </React.Fragment>
+            </Fragment>
           )
         )}
+      {isShowLoader && (
+        <S.GridConcat>
+          <Loader height={`${height / 1.5}px`} />
+        </S.GridConcat>
+      )}
+      {isError && (
+        <S.GridConcat>
+          <ErrorMessage />
+        </S.GridConcat>
+      )}
     </S.TrandsContainer>
   );
 }

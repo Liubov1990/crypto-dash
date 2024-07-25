@@ -3,7 +3,7 @@ import { BtnWithSVG, Card, FlexCenter } from "../../styles/Common";
 import { device } from "../../styles/BreakPoints";
 
 export const AuthContainer = styled.main`
-  ${FlexCenter}
+  ${FlexCenter};
   position: relative;
   height: 100vh;
   padding: 10px;
