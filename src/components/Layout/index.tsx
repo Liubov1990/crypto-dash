@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserConfig } from "../../services/firebase/db";
@@ -16,7 +16,7 @@ import Navigation from "../Navigation";
 import Loader from "../Loader";
 import * as S from "./styled";
 
-function Layout(): React.ReactNode {
+function Layout(): ReactNode {
   const auth = getAuth();
   const dispatch = useAppDispatch();
 

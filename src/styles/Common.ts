@@ -37,6 +37,12 @@ export const RelativeContainer = css`
   width: 100%;
 `;
 
+export const Wrap = css`
+  ${FlexCenter};
+  background-color: transparent;
+  width: 100%;
+`;
+
 export const Input = styled.input`
   width: 100%;
   height: 47px;

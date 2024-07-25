@@ -1,10 +1,11 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import CurrencyCard from "./CurrencyCard";
 import { useAppSelector } from "../../hooks/use-store";
 // import { COMPARE_STREAMING_URL } from "../../constants/api";
-import * as S from "./styles/styled";
 import { convertGeneralCryptoData } from "../../utils";
+import CurrencyCard from "./CurrencyCard";
 import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
+import * as S from "./styles/styled";
 
 function Cryptocurrencies(): ReactElement {
   // const { currenciesList, exchangeCurrency } = useAppSelector(
@@ -19,6 +20,10 @@ function Cryptocurrencies(): ReactElement {
     (order: number) => (order % 2 === 0 ? "even" : "odd"),
     []
   );
+
+  const isContent = !isLoading && !error && data.length;
+  const isLoader = isLoading && !data.length;
+  const isError = !isLoading && !data.length && error;
 
   // useEffect(() => {
   //   const streamer = new WebSocket(COMPARE_STREAMING_URL);
@@ -59,9 +64,7 @@ function Cryptocurrencies(): ReactElement {
 
   return (
     <S.CurrencyContainer>
-      {!isLoading &&
-        !error &&
-        data.length &&
+      {isContent &&
         Object.entries(cryptoData).map(
           ([currency, currencyData]: any, index) => (
             <CurrencyCard
@@ -71,8 +74,8 @@ function Cryptocurrencies(): ReactElement {
             />
           )
         )}
-      {isLoading && !data.length && <Loader />}
-      {!isLoading && !data.length && error && <div>Data is not available</div>}
+      {isLoader && <Loader />}
+      {isError && <ErrorMessage />}
     </S.CurrencyContainer>
   );
 }

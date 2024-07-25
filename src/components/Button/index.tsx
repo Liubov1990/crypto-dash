@@ -1,6 +1,11 @@
+import { ComponentPropsWithoutRef, ReactElement } from "react";
 import * as S from "./styled";
 
-function Button({ children, ...buttonProps }: any): React.ReactElement {
-  return <S.Btn {...buttonProps}>{children}</S.Btn>;
+export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+  $width?: string;
+}
+
+function Button(props: ButtonProps): ReactElement {
+  return <S.Btn {...props} />;
 }
 export default Button;

@@ -1,5 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import useResizeObserver from "use-resize-observer";
+import { ChangeEvent, MouseEvent, ReactNode, useEffect, useState } from "react";
 import {
   VictoryAxis,
   VictoryCandlestick,
@@ -7,22 +6,25 @@ import {
   VictoryTheme,
   VictoryZoomContainer,
 } from "victory";
+import useResizeObserver from "use-resize-observer";
 import cn from "classnames";
 import {
   convertChartHistoryData,
   formatChartTicks,
   promisifiedDelay,
 } from "../../utils";
-import { getVictoryStyles } from "../../helpers/getVictoryStyles";
-import * as S from "./styled";
 import { useAppSelector } from "../../hooks/use-store";
 import { getTradeHistory } from "../../api";
 import {
   REFRESH_CHART_INTERVAL,
   TRADE_TIME_RANGES,
 } from "../../constants/charts";
-import Loader from "../Loader";
 import { TRADE_HISTORY_MOCK } from "../../mocks/trade-history";
+import useIsMobileView from "../../hooks/use-is-mobile-view";
+import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
+import { getVictoryStyles } from "../../helpers/getVictoryStyles";
+import * as S from "./styled";
 
 interface IHistoryItem {
   x: number;
@@ -32,8 +34,9 @@ interface IHistoryItem {
   close: number;
 }
 
-function TradeHistory(): React.ReactElement {
+function TradeHistory(): ReactNode {
   const styles = getVictoryStyles();
+  const isMobileView = useIsMobileView();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
   const { currenciesList, exchangeCurrency } = useAppSelector(
     (state) => state.config
@@ -45,6 +48,8 @@ function TradeHistory(): React.ReactElement {
   const [selectedRange, setSelectedRange] = useState(
     TRADE_TIME_RANGES[0].value
   );
+
+  const isContent = !error && !loading && !!historyData.length;
 
   const getHistory = async () => {
     setError(false);
@@ -147,11 +152,11 @@ function TradeHistory(): React.ReactElement {
           </linearGradient>
         </defs>
       </svg>
-      {!error && !loading && !!historyData.length && (
+      {isContent && (
         <VictoryChart
           key={`${selectedCoin}-${selectedRange}`}
           theme={VictoryTheme.material}
-          domainPadding={{ x: 110 }}
+          domainPadding={{ x: isMobileView ? 40 : 110 }}
           scale={{ x: "time" }}
           width={width}
           height={height}
@@ -173,8 +178,8 @@ function TradeHistory(): React.ReactElement {
           />
         </VictoryChart>
       )}
-      {error && <div>Data is currently unavailable!</div>}
       {loading && <Loader height={`${height}px`} />}
+      {error && <ErrorMessage />}
     </S.TradeHistoryContainer>
   );
 }

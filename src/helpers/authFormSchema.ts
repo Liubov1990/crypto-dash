@@ -14,10 +14,10 @@ export const getAuthFormSchema = (isSignInForm: boolean) =>
       .required(),
     password: yup
       .string()
-      // .matches(
-      //   passwordRegexp,
-      //   "Password must contain one digit from 0 to 9, one lowercase letter, one uppercase letter, one special character, no spaces and at least 6 characters long."
-      // )
+      .matches(
+        passwordRegexp,
+        "Password must contain one digit from 0 to 6, one lowercase letter, one uppercase letter, one special character, no spaces and at least 6 characters long."
+      )
       .required("Pasword is required."),
     ...(!isSignInForm && {
       repeatPassword: yup

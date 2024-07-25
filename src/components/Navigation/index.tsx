@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { app } from "../../services/firebase/firebaseConfig";
 import { getAuth, signOut } from "firebase/auth";
@@ -10,7 +11,7 @@ import {
 } from "../../redux/slices/configSlice";
 import * as S from "./styles/styled";
 
-function Navigation(): React.ReactNode {
+function Navigation(): ReactNode {
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();

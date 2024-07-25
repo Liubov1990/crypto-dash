@@ -3,6 +3,7 @@ import {
   COMPARE_API_KEY,
   COMPARE_HISTODAY_URL,
   COMPARE_HISTOHOUR_URL,
+  COMPARE_NEWS_URL,
   GECKO_API_KEY,
   GECKO_API_URL,
   GECKO_MARKETS_URL,
@@ -118,6 +119,23 @@ export const getTrends = async ({ toCurrency, fromCurrencies }: IGetTrends) => {
       },
     });
     return data;
+  } catch (e) {
+    throw new Error(`API Server error`);
+  }
+};
+
+export const getNews = async () => {
+  try {
+    const {
+      data: { Data },
+    } = await axios({
+      method: "get",
+      url: COMPARE_NEWS_URL,
+      params: {
+        api_key: COMPARE_API_KEY,
+      },
+    });
+    return Data;
   } catch (e) {
     throw new Error(`API Server error`);
   }

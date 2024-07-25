@@ -30,7 +30,7 @@ export const CRYPTO_CURRENCIES_LIST = [
   },
   {
     id: "ethereum",
-    symbol: "ETC",
+    symbol: "ETH",
   },
   {
     id: "ripple",

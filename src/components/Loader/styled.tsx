@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { FlexCenter } from "../../styles/Common";
+import { Wrap } from "../../styles/Common";
 
 const rotate = keyframes`
   0% {
@@ -19,12 +19,10 @@ interface WrapProps {
   height?: string;
 }
 
-export const Wrap = styled.div<WrapProps>`
-  ${FlexCenter}
-  background-color: transparent;
+export const LoaderWrap = styled.div<WrapProps>`
+  ${Wrap};
   perspective: 1000px;
   height: ${({ height }) => height || "100vh"};
-  width: 100%;
 `;
 
 export const LoaderSVG = styled.svg`

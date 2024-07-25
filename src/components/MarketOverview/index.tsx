@@ -1,4 +1,12 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  ComponentType,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { Moment } from "moment";
 import {
   createContainer,
   Datum,
@@ -8,15 +16,12 @@ import {
   VictoryTheme,
   VictoryTooltip,
 } from "victory";
+import useResizeObserver from "use-resize-observer";
 import {
   formatChartTicks,
   formatFullDate,
   promisifiedDelay,
 } from "../../utils";
-import { Moment } from "moment";
-import useResizeObserver from "use-resize-observer";
-import * as S from "./styled";
-import { getVictoryStyles } from "../../helpers/getVictoryStyles";
 import { useAppSelector } from "../../hooks/use-store";
 import {
   OVERVIEW_TIME_RANGES,
@@ -24,20 +29,23 @@ import {
   REFRESH_CHART_INTERVAL,
 } from "../../constants/charts";
 import { getMarketDailyOverview } from "../../api";
-import Loader from "../Loader";
 import { MARKET_OVERVIEW_DAILY_MOCK } from "../../mocks/market-overview";
+import Loader from "../Loader";
+import ErrorMessage from "../ErrorMessage";
+import { getVictoryStyles } from "../../helpers/getVictoryStyles";
+import * as S from "./styled";
 
 const VictoryCursorVoronoiContainer = createContainer(
   "voronoi",
   "cursor"
-) as React.ComponentType<any>;
+) as ComponentType<any>;
 
 interface IMarketOverviewItem {
   x: Moment | number;
   y: number;
 }
 
-function MarketOverview(): React.ReactElement {
+function MarketOverview(): ReactNode {
   const styles = getVictoryStyles();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
   const { currenciesList, exchangeCurrency } = useAppSelector(
@@ -56,6 +64,11 @@ function MarketOverview(): React.ReactElement {
     () => Object.getOwnPropertyNames(marketData).length,
     [marketData]
   );
+
+  const RED = "#c43a31";
+
+  const isContent = !error && !loading && !!marketDataLength;
+  const isError = !loading && error;
 
   const getMarketOverviewData = async (coinId: string) => {
     setError(false);
@@ -124,7 +137,7 @@ function MarketOverview(): React.ReactElement {
           ))}
         </S.MarketSelect>
       </S.MarketOptionsBar>
-      {!error && !loading && !!marketDataLength && (
+      {isContent && (
         <VictoryChart
           key={selectedRange}
           theme={VictoryTheme.material}
@@ -169,9 +182,9 @@ function MarketOverview(): React.ReactElement {
               key={id}
               interpolation="basis"
               style={{
-                data: { stroke: PALLETE[index] || "#c43a31" },
+                data: { stroke: PALLETE[index] || RED },
                 labels: {
-                  fill: PALLETE[index] || "#c43a31",
+                  fill: PALLETE[index] || RED,
                 },
               }}
               data={data}
@@ -180,7 +193,7 @@ function MarketOverview(): React.ReactElement {
         </VictoryChart>
       )}
       {loading && <Loader height={`${height}px`} />}
-      {!loading && error && <div>Data is currently unavailable!</div>}
+      {isError && <ErrorMessage />}
     </S.MarketOverviewContainer>
   );
 }

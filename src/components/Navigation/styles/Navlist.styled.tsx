@@ -20,6 +20,7 @@ export const StyledNavLink = styled(NavLink)`
   &:hover {
     ${FlexCenter};
     background: ${({ theme }) => theme.color.iconActiveBackground};
+
     svg {
       fill: ${({ theme }) => theme.color.navBarSvgActive};
     }
