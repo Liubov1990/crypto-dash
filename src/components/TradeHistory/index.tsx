@@ -17,8 +17,12 @@ import { getVictoryStyles } from "../../helpers/getVictoryStyles";
 import * as S from "./styled";
 import { useAppSelector } from "../../hooks/use-store";
 import { getTradeHistory } from "../../api";
-import { TRADE_TIME_RANGES } from "../../constants/charts";
+import {
+  REFRESH_CHART_INTERVAL,
+  TRADE_TIME_RANGES,
+} from "../../constants/charts";
 import Loader from "../Loader";
+import { TRADE_HISTORY_MOCK } from "../../mocks/trade-history";
 
 interface IHistoryItem {
   x: number;
@@ -64,11 +68,7 @@ function TradeHistory(): React.ReactElement {
   const getMockHistory = async () => {
     setLoading(true);
     await promisifiedDelay(1000);
-    const mockedData = convertChartHistoryData([
-      [1709395200000, 61942, 62211, 61721, 61845],
-      [1709409600000, 61828, 62139, 61726, 62139],
-      [1709424000000, 62171, 62210, 61821, 62068],
-    ]);
+    const mockedData = convertChartHistoryData(TRADE_HISTORY_MOCK);
     setHistoryData(mockedData);
     setLoading(false);
   };
@@ -87,6 +87,15 @@ function TradeHistory(): React.ReactElement {
   useEffect(() => {
     getMockHistory();
     // getHistory();
+
+    const interval = setInterval(() => {
+      getMockHistory();
+      // getHistory();
+    }, REFRESH_CHART_INTERVAL);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [selectedCoin, selectedRange]);
 
   return (

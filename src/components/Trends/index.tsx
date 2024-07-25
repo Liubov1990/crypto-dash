@@ -6,8 +6,12 @@ import * as S from "./styled";
 import { useAppDispatch, useAppSelector } from "../../hooks/use-store";
 import {
   fetchGeneralData,
-  IGeneraDataItem,
+  IGeneralDataItem,
+  setData,
 } from "../../redux/slices/cryptoDataSlice";
+import { REFRESH_CHART_INTERVAL } from "../../constants/charts";
+import { promisifiedDelay } from "../../utils";
+import { TRENDS_MOCK } from "../../mocks/trends";
 
 const renderStatus = (percentage: number) => (
   <S.AngleSVG className={cn({ up: Math.sign(percentage) === -1 })}>
@@ -40,12 +44,19 @@ function Trends(): React.ReactElement {
     [currenciesIds, exchangeCurrency.id]
   );
 
+  const getMockedTrends = async () => {
+    await promisifiedDelay(1000);
+    dispatch(setData(TRENDS_MOCK));
+  };
+
   useEffect(() => {
+    getMockedTrends();
     // getTrends();
 
     const interval = setInterval(() => {
+      getMockedTrends();
       // getTrends();
-    }, 60000);
+    }, REFRESH_CHART_INTERVAL);
 
     return () => {
       clearInterval(interval);
@@ -76,7 +87,7 @@ function Trends(): React.ReactElement {
             symbol,
             current_price,
             price_change_percentage_24h,
-          }: IGeneraDataItem) => (
+          }: IGeneralDataItem) => (
             <React.Fragment key={id}>
               <S.Currency>
                 {symbol} <span>{name}</span>
