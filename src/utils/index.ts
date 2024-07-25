@@ -1,6 +1,6 @@
 import moment from "moment";
 import { format } from "d3-format";
-import { IGeneraDataItem } from "../redux/slices/cryptoDataSlice";
+import { IGeneralDataItem } from "../redux/slices/cryptoDataSlice";
 import { FORMATTER_PRICE_PATTERNS } from "../constants/config";
 
 export const promisifiedDelay = (time: number) =>
@@ -13,7 +13,7 @@ export const convertMarketOverviewData = (
   rawData: Array<{ time: number; close: number }>
 ) => rawData.map(({ time, close }) => ({ x: moment.unix(time), y: close }));
 
-export const convertGeneralCryptoData = (data: IGeneraDataItem[]) =>
+export const convertGeneralCryptoData = (data: IGeneralDataItem[]) =>
   data.reduce((acc, { symbol, ...restItemProps }) => {
     return { ...acc, [symbol]: { ...restItemProps, symbol } };
   }, {});
