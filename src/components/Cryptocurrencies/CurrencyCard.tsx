@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { Moment } from "moment";
 import useResizeObserver from "use-resize-observer";
 import cn from "classnames";
@@ -45,6 +45,15 @@ function CurrencyCard({
   const vGroupColor = position === "even" ? BLUE_GREEN : VIOLET;
 
   const isVictoryGroup = !error && !loading;
+
+  const highlightClasses = useMemo(
+    () =>
+      cn({
+        positive: current_price < Number(prevPrice),
+        negative: current_price > Number(prevPrice),
+      }),
+    [current_price, prevPrice]
+  );
 
   const getDailyOverview = async () => {
     setError(false);
@@ -100,18 +109,15 @@ function CurrencyCard({
         </span>
         {prevPrice && (
           <>
-            <S.ArrowCircledSVG
-              className={cn({
-                up: current_price < prevPrice,
-                down: current_price > prevPrice,
-              })}
-            >
+            <S.ArrowCircledSVG className={highlightClasses}>
               <use xlinkHref="svg/sprite.svg#circled-arrow" />
             </S.ArrowCircledSVG>
           </>
         )}
       </S.CoinBar>
-      <S.CurrentPrice>{formatPrice(symbol, current_price)}</S.CurrentPrice>
+      <S.CurrentPrice className={highlightClasses}>
+        {formatPrice(symbol, current_price)}
+      </S.CurrentPrice>
       <div>
         {isVictoryGroup && (
           <VictoryGroup
