@@ -145,6 +145,7 @@ Error generating stack: `+o.message+`
   }
 
   :root {
+    opacity: 0;
     animation: fade-in 0.1ms forwards;
     @keyframes fade-in {
       0% {
