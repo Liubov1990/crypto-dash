@@ -50,7 +50,7 @@ function TradeHistory(): ReactNode {
   );
 
   const isContent = !error && !loading && !!historyData.length;
-
+  //@ts-ignore
   const getHistory = async () => {
     setError(false);
     setLoading(true);
@@ -106,7 +106,11 @@ function TradeHistory(): ReactNode {
   return (
     <S.TradeHistoryContainer ref={ref}>
       <S.TradeHistoryOptionsBar>
-        <S.TradeSelect value={selectedCoin} onChange={handleCoinSelection}>
+        <S.TradeSelect
+          value={selectedCoin}
+          onChange={handleCoinSelection}
+          aria-label="Coin to currency"
+        >
           {currenciesList.map(({ id, symbol }) => (
             <S.TradeOption key={id} value={id}>
               {symbol}/{exchangeCurrency.id}

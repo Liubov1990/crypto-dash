@@ -87,7 +87,7 @@ function MarketOverview(): ReactNode {
       setError(true);
     }
   };
-
+  //@ts-ignore
   const getMarketsOverviewData = async () => {
     setLoading(true);
     for await (const _res of currenciesList.map(({ symbol }) =>
@@ -129,7 +129,11 @@ function MarketOverview(): ReactNode {
   return (
     <S.MarketOverviewContainer ref={ref}>
       <S.MarketOptionsBar>
-        <S.MarketSelect value={selectedRange} onChange={handleRangeSelection}>
+        <S.MarketSelect
+          value={selectedRange}
+          onChange={handleRangeSelection}
+          aria-label="Market period overview"
+        >
           {OVERVIEW_TIME_RANGES.map(({ value, label }) => (
             <S.MarketOption key={value} value={value}>
               {label}

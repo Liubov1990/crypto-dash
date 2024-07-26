@@ -34,6 +34,7 @@ function News(): ReactNode {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  //@ts-ignore
   const getNewsData = async () => {
     setError(false);
     setLoading(true);
@@ -79,13 +80,7 @@ function News(): ReactNode {
         ({ id, imageurl, title, url, categories, published_on, body }) => (
           <S.Article key={id}>
             <S.ImgContainer>
-              <img
-                src={imageurl}
-                loading="lazy"
-                width="180"
-                height="100"
-                alt={title}
-              />
+              <img src={imageurl} width="180" height="100" alt={title} />
             </S.ImgContainer>
             <S.TextBlock>
               <S.Title>

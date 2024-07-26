@@ -14,7 +14,6 @@ const defaultTheme = {
     btnIcon: "#ffffff",
     accentColor: "#EC5EB7",
     accentLight: "#B783EB",
-    trendHeading: "#BFB7B7",
     trendCurrencyName: "#9A9A9A",
   },
 
@@ -50,6 +49,7 @@ const darktheme = {
   articleTime: "#868B93",
   navBarSvg: "#8D8598",
   navBarSvgActive: "#D8BCFF",
+  trendHeading: "#9A9A9A",
 };
 
 const lightTheme = {
@@ -63,6 +63,7 @@ const lightTheme = {
   articleTime: "#535353",
   navBarSvg: "#8D8598",
   navBarSvgActive: "#EC5EB7",
+  trendHeading: "#BFB7B7",
 };
 
 const theme: DefaultTheme = {

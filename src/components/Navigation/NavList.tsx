@@ -7,7 +7,7 @@ function NavList(): ReactNode {
 
   return (
     <S.Nav>
-      <S.StyledNavLink to="/">
+      <S.StyledNavLink to="/" aria-label="Home page">
         <span>
           <svg>
             <use xlinkHref="svg/sprite.svg#home" />
@@ -15,7 +15,7 @@ function NavList(): ReactNode {
         </span>
       </S.StyledNavLink>
       {user && (
-        <S.StyledNavLink to="/settings">
+        <S.StyledNavLink to="/settings" aria-label="Settings">
           <span>
             <svg>
               <use xlinkHref="svg/sprite.svg#settings" />

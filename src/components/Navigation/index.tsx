@@ -35,7 +35,7 @@ function Navigation(): ReactNode {
   return (
     <S.NavBar>
       <S.Logo>
-        <Link to="/">
+        <Link to="/" aria-label="Return to home page">
           <svg>
             <use xlinkHref="svg/sprite.svg#logo" />
           </svg>
@@ -43,13 +43,16 @@ function Navigation(): ReactNode {
       </S.Logo>
       <NavList />
       <S.ActionBtnsGroup>
-        <S.ResetBtn onClick={() => dispatch(setSerializedDockbox(null))}>
+        <S.ResetBtn
+          onClick={() => dispatch(setSerializedDockbox(null))}
+          aria-label="Reset layout"
+        >
           <svg>
             <use xlinkHref="svg/sprite.svg#reset" />
           </svg>
         </S.ResetBtn>
         {user && (
-          <S.LogoutBtn onClick={signOutUser}>
+          <S.LogoutBtn onClick={signOutUser} aria-label="Log out">
             <svg>
               <use xlinkHref="svg/sprite.svg#log-out" />
             </svg>
