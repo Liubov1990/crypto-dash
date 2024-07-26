@@ -144,8 +144,8 @@ Error generating stack: `+o.message+`
     }
   }
 
-  body {
-    animation: fade-in 0.1s forwards;
+  :root {
+    animation: fade-in 0.2s forwards;
     @keyframes fade-in {
       0% {
         opacity: 0;
