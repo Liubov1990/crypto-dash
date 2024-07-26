@@ -7,7 +7,7 @@ export const Btn = styled.button.attrs<{ $width?: string }>((props) => ({
   height: 40px;
   font-family: ${({ theme }) => theme.fonts.interSemiBold};
   text-align: center;
-  color: inherit;
+  color: ${({ theme }) => theme.sharedColors.btnIcon};
   text-shadow: 1px 1px black;
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
   border: none;
@@ -16,7 +16,7 @@ export const Btn = styled.button.attrs<{ $width?: string }>((props) => ({
   transition: background-color 0.5s ease-in;
 
   &:hover {
-    background-color: #7517f8;
+    background-color: #8130f1;
   }
 
   /* experimental! causes validation errors! */

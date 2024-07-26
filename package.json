@@ -20,8 +20,6 @@
     "@hookform/resolvers": "^3.9.0",
     "@react-hook/window-size": "^3.1.1",
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/06a30ee4/@reduxjs/toolkit",
-    "@types/yup": "^0.32.0",
-    "ci": "^2.3.0",
     "classnames": "^2.5.1",
     "d3-format": "^3.1.0",
     "firebase": "^10.12.3",
@@ -34,12 +32,13 @@
     "react-router-dom": "^6.24.1",
     "use-resize-observer": "^9.1.0",
     "victory": "^37.0.2",
-    "yap": "^0.0.2"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/d3-format": "^3.0.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/yup": "^0.32.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react": "^4.3.1",

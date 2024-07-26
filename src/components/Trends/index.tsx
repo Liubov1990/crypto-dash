@@ -48,19 +48,19 @@ function Trends(): ReactNode {
       ),
     [currenciesIds, exchangeCurrency.id]
   );
-
+  // @ts-ignore
   const getMockedTrends = async () => {
     await promisifiedDelay(1000);
     dispatch(setData(TRENDS_MOCK));
   };
 
   useEffect(() => {
-    getMockedTrends();
-    // getTrends();
+    // getMockedTrends();
+    getTrends();
 
     const interval = setInterval(() => {
-      getMockedTrends();
-      // getTrends();
+      // getMockedTrends();
+      getTrends();
     }, REFRESH_CHART_INTERVAL);
 
     return () => {
@@ -71,9 +71,7 @@ function Trends(): ReactNode {
   return (
     <S.TrandsContainer ref={ref}>
       <S.GridHeading>Name</S.GridHeading>
-      <S.GridHeading>
-        24h Average price({exchangeCurrency.symbol})
-      </S.GridHeading>
+      <S.GridHeading>Average price({exchangeCurrency.symbol})</S.GridHeading>
       <S.GridHeading>24h Change(%)</S.GridHeading>
       {isContent &&
         data.map(

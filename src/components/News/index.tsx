@@ -49,7 +49,7 @@ function News(): ReactNode {
       setError(true);
     }
   };
-
+  // @ts-ignore
   const getMockedNews = async () => {
     setLoading(true);
     await promisifiedDelay(1000);
@@ -61,12 +61,12 @@ function News(): ReactNode {
     moment.unix(timestamp).format("MMMM Do YYYY, h:mm a");
 
   useEffect(() => {
-    // getNewsData();
-    getMockedNews();
+    getNewsData();
+    // getMockedNews();
 
     const interval = setInterval(() => {
-      // getNewsData();
-      getMockedNews();
+      getNewsData();
+      // getMockedNews();
     }, REFRESH_CHART_INTERVAL);
 
     return () => {
@@ -80,7 +80,7 @@ function News(): ReactNode {
         ({ id, imageurl, title, url, categories, published_on, body }) => (
           <S.Article key={id}>
             <S.ImgContainer>
-              <img src={imageurl} width="180" height="100" alt={title} />
+              <img src={imageurl} width="300" height="300" alt={title} />
             </S.ImgContainer>
             <S.TextBlock>
               <S.Title>

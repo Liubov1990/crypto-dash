@@ -12,7 +12,7 @@ export const NewsContainer = styled.div`
 export const Article = styled.article`
   display: flex;
   gap: 20px;
-  min-width: 500px;
+  min-width: 450px;
   max-width: 900px;
   width: 100%;
   background: ${({ theme }) => theme.color.boxInnerBackground};
@@ -23,6 +23,12 @@ export const Article = styled.article`
   padding: 20px;
   margin: 0 auto 30px;
 
+  @media ${device.sm} {
+    flex-direction: column;
+    min-width: 100%;
+    padding: 10px;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -30,14 +36,16 @@ export const Article = styled.article`
 
 export const ImgContainer = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
-  min-width: 180px;
+  min-width: 160px;
   max-width: 210px;
   flex-basis: 30%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 
   @media ${device.sm} {
-    min-width: 140px;
+    /* min-width: 100%;
+    max-height: 100px; */
+    display: none;
   }
 
   img {
@@ -53,12 +61,16 @@ export const TextBlock = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: clamp(14px, 2vw, 16px);
+  font-size: clamp(13.5px, 2vw, 16px);
   line-height: 1.1;
   color: ${({ theme }) => theme.sharedColors.searchText};
   text-shadow: 1px 1px black;
   margin-bottom: 20px;
   transition: color 0.3s ease-in-out;
+
+  @media ${device.sm} {
+    margin-bottom: 13px;
+  }
 
   &:hover {
     color: ${({ theme }) => theme.sharedColors.accentLight};
@@ -70,6 +82,13 @@ export const Description = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.sharedColors.btnIcon};
   margin-bottom: 10px;
+
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 `;
 
 export const Info = styled.div`

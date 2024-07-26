@@ -55,6 +55,9 @@ export const LogoutBtn = styled(Btn)`
   border: none;
   width: auto;
   margin-top: 40px;
+  &:hover {
+    background: transparent;
+  }
 
   @media ${device.lg} {
     margin-top: 30px;

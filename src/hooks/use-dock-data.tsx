@@ -26,7 +26,7 @@ function useDockData() {
     () => ({
       shared: {
         floatable: false,
-        maximizable: true,
+        maximizable: !isMobileView,
         disableDock: isMobileView,
       },
     }),

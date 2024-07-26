@@ -7,18 +7,22 @@ const passwordRegexp =
 
 export const getAuthFormSchema = (isSignInForm: boolean) =>
   yup.object().shape({
-    email: yup
-      .string()
-      .email("Invalid email format.")
-      .matches(emailRegexp, "Email address is required.")
-      .required(),
-    password: yup
-      .string()
-      .matches(
-        passwordRegexp,
-        "Password must contain one digit from 0 to 6, one lowercase letter, one uppercase letter, one special character, no spaces and at least 6 characters long."
-      )
-      .required("Pasword is required."),
+    ...(!isSignInForm && {
+      email: yup
+        .string()
+        .email("Invalid email format.")
+        .matches(emailRegexp, "Email address is required.")
+        .required(),
+    }),
+    ...(!isSignInForm && {
+      password: yup
+        .string()
+        .matches(
+          passwordRegexp,
+          "Password must contain one digit from 0 to 6, one lowercase letter, one uppercase letter, one special character, no spaces and at least 6 characters long."
+        )
+        .required("Pasword is required."),
+    }),
     ...(!isSignInForm && {
       repeatPassword: yup
         .string()

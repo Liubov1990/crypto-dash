@@ -29,9 +29,59 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:alt" content="Zoomed part of dashboard" />
     <meta property="og:site_name" content="Crypto-dash" />
+
+    <style>
+    
+      body {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      
+      .root__wrap-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100vh;
+        background: #261e35;
+        perspective: 1000px;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      
+      .root__initial-loader {
+        animation: rotate 1.5s linear infinite;
+        background: transparent;
+        width: 40px;
+        height: 40px;
+      }
+      
+      @keyframes rotate {
+        0% {
+          transform: rotateY(0deg);
+        }
+      
+        50% {
+          transform: rotateY(180deg);
+        }
+      
+        100% {
+          transform: rotateY(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="root__wrap-loader">
+        <svg class="root__initial-loader">
+          <use xlink:href="svg/sprite.svg#loader" />
+        </svg>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

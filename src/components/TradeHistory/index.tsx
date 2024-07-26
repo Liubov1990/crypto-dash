@@ -20,7 +20,6 @@ import {
   TRADE_TIME_RANGES,
 } from "../../constants/charts";
 import { TRADE_HISTORY_MOCK } from "../../mocks/trade-history";
-import useIsMobileView from "../../hooks/use-is-mobile-view";
 import Loader from "../Loader";
 import ErrorMessage from "../ErrorMessage";
 import { getVictoryStyles } from "../../helpers/getVictoryStyles";
@@ -36,7 +35,6 @@ interface IHistoryItem {
 
 function TradeHistory(): ReactNode {
   const styles = getVictoryStyles();
-  const isMobileView = useIsMobileView();
   const { ref, width = 1, height = 1 } = useResizeObserver<HTMLDivElement>();
   const { currenciesList, exchangeCurrency } = useAppSelector(
     (state) => state.config
@@ -69,7 +67,7 @@ function TradeHistory(): ReactNode {
       setError(true);
     }
   };
-
+  // @ts-ignore
   const getMockHistory = async () => {
     setLoading(true);
     await promisifiedDelay(1000);
@@ -90,12 +88,12 @@ function TradeHistory(): ReactNode {
   };
 
   useEffect(() => {
-    getMockHistory();
-    // getHistory();
+    // getMockHistory();
+    getHistory();
 
     const interval = setInterval(() => {
-      getMockHistory();
-      // getHistory();
+      // getMockHistory();
+      getHistory();
     }, REFRESH_CHART_INTERVAL);
 
     return () => {
@@ -160,7 +158,7 @@ function TradeHistory(): ReactNode {
         <VictoryChart
           key={`${selectedCoin}-${selectedRange}`}
           theme={VictoryTheme.material}
-          domainPadding={{ x: isMobileView ? 40 : 110 }}
+          domainPadding={{ x: width < 600 ? 40 : 110 }}
           scale={{ x: "time" }}
           width={width}
           height={height}

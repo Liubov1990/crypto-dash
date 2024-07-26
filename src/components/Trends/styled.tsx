@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { FlexRowBetween, FlexRowCenter } from "../../styles/Common";
+import { device } from "../../styles/BreakPoints";
 
 export const AngleSVG = styled.svg`
   fill: ${({ theme }) => theme.sharedColors.statusDown};
   width: 12px;
   height: 7px;
+  @media ${device.sm} {
+    margin-right: 3px;
+  }
 
   &.up {
     fill: ${({ theme }) => theme.sharedColors.stausUp};
@@ -22,10 +26,18 @@ export const TrandsContainer = styled.div`
   color: ${({ theme }) => theme.color.textMain};
   overflow: auto;
 
+  @media ${device.sm} {
+    grid-auto-rows: 35px;
+  }
+
   & > div {
     ${FlexRowCenter};
     line-height: 0.714;
     padding: 15px 24px;
+
+    @media ${device.sm} {
+      padding: 0 0 0 10px;
+    }
   }
 `;
 
@@ -38,6 +50,10 @@ export const GridHeading = styled.h3`
   white-space: nowrap;
   padding: 20px 24px;
   z-index: 1;
+
+  @media ${device.sm} {
+    padding: 0 0 0 10px;
+  }
 `;
 
 export const GridConcat = styled.div`
@@ -51,7 +67,7 @@ export const Currency = styled.div`
   span {
     color: ${({ theme }) => theme.sharedColors.trendCurrencyName};
     text-transform: capitalize;
-    margin-left: 10px;
+    margin-left: 5px;
   }
 `;
 
@@ -66,5 +82,9 @@ export const Change = styled.div`
 
   span {
     margin-left: 15px;
+
+    @media ${device.sm} {
+      margin-left: 5px;
+    }
   }
 `;
