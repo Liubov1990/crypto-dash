@@ -607,7 +607,7 @@ Ee.version="2.30.1";bne(bn);Ee.fn=be;Ee.min=uie;Ee.max=cie;Ee.now=die;Ee.utc=Os;
   position: sticky;
   top: 0;
   font-size: 0.625rem;
-  color: ${({theme:e})=>e.sharedColors.trendHeading};
+  color: ${({theme:e})=>e.color.trendHeading};
   background: ${({theme:e})=>e.color.boxBackground};
   white-space: nowrap;
   padding: 20px 24px;
