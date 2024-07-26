@@ -143,6 +143,18 @@ Error generating stack: `+o.message+`
       scrollbar-color: #261E35 transparent;
     }
   }
+
+  body {
+    animation: fade-in 0.1s forwards;
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  }
 `,mX={floatable:!0,maximizable:!0},fy="place-holder",m1="-maximized-placeholder-",gX={floatable:!1},xo=w.createContext(null),vX=xo.Provider;xo.Consumer;function dt(){return dt=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)({}).hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},dt.apply(null,arguments)}function Hn(e){"@babel/helpers - typeof";return Hn=typeof Symbol=="function"&&typeof Symbol.iterator=="symbol"?function(t){return typeof t}:function(t){return t&&typeof Symbol=="function"&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t},Hn(e)}function yX(e,t){if(Hn(e)!="object"||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t||"default");if(Hn(r)!="object")return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return(t==="string"?String:Number)(e)}function NL(e){var t=yX(e,"string");return Hn(t)=="symbol"?t:t+""}function ue(e,t,n){return(t=NL(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function _X(e){if(Array.isArray(e))return e}function wX(e,t){var n=e==null?null:typeof Symbol<"u"&&e[Symbol.iterator]||e["@@iterator"];if(n!=null){var r,i,o,s,a=[],l=!0,u=!1;try{if(o=(n=n.call(e)).next,t===0){if(Object(n)!==n)return;l=!1}else for(;!(l=(r=o.call(n)).done)&&(a.push(r.value),a.length!==t);l=!0);}catch(c){u=!0,i=c}finally{try{if(!l&&n.return!=null&&(s=n.return(),Object(s)!==s))return}finally{if(u)throw i}}return a}}function r5(e,t){(t==null||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}function LL(e,t){if(e){if(typeof e=="string")return r5(e,t);var n={}.toString.call(e).slice(8,-1);return n==="Object"&&e.constructor&&(n=e.constructor.name),n==="Map"||n==="Set"?Array.from(e):n==="Arguments"||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?r5(e,t):void 0}}function bX(){throw new TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`)}function Se(e,t){return _X(e)||wX(e,t)||LL(e,t)||bX()}function xX(e,t){if(e==null)return{};var n={};for(var r in e)if({}.hasOwnProperty.call(e,r)){if(t.includes(r))continue;n[r]=e[r]}return n}function Ut(e,t){if(e==null)return{};var n,r,i=xX(e,t);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);for(r=0;r<o.length;r++)n=o[r],t.includes(n)||{}.propertyIsEnumerable.call(e,n)&&(i[n]=e[n])}return i}function bR(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(i){return Object.getOwnPropertyDescriptor(e,i).enumerable})),n.push.apply(n,r)}return n}function ve(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]!=null?arguments[t]:{};t%2?bR(Object(n),!0).forEach(function(r){ue(e,r,n[r])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):bR(Object(n)).forEach(function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(n,r))})}return e}var $L={exports:{}};/*!
 	Copyright (c) 2018 Jed Watson.
@@ -213,8 +225,16 @@ Ee.version="2.30.1";bne(bn);Ee.fn=be;Ee.min=uie;Ee.max=cie;Ee.now=die;Ee.utc=Os;
   border-radius: ${({theme:e})=>e.borderRadius.extraSmall};
   border: none;
   padding: 0 20px;
+  background-color: #ac6aec;
+  transition: background-color 0.5s ease-in;
 
-  @property --color1 {
+  &:hover {
+    background-color: #7517f8;
+  }
+
+  /* experimental! causes validation errors! */
+
+  /* @property --color1 {
     syntax: "<color>";
     initial-value: rgba(172, 106, 236, 1);
     inherits: false;
@@ -244,7 +264,7 @@ Ee.version="2.30.1";bne(bn);Ee.fn=be;Ee.min=uie;Ee.max=cie;Ee.now=die;Ee.utc=Os;
     &:hover {
       background-color: #7517f8;
     }
-  }
+  } */
 `,Mw=ti`
   display: flex;
   flex-direction: column;
@@ -496,15 +516,6 @@ Ee.version="2.30.1";bne(bn);Ee.fn=be;Ee.min=uie;Ee.max=cie;Ee.now=die;Ee.utc=Os;
     border-radius: ${({theme:e})=>e.borderRadius.extraSmall};
     aspect-ratio: 10 / 9;
     transition: transform 0.3s linear;
-    animation: fade-in 0.1s forwards;
-    @keyframes fade-in {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
   }
 `,Nke=Pe.div`
   ${Mw};
@@ -529,7 +540,7 @@ Ee.version="2.30.1";bne(bn);Ee.fn=be;Ee.min=uie;Ee.max=cie;Ee.now=die;Ee.utc=Os;
   ${eu};
   flex-wrap: wrap;
   font-size: 0.6875rem;
-`,Vke=Pe.time`
+`,Vke=Pe.p`
   ${eu};
   color: ${({theme:e})=>e.color.articleTime};
   margin-right: 15px;
