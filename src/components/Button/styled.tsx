@@ -8,11 +8,20 @@ export const Btn = styled.button.attrs<{ $width?: string }>((props) => ({
   font-family: ${({ theme }) => theme.fonts.interSemiBold};
   text-align: center;
   color: inherit;
+  text-shadow: 1px 1px black;
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
   border: none;
   padding: 0 20px;
+  background-color: #ac6aec;
+  transition: background-color 0.5s ease-in;
 
-  @property --color1 {
+  &:hover {
+    background-color: #7517f8;
+  }
+
+  /* experimental! causes validation errors! */
+
+  /* @property --color1 {
     syntax: "<color>";
     initial-value: rgba(172, 106, 236, 1);
     inherits: false;
@@ -42,5 +51,5 @@ export const Btn = styled.button.attrs<{ $width?: string }>((props) => ({
     &:hover {
       background-color: #7517f8;
     }
-  }
+  } */
 `;

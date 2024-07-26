@@ -120,6 +120,7 @@ function Settings() {
         <S.SettingsSelect
           value={selectedCurrency.id}
           onChange={handleCurrencySelection}
+          aria-label="Exchange currencies"
         >
           {Object.entries(EXCHANGE_CURRENCIES_LIST).map(
             ([_currency, { id, symbol }]) => (
@@ -153,7 +154,11 @@ function Settings() {
       <S.Fieldset>
         <S.Legend>Choose app theme:</S.Legend>
 
-        <S.SettingsSelect value={selectedTheme} onChange={handleThemeSelection}>
+        <S.SettingsSelect
+          value={selectedTheme}
+          onChange={handleThemeSelection}
+          aria-label="Theme"
+        >
           {THEMES.map((theme) => (
             <S.SettingsOption key={theme} value={theme}>
               {theme}

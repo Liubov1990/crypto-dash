@@ -54,7 +54,7 @@ function CurrencyCard({
       }),
     [current_price, prevPrice]
   );
-
+  //@ts-ignore
   const getDailyOverview = async () => {
     setError(false);
     setLoading(true);

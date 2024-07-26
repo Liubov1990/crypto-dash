@@ -33,7 +33,7 @@ export const GridHeading = styled.h3`
   position: sticky;
   top: 0;
   font-size: 0.625rem;
-  color: ${({ theme }) => theme.sharedColors.trendHeading};
+  color: ${({ theme }) => theme.color.trendHeading};
   background: ${({ theme }) => theme.color.boxBackground};
   white-space: nowrap;
   padding: 20px 24px;

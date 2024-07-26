@@ -78,7 +78,7 @@ export const Info = styled.div`
   font-size: 0.6875rem;
 `;
 
-export const Time = styled.time`
+export const Time = styled.p`
   ${FlexRowBetween};
   color: ${({ theme }) => theme.color.articleTime};
   margin-right: 15px;
