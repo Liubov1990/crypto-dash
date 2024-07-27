@@ -98,7 +98,7 @@ function MarketOverview(): ReactNode {
     }
     setLoading(false);
   };
-
+  // @ts-ignore
   const getMockOverview = async () => {
     setLoading(true);
     await promisifiedDelay(500);
@@ -113,12 +113,12 @@ function MarketOverview(): ReactNode {
   };
 
   useEffect(() => {
-    getMockOverview();
-    // getMarketsOverviewData();
+    // getMockOverview();
+    getMarketsOverviewData();
 
     const interval = setInterval(() => {
-      getMockOverview();
-      // getMarketsOverviewData();
+      // getMockOverview();
+      getMarketsOverviewData();
     }, REFRESH_CHART_INTERVAL);
 
     return () => {
@@ -145,7 +145,8 @@ function MarketOverview(): ReactNode {
         <VictoryChart
           key={selectedRange}
           theme={VictoryTheme.material}
-          domainPadding={{ x: 50, y: 10 }}
+          // domainPadding={{ x: 50, y: 10 }}
+          domainPadding={{ x: width < 600 ? 40 : 110, y: 10 }}
           scale={{ x: "time" }}
           width={width}
           height={height}

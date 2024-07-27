@@ -172,6 +172,7 @@ function Auth() {
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
         const errorCode = error.code;
+        console.log("error", errorCode);
 
         if (errorCode === "auth/user-not-found") {
           alert("Sign up first!");

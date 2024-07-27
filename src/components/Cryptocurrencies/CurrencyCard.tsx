@@ -72,7 +72,7 @@ function CurrencyCard({
       setError(true);
     }
   };
-
+  // @ts-ignore
   const getMockOverview = async () => {
     setLoading(true);
     await promisifiedDelay(1000);
@@ -81,12 +81,12 @@ function CurrencyCard({
   };
 
   useEffect(() => {
-    // getDailyOverview();
-    getMockOverview();
+    getDailyOverview();
+    // getMockOverview();
 
     const interval = setInterval(() => {
-      // getDailyOverview();
-      getMockOverview();
+      getDailyOverview();
+      // getMockOverview();
     }, REFRESH_CHART_INTERVAL);
 
     return () => {

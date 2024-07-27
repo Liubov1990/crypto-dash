@@ -7,6 +7,7 @@ import {
   setCurrenciesList,
   setExchangeCurrency,
   setPersistentDocbox,
+  setSerializedDockbox,
   setTheme,
 } from "../../redux/slices/configSlice";
 import {
@@ -107,6 +108,8 @@ function Settings() {
 
     if (isDockboxPersistent) {
       dispatch(setPersistentDocbox(true));
+    } else {
+      dispatch(setSerializedDockbox(null));
     }
 
     setIsConfigSaving(false);

@@ -28,9 +28,13 @@ export const ChartButton = styled(Btn)`
   height: 37px;
   padding: 0;
   font-family: ${({ theme }) => theme.fonts.interBold};
-  background: ${({ theme }) => theme.sharedColors.sortBackground};
   color: ${({ theme }) => theme.sharedColors.textSecondary};
+  background: ${({ theme }) => theme.sharedColors.sortBackground};
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
+
+  &:hover {
+    background: ${({ theme }) => theme.sharedColors.sortBackground};
+  }
 
   &.active {
     color: ${({ theme }) => theme.sharedColors.btnIcon};

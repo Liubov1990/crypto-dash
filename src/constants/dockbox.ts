@@ -42,19 +42,13 @@ export const DOCKBOX_MOBILE = {
     mode: "vertical",
     children: [
       {
-        tabs: [getDockboxContent(false).news],
-      },
-      {
-        tabs: [getDockboxContent(false).history],
-      },
-      {
-        tabs: [getDockboxContent(false).cryptocurrencies],
-      },
-      {
-        tabs: [getDockboxContent(false).overview],
-      },
-      {
-        tabs: [getDockboxContent(false).trends],
+        tabs: [
+          getDockboxContent(false).trends,
+          getDockboxContent(false).news,
+          getDockboxContent(false).history,
+          getDockboxContent(false).overview,
+          getDockboxContent(false).cryptocurrencies,
+        ],
       },
     ],
   },

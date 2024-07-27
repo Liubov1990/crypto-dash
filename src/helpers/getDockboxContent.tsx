@@ -7,11 +7,12 @@ import Trends from "../components/Trends";
 const TAB_COMMON_PROPS = {
   minHeight: 240,
   group: "shared",
-  cached: true,
+  cached: false,
 };
 
 const TAB_DESKTOP_PROPS = {
-  minWidth: 240,
+  minWidth: 315,
+  cached: true,
 };
 
 export const getDockboxContent = (desktopMode = true) => ({
@@ -47,7 +48,7 @@ export const getDockboxContent = (desktopMode = true) => ({
     ...TAB_COMMON_PROPS,
     ...(desktopMode && TAB_DESKTOP_PROPS),
     id: "trends",
-    title: "Trends",
+    title: "Trends 24h",
     content: <Trends />,
   },
 });
