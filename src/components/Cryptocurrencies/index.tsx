@@ -6,6 +6,9 @@ import CurrencyCard from "./CurrencyCard";
 import Loader from "../Loader";
 import ErrorMessage from "../ErrorMessage";
 import * as S from "./styles/styled";
+import { IGeneralDataItem } from "../../redux/slices/cryptoDataSlice";
+
+type CryptDataType = Record<string, IGeneralDataItem>;
 
 function Cryptocurrencies(): ReactElement {
   const { currenciesList, exchangeCurrency } = useAppSelector(
@@ -14,7 +17,7 @@ function Cryptocurrencies(): ReactElement {
   const { data, isLoading, error } = useAppSelector(
     (state) => state.cryptoData
   );
-  const [cryptoData, setCryptoData] = useState<any>({});
+  const [cryptoData, setCryptoData] = useState<CryptDataType>({});
 
   const getElementOrder = useCallback(
     (order: number) => (order % 2 === 0 ? "even" : "odd"),
@@ -37,10 +40,10 @@ function Cryptocurrencies(): ReactElement {
       };
       streamer.send(JSON.stringify(subRequest));
     };
-    streamer.onmessage = function onStreamMessage(event: any) {
+    streamer.onmessage = function onStreamMessage(event) {
       const { FROMSYMBOL, PRICE } = JSON.parse(event.data);
       if (FROMSYMBOL && PRICE) {
-        setCryptoData((prevData: any) => {
+        setCryptoData((prevData: CryptDataType) => {
           const symbol = FROMSYMBOL.toLowerCase();
           const currentPriceData = prevData[symbol];
 
